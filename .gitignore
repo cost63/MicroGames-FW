@@ -1,6 +1,6 @@
 ## Visual Studio ignores
 
-[Dd]ebug
+[Dd]ebug/
 
 *.opendb
 *.sdf
@@ -9,3 +9,12 @@
 *.user
 *.vcxproj
 *.vcxproj.filters
+
+## Code::Blocks ignores
+
+bin/
+obj/
+
+*.cbp
+*.depend
+*.layout
