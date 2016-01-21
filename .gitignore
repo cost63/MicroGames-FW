@@ -1,3 +1,6 @@
+## Independent ignores
+[Tt]ests/
+
 ## Visual Studio ignores
 
 [Dd]ebug/
