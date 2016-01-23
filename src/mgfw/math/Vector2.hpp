@@ -41,7 +41,7 @@ struct Vector2
     }
 
     template <typename V>
-    Vector2<T> operator+( Vector2<V>&& other ) const
+    Vector2<T> operator+( const Vector2<V>& other ) const
     {
         return Vector2<T>( x + other.x, y + other.y );
     }
