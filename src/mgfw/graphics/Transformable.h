@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../math/Vector2.hpp"
+#include "../math/Vector2.h"
 
 namespace mg
 {

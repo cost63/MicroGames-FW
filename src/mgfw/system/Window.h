@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../math/Vector2.hpp"
+#include "../math/Vector2.h"
 
 /* Forward declarations */
 class SDL_Window;
