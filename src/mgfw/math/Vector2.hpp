@@ -3,7 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-namespace mg {
+namespace mg
+{
 
 template <typename T>
 struct Vector2

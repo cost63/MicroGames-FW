@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-namespace mg {
+namespace mg
+{
 
 template <typename T> struct Vector2;
 template <typename T> struct Vector4;
