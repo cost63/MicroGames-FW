@@ -26,14 +26,14 @@ struct Vector4
     Vector4( T _xyzw ) : x( _xyzw ), y( _xyzw ), z( _xyzw ), w( _xyzw ) {}
     Vector4( T _xyzw[ 3 ] ) : x( _xyzw[ 0 ] ), y( _xyzw[ 1 ] ), z( _xyzw[ 2 ] ), w( _xyzw[ 3 ] ) {}
 
-    explicit Vector4( Vector2<T>&& other, T _z, T _w )
+    explicit Vector4( const Vector2<T>& other, T _z, T _w )
     : x( other.x )
     , y( other.y )
     , z( _z )
     , w( _w )
     {}
 
-    explicit Vector4( Vector2<T>&& xy, Vector2<T>&& zw )
+    explicit Vector4( const Vector2<T>& xy, const Vector2<T>& zw )
     : x( xy.x )
     , y( xy.y )
     , z( zw.x )
@@ -53,23 +53,23 @@ struct Vector4
     const T& operator[]( uint16_t index ) const { return data[ index ]; }
 
     template <typename V>
-    bool operator==( Vector4<V>&& other ) const
+    bool operator==( const Vector4<V>& other ) const
     {
         return ( x == other.x ) && ( y == other.y ) && ( z == other.z ) && ( w == other.w );
     }
     template <typename V>
-    bool operator!=( Vector4<V>&& other ) const
+    bool operator!=( const Vector4<V>& other ) const
     {
         return !operator==( other );
     }
 
     template <typename V>
-    Vector4<T> operator+( Vector4<V>&& other ) const
+    Vector4<T> operator+( const Vector4<V>& other ) const
     {
         return Vector4<T>( x + other.x, y + other.y, z + other.z, w + other.w );
     }
     template <typename V>
-    Vector4<T>& operator+=( Vector4<V>&& other ) const
+    Vector4<T>& operator+=( const Vector4<V>& other ) const
     {
         x += other.x;
         y += other.y;
@@ -80,12 +80,12 @@ struct Vector4
     }
 
     template <typename V>
-    Vector4<T> operator-( Vector4<V>&& other ) const
+    Vector4<T> operator-( const Vector4<V>& other ) const
     {
         return Vector4<T>( x - other.x, y - other.y, z - other.z, w - other.w );
     }
     template <typename V>
-    Vector4<T>& operator-=( Vector4<V>&& other ) const
+    Vector4<T>& operator-=( const Vector4<V>& other ) const
     {
         x -= other.x;
         y -= other.y;
@@ -110,7 +110,7 @@ struct Vector4
     }
 
     template <typename V>
-    Vector4<T> operator*( Vector4<V>&& other ) const
+    Vector4<T> operator*( const Vector4<V>& other ) const
     {
         Vector4<T> result;
 
@@ -137,25 +137,25 @@ struct Vector4
 };
 
 template <typename T, typename V>
-float dot( Vector4<T>&& a, Vector4<V>&& b )
+float dot( const Vector4<T>& a, const Vector4<V>& b )
 {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
 template <typename T, typename V>
-float lenghtSquared( Vector4<T>&& a )
+float lenghtSquared( const Vector4<T>& a )
 {
     return dot( a, a );
 }
 
 template <typename T, typename V>
-float lenght( Vector4<T>&& a )
+float lenght( const Vector4<T>& a )
 {
     return sqrtf( lenghtSquared( a ) );
 }
 
 template <typename T>
-Vector4<T> normalized( Vector4<T>&& a )
+Vector4<T> normalized( const Vector4<T>& a )
 {
     return a * ( 1.0 / lenght( a ) );
 }

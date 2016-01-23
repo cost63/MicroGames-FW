@@ -30,12 +30,12 @@ struct Vector2
     const T& operator[]( uint16_t index ) const { return data[ index ]; }
 
     template <typename V>
-    bool operator==( Vector2<V>&& other ) const
+    bool operator==( const Vector2<V>& other ) const
     {
         return ( x == other.x ) && ( y == other.y );
     }
     template <typename V>
-    bool operator!=( Vector2<V>&& other ) const
+    bool operator!=( const Vector2<V>& other ) const
     {
         return !operator==( other );
     }
@@ -51,7 +51,7 @@ struct Vector2
         return Vector2<T>( x + v, y + v );
     }
     template <typename V>
-    Vector2<T>& operator+=( Vector2<V>&& other )
+    Vector2<T>& operator+=( const Vector2<V>& other )
     {
         x += other.x;
         y += other.y;
@@ -64,12 +64,12 @@ struct Vector2
         return Vector2<T>( - x, - y );
     }
     template <typename V>
-    Vector2<T> operator-( Vector2<V>&& other ) const
+    Vector2<T> operator-( const Vector2<V>& other ) const
     {
         return Vector2<T>( x - other.x, y - other.y );
     }
     template <typename V>
-    Vector2<T>& operator-=( Vector2<V>&& other )
+    Vector2<T>& operator-=( const Vector2<V>& other )
     {
         x -= other.x;
         y -= other.y;
@@ -90,7 +90,7 @@ struct Vector2
     }
 
     template <typename V>
-    Vector2<T> operator*( Vector2<V>&& other ) const
+    Vector2<T> operator*( const Vector2<V>& other ) const
     {
         Vector2<T> result;
 
@@ -116,37 +116,37 @@ struct Vector2
 };
 
 template <typename T, typename V>
-float dot( Vector2<T>&& a, Vector2<V>&& b )
+float dot( const Vector2<T>& a, const Vector2<V>& b )
 {
     return a.x * b.x + a.y * b.y;
 }
 
 template <typename T, typename V>
-float cross( Vector2<T>&& a, Vector2<V>&& b )
+float cross( const Vector2<T>& a, const Vector2<V>& b )
 {
     return a.x * b.y - a.y * b.x;
 }
 
 template <typename T>
-float lenghtSquared( Vector2<T>&& a )
+float lenghtSquared( const Vector2<T>& a )
 {
     return dot( a, a );
 }
 
 template <typename T>
-float lenght( Vector2<T>&& a )
+float lenght( const Vector2<T>& a )
 {
     return sqrt( lenghtSquared( a ) );
 }
 
 template <typename T>
-Vector2<T> normalized( Vector2<T>&& a )
+Vector2<T> normalized( const Vector2<T>& a )
 {
     return a * ( 1.0 / lenght( a ) );
 }
 
 template <typename T, typename V>
-float angle( Vector2<T>&& a, Vector2<V>&& b )
+float angle( const Vector2<T>& a, const Vector2<V>& b )
 {
     return std::atan2( b.y - a.y, b.x - a.x );
 }
