@@ -1,7 +1,6 @@
 #include "Renderer.h"
 
-#include <GL/glew.h>
-
+#include "../graphics/OpenGL.h"
 #include "../graphics/Vertex.h"
 #include "../math/Vector3.h"
 
@@ -41,7 +40,6 @@ void Renderer::setupBuffers()
     // Bind VBO and set vertex data
     glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(quadVerts), quadVerts, GL_STATIC_DRAW);
-
 
     // Bind EBO and set index data
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadEBO);
