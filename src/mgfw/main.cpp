@@ -5,6 +5,7 @@
 #include "system/Window.h"
 #include "system/ErrorLog.h"
 #include "graphics/Renderer.h"
+#include "graphics/ShaderProgram.h"
 
 using namespace mg;
 
@@ -18,6 +19,11 @@ int main(int argc, char** argv)
 
     Window window(Vec2i(500, 400),"Something", Window::Shown);
     Renderer r;
+
+    ShaderProgram s;
+    s.loadFromFile("data/shaders/default.vert", "data/shaders/default.frag");
+    std::cout << s.getVertexSource() << std::endl;
+    std::cout << s.getFragmentSource() << std::endl;
 
     bool running = true;
     while(running)
