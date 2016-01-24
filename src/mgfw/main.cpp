@@ -4,6 +4,7 @@
 #include "MGFW.h"
 #include "system/Window.h"
 #include "system/ErrorLog.h"
+#include "graphics/Renderer.h"
 
 using namespace mg;
 
@@ -16,6 +17,7 @@ int main(int argc, char** argv)
     }
 
     Window window(Vec2i(500, 400),"Something", Window::Shown);
+    Renderer r;
 
     bool running = true;
     while(running)
@@ -39,6 +41,7 @@ int main(int argc, char** argv)
         window.clear();
 
         // Render ...
+        r.draw();
 
         window.display();
     }
