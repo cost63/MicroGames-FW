@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../math/Vector2.h"
+#include "../math/Matrix4.h"
 
 namespace mg
 {
@@ -49,6 +50,8 @@ public:
     void rotate(float degrees);
     void rotateRad(float radians);
 
+    const Matrix4& getMatrix();
+
 protected:
     Vec2f m_pos;
     Vec2f m_size;
@@ -56,6 +59,8 @@ protected:
     Vec2f m_origin;
     float m_rotation;   // Rotation is in degrees
 
+    Matrix4 m_matrix;
+    bool m_isUpdateMatrix;
 };
 
 } // namespace mg

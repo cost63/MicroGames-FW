@@ -6,11 +6,16 @@ namespace mg
 {
 
 Transformable::Transformable()
+: m_scale(Vec2f(1.0, 1.0))
+, m_rotation(0.0)
+, m_isUpdateMatrix(true)
 {}
 
 void Transformable::setPos(const Vec2f& pos)
 {
     m_pos = pos;
+
+    m_isUpdateMatrix = true;
 }
 
 void Transformable::setPos(float x, float y)
@@ -32,6 +37,8 @@ Vec2f Transformable::getPos() const
 void Transformable::setSize(const Vec2f& size)
 {
     m_size = size;
+
+    m_isUpdateMatrix = true;
 }
 
 void Transformable::setSize(float w, float h)
@@ -53,6 +60,8 @@ Vec2f Transformable::getSize() const
 void Transformable::setScale(const Vec2f& scale)
 {
     m_scale = scale;
+
+    m_isUpdateMatrix = true;
 }
 
 void Transformable::setScale(float w, float h)
@@ -74,6 +83,8 @@ Vec2f Transformable::getScale() const
 void Transformable::setOrigin(const Vec2f& origin)
 {
     m_origin = origin;
+
+    m_isUpdateMatrix = true;
 }
 
 void Transformable::setOrigin(float x, float y)
@@ -95,11 +106,15 @@ Vec2f Transformable::getOrigin() const
 void Transformable::setRotation(float degrees)
 {
     m_rotation = degrees;
+
+    m_isUpdateMatrix = true;
 }
 
 void Transformable::setRotationRad(float radians)
 {
     m_rotation = radians * (180 / PI);
+
+    m_isUpdateMatrix = true;
 }
 
 float Transformable::getRotation() const
@@ -163,12 +178,35 @@ void Transformable::rescale(float wh)
 
 void Transformable::rotate(float degrees)
 {
-    m_rotation += degrees;
+    setRotation(m_rotation + degrees);
 }
 
 void Transformable::rotateRad(float radians)
 {
-    m_rotation += radians * (180 / PI);
+    setRotationRad(m_rotation + radians * (180 / PI));
+}
+
+const Matrix4& Transformable::getMatrix()
+{
+    if(m_isUpdateMatrix)
+    {
+        m_matrix = Matrix4();
+
+        // Position
+        m_matrix.translate(m_pos - m_origin);
+
+        // Rotation
+        m_matrix.translate(m_origin);
+        m_matrix.rotate(m_rotation * (PI / 180));
+        m_matrix.translate(-m_origin);
+
+        // Size
+        m_matrix.scale(m_scale * m_size);
+
+        m_isUpdateMatrix = false;
+    }
+
+    return m_matrix;
 }
 
 } // namespace mg

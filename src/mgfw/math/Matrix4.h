@@ -53,6 +53,10 @@ struct Matrix4
 
     /** Methods */
 
+    void translate(const Vec2f& translation);
+    void rotate(float radians);
+    void scale(const Vec2f& scaleVector);
+
     Matrix4 transpose(const Matrix4& m);
 };
 
@@ -61,12 +65,7 @@ Matrix4 operator*(const Matrix4& m, float scalar);
 
 std::ostream& operator<<(std::ostream& os, const Matrix4& m);
 
-Matrix4 translate(const Matrix4& m, const Vec2f& translation);
-Matrix4 rotate(const Matrix4& m, float radians);
-Matrix4 scale(const Matrix4& m, const Vec2f& scaleVector);
 Matrix4 ortho(float left, float right, float bottom, float top);
 Matrix4 ortho(float left, float right, float bottom, float top, float zNear, float zFar);
-
-Matrix4 test(const Matrix4& a, const Matrix4& b);
 
 } // namespace mg
