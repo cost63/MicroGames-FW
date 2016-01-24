@@ -6,6 +6,7 @@
 #include "system/ErrorLog.h"
 #include "graphics/Renderer.h"
 #include "graphics/ShaderProgram.h"
+#include "graphics/VertexArray.h"
 
 using namespace mg;
 
