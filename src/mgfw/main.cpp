@@ -18,7 +18,9 @@ int main(int argc, char** argv)
     }
 
     Window window(Vec2i(500, 400),"Something", Window::Shown);
+    Renderer::setupBuffers();
     Renderer r;
+
 
     ShaderProgram s;
     s.loadFromFile("data/shaders/default.vert", "data/shaders/default.frag");
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
         window.clear();
 
         // Render ...
-        r.draw();
+        r.draw(s);
 
         window.display();
     }

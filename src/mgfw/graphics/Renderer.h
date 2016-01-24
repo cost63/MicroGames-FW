@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ShaderProgram.h>
+
 namespace mg
 {
 
@@ -8,9 +10,12 @@ class Renderer
 public:
     Renderer();
 
-    void draw();
+    static void setupBuffers();
+
+    void draw(ShaderProgram& shader);
 
 private:
+    static uint32_t s_quadVAO;
 
 };
 
