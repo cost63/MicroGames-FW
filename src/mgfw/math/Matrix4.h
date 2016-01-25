@@ -15,23 +15,25 @@ struct Matrix4
     Vec4f data[4];
 
     Matrix4()
-    : data({
+    : data{
             { 1, 0, 0, 0 },
             { 0, 1, 0, 0 },
             { 0, 0, 1, 0 },
             { 0, 0, 0, 1 },
-          })
+          }
     {}
+
     Matrix4(float x)
-    : data({
+    : data{
             { x, 0, 0, 0 },
             { 0, x, 0, 0 },
             { 0, 0, x, 0 },
             { 0, 0, 0, x },
-          })
+          }
     {}
+
     Matrix4(const Vec4f& v0, const Vec4f& v1, const Vec4f& v2, const Vec4f& v3)
-    : data({ v0, v1, v2, v3 })
+    : data{ v0, v1, v2, v3 }
     {}
 
     Vec4f& operator[](uint8_t index);
