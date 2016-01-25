@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ShaderProgram.h>
+#include "ShaderProgram.h"
 
 namespace mg
 {
