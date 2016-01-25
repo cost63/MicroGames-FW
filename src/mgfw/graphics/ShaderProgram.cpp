@@ -181,7 +181,7 @@ bool ShaderProgram::setupHandle()
 
     GLint infoLogLength = 512;
     GLint errorLength = 0;
-    GLchar infoLog[512];
+    GLchar infoLog[512]; // VS doesn't support VLA's (so 512 instead of infoLogLength)
 
     glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
     glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
@@ -243,7 +243,7 @@ bool ShaderProgram::compile(uint32_t shader)
     if(!compiled)
     {
         const int errorLogLength = 512;
-        char errorLog[errorLogLength]; // VS doesn't support VLA's (so 512 instead of errorLogLength)
+        char errorLog[errorLogLength];
 
         glGetShaderInfoLog(shader, errorLogLength, nullptr, errorLog);
 
