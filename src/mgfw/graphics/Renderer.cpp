@@ -14,7 +14,7 @@ uint32_t Renderer::s_VBO = 0;
 
 Renderer::Renderer()
 : m_vertexCount(0)
-, m_commandCount(0)
+, m_entityCount(0)
 {}
 
 void Renderer::setupBuffers()
@@ -72,20 +72,20 @@ void Renderer::setupBuffers()
 
 void Renderer::draw(const VertexArray& v, const RenderStates& states)
 {
-    RenderCommand cmd;
+    RenderEntity entity;
 
     // Setup the command
-    cmd.type = v.type;
-    cmd.vertexCount = v.size();
-    cmd.vertexIndex = m_vertexCount;
+    entity.type = v.type;
+    entity.vertexCount = v.size();
+    entity.vertexIndex = m_vertexCount;
 
     // Copy vertex data to the vertex storage
-    memcpy(m_vertexBuffer + m_vertexCount, v.data(), sizeof(Vertex) * cmd.vertexCount);
+    memcpy(m_vertexBuffer + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
 
-    m_vertexCount += cmd.vertexCount;
+    m_vertexCount += entity.vertexCount;
 
     // Store command in the command storage
-    m_commands[m_commandCount++] = cmd;
+    m_entities[m_entityCount++] = entity;
 }
 
 void Renderer::render()
@@ -96,22 +96,22 @@ void Renderer::render()
 
     glBindVertexArray(s_VAO);
 
-    for(uint32_t i = 0; i < m_commandCount; i++)
+    for(uint32_t i = 0; i < m_entityCount; i++)
     {
-        RenderCommand& cmd = m_commands[i];
+        RenderEntity& entity = m_entities[i];
 
-        const ShaderProgram* shader = cmd.states.shader;
+        const ShaderProgram* shader = entity.states.shader;
 
         if(shader)
         {
             shader->use();
         }
 
-        glDrawArrays(GL_TRIANGLES, cmd.vertexIndex, cmd.vertexCount);
+        glDrawArrays(GL_TRIANGLES, entity.vertexIndex, entity.vertexCount);
     }
 
     m_vertexCount = 0;
-    m_commandCount = 0;
+    m_entityCount = 0;
 }
 
 } // namespace mg

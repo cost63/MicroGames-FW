@@ -3,17 +3,10 @@
 #include <../graphics/VertexArray.h>
 #include "../graphics/ShaderProgram.h"
 #include "../graphics/RenderStates.h"
+#include "../graphics/RenderEntity.h"
 
 namespace mg
 {
-
-struct RenderCommand
-{
-    RenderStates states;
-    PrimitiveType type;
-    uint32_t vertexIndex = 0;
-    uint32_t vertexCount = 0;
-};
 
 class Renderer
 {
@@ -34,8 +27,8 @@ private:
     Vertex m_vertexBuffer[c_VBOSize];
     uint32_t m_vertexCount;
 
-    RenderCommand m_commands[512];
-    uint32_t m_commandCount;
+    RenderEntity m_entities[c_VBOSize];
+    uint32_t m_entityCount;
 };
 
 } // namespace mg
