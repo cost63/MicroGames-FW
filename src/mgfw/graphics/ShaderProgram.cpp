@@ -181,7 +181,7 @@ bool ShaderProgram::setupHandle()
 
     GLint infoLogLength = 512;
     GLint errorLength = 0;
-    GLchar infoLog[infoLogLength];
+    GLchar infoLog[512]; // VS doesn't support VLA's (so 512 instead of infoLogLength)
 
     glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
     glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
@@ -291,7 +291,7 @@ void ShaderProgram::link()
     {
         int infoLogLength = 512;
         int errorLength = 0;
-        char infoLog[infoLogLength];
+        char infoLog[512]; // VS doesn't support VLA's (so 512 instead of infoLogLength)
 
         glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
         glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);

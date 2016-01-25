@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ShaderProgram.h>
-#include <VertexArray.h>
+#include <../graphics/VertexArray.h>
+#include "../graphics/ShaderProgram.h"
 #include "../graphics/RenderStates.h"
 
 namespace mg
