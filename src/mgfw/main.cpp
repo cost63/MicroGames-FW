@@ -22,11 +22,16 @@ int main(int argc, char** argv)
     Renderer::setupBuffers();
     Renderer r;
 
-
     ShaderProgram s;
     s.loadFromFile("data/shaders/default.vert", "data/shaders/default.frag");
-    std::cout << s.getVertexSource() << std::endl;
-    std::cout << s.getFragmentSource() << std::endl;
+
+    VertexArray quad(PrimitiveType::PType_Quads, 6);
+    quad[0].pos = {-0.5, 0.5};
+    quad[1].pos = { 0.5, 0.5};
+    quad[2].pos = { 0.5,-0.5};
+    quad[3].pos = { 0.5,-0.5};
+    quad[4].pos = {-0.5,-0.5};
+    quad[5].pos = {-0.5, 0.5};
 
     bool running = true;
     while(running)
@@ -49,8 +54,13 @@ int main(int argc, char** argv)
 
         window.clear();
 
+        RenderStates states;
+        states.shader = &s;
+
         // Render ...
-        r.draw(s);
+        r.draw(quad, states);
+
+        r.render();
 
         window.display();
     }

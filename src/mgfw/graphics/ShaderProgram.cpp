@@ -101,7 +101,7 @@ bool ShaderProgram::loadFromSource(const std::string& vertexSource, const std::s
     return true;
 }
 
-void ShaderProgram::use()
+void ShaderProgram::use() const
 {
     if(!isInUse())
     {

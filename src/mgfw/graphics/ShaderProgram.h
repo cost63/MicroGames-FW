@@ -26,7 +26,7 @@ public:
     bool loadFromFile(const std::string& vertexFile, const std::string& fragmentFile);
     bool loadFromSource(const std::string& vertexSource, const std::string& fragmentSource);
 
-    void use();
+    void use() const;
     void stopUsing();
 
     bool isInUse() const;
