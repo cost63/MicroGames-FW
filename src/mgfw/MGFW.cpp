@@ -1,8 +1,8 @@
 #include "MGFW.h"
 
 #include <SDL2/SDL.h>
-#include <graphics/OpenGL.h>
 
+#include "graphics/OpenGL.h"
 #include "system/ErrorLog.h"
 #include "graphics/Renderer.h"
 
