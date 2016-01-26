@@ -8,6 +8,7 @@ namespace mg
 
 template <typename T> struct Vector2;
 template <typename T> struct Vector3;
+struct Matrix4;
 struct Color;
 
 class ShaderProgram
@@ -35,6 +36,7 @@ public:
 
     void setUniform(const std::string& name, const Vector2<float>& v);
     void setUniform(const std::string& name, const Vector3<float>& v);
+    void setUniform(const std::string& name, const Matrix4& m);
     void setUniform(const std::string& name, const Color& c);
 
     const std::string& getVertexSource() const;

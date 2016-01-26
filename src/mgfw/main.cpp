@@ -25,13 +25,17 @@ int main(int argc, char** argv)
     ShaderProgram s;
     s.loadFromFile("data/shaders/default.vert", "data/shaders/default.frag");
 
-    VertexArray quad(PrimitiveType::PType_Quads, 6);
-    quad[0].pos = {-0.5, 0.5};
-    quad[1].pos = { 0.5, 0.5};
-    quad[2].pos = { 0.5,-0.5};
-    quad[3].pos = { 0.5,-0.5};
-    quad[4].pos = {-0.5,-0.5};
-    quad[5].pos = {-0.5, 0.5};
+    RenderStates states;
+    states.shader = &s;
+    states.transform = Matrix4();
+
+    VertexArray quad(PrimitiveType::PType_Quads, 3);
+    quad[0].pos = {250.0, 100};
+    quad[1].pos = {150.0, 300};
+    quad[2].pos = {350.0, 300};
+    quad[0].color = Color::Red;
+    quad[1].color = Color::Green;
+    quad[2].color = Color::Blue;
 
     bool running = true;
     while(running)
@@ -53,9 +57,6 @@ int main(int argc, char** argv)
         }
 
         window.clear();
-
-        RenderStates states;
-        states.shader = &s;
 
         // Render ...
         r.draw(quad, states);

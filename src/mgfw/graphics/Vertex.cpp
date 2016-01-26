@@ -12,4 +12,9 @@ Vertex::Vertex(const Vec2f& _pos /*= Vec2f() */,
 , texCoord(_texCoord)
 {}
 
+std::ostream& operator<<( std::ostream& os, const Vertex& v )
+{
+    return os << v.pos << " " << v.color;
+}
+
 } // namespace mg

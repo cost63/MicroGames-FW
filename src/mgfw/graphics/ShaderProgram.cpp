@@ -6,6 +6,7 @@
 #include "../system/ErrorLog.h"
 #include "../math/Vector2.h"
 #include "../math/Vector3.h"
+#include "../math/Matrix4.h"
 #include "../graphics/Color.h"
 
 namespace mg
@@ -149,6 +150,17 @@ void ShaderProgram::setUniform(const std::string& name, const Vec3f& v)
 
     if(loc != -1) {
         glUniform3fv(loc, 1, v.data);
+    }
+}
+
+void ShaderProgram::setUniform(const std::string& name, const Matrix4& m)
+{
+    use();
+
+    int loc = getUniformLoc(name);
+
+    if(loc != -1) {
+        glUniformMatrix4fv(loc, 1, true, m[0].data);
     }
 }
 

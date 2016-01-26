@@ -18,4 +18,7 @@ struct Vertex
            );
 };
 
+#include <iostream>
+std::ostream& operator<<( std::ostream& os, const Vertex& v );
+
 } // namespace mg
