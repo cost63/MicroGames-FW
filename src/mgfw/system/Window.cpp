@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "..\MGFW.h"
 #include "..\graphics\OpenGL.h"
 #include "..\system\ErrorLog.h"
 
@@ -26,13 +27,16 @@ Window::~Window()
     close();
 }
 
-void Window::create(const Vec2i& size, const std::string& title, Flag flags)
+bool Window::create(const Vec2i& size, const std::string& title, Flag flags)
 {
+    // Clean up
+    close();
+
     // Make sure SDL video was initialized
     if(!SDL_WasInit(SDL_INIT_VIDEO))
     {
         PRINT_ERROR("SDL Video was not initialized yet");
-        return;
+        return false;
     }
 
     // Create the window
@@ -42,15 +46,6 @@ void Window::create(const Vec2i& size, const std::string& title, Flag flags)
                                 size.w,
                                 size.h,
                                 flags | SDL_WINDOW_OPENGL);
-
-    // Make sure window was created, print errors otherwise
-    if(!m_handle)
-    {
-        PRINT_ERROR("Failed to create window handle with following errors:");
-        PRINT_ERROR(SDL_GetError());
-
-        return;
-    }
 
     m_context = SDL_GL_CreateContext(m_handle);
     // Make sure window context was created, print errors otherwise
@@ -62,23 +57,19 @@ void Window::create(const Vec2i& size, const std::string& title, Flag flags)
         // Also make sure to cleanup the window
         SDL_DestroyWindow(m_handle);
 
-        return;
+        return false;
     }
 
-    // Initialize Glew
-    // TODO(All) Find a better way to initialize Glew with window
-    glewExperimental = GL_TRUE;
-    GLenum glewError = glewInit();
+    // If Glew failed to initialize
+    if(!initGlew()) {
+        // Clean up
+        close();
 
-    // Check for Glew init errors
-    if( glewError != GL_NO_ERROR ) {
-        PRINT_ERROR("Glew initialization failed with following errors:");
-        PRINT_ERROR(glewGetErrorString(glewError));
-
-        return;
+        return false;
     }
 
     m_isCreated = true;
+    return true;
 }
 
 void Window::close()

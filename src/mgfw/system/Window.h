@@ -26,7 +26,7 @@ public:
     Window(const Vec2i& size, const std::string& title, Flag flags);
     ~Window();
 
-    void create(const Vec2i& size, const std::string& title, Flag flags);
+    bool create(const Vec2i& size, const std::string& title, Flag flags);
     void close();
 
     void clear();
