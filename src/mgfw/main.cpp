@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     Window window(Vec2i(500, 400),"Something", Window::Shown);
 
     ShaderProgram s;
-    s.loadFromFile("data/shaders/default.vert", "data/shaders/default.frag");
+    s.loadFromFile("src/mgfw/graphics/shaders/default.vert", "src/mgfw/graphics/shaders/default.frag");
 
     RenderStates states;
     states.shader = &s;
