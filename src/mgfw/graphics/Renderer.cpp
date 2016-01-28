@@ -9,40 +9,16 @@
 namespace mg
 {
 
-uint32_t Renderer::s_VAO = 0;
-uint32_t Renderer::s_VBO = 0;
-
 Renderer::Renderer()
-: m_vertexCount(0)
+: s_VAO(0)
+, s_VBO(0)
+, m_vertexCount(0)
 , m_entityCount(0)
-{
-    m_vertexBuffer = new Vertex[ c_VBOSize ];
-}
+{}
 
 Renderer::~Renderer()
 {
     delete[] m_vertexBuffer;
-}
-
-void Renderer::setupBuffers()
-{
-    glGenVertexArrays(1, &s_VAO);
-    glGenBuffers(1, &s_VBO);
-
-    glBindVertexArray(s_VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
-    glBufferData(GL_ARRAY_BUFFER, c_VBOSize, nullptr, GL_DYNAMIC_DRAW);
-
-    // Position
-    glVertexAttribPointer(0, 2, GL_FLOAT, false, sizeof(Vertex), nullptr);
-    glEnableVertexAttribArray(0);
-    // Color
-    glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (const GLvoid*)sizeof(Vec2f) );
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
 }
 
 void Renderer::draw(const VertexArray& v, const RenderStates& states)
@@ -94,6 +70,36 @@ void Renderer::render()
 
     m_vertexCount = 0;
     m_entityCount = 0;
+}
+
+void Renderer::setViewSize(const Vec2i& size)
+{
+    m_projection = ortho(0, size.w, size.h, 0);
+}
+
+/* Protected */
+
+void Renderer::setupBuffers()
+{
+    m_vertexBuffer = new Vertex[ c_VBOSize ];
+
+    glGenVertexArrays(1, &s_VAO);
+    glGenBuffers(1, &s_VBO);
+
+    glBindVertexArray(s_VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
+    glBufferData(GL_ARRAY_BUFFER, c_VBOSize, nullptr, GL_DYNAMIC_DRAW);
+
+    // Position
+    glVertexAttribPointer(0, 2, GL_FLOAT, false, sizeof(Vertex), nullptr);
+    glEnableVertexAttribArray(0);
+    // Color
+    glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (const GLvoid*)sizeof(Vec2f) );
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 } // namespace mg

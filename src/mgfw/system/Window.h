@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "../graphics/Renderer.h"
 #include "../math/Vector2.h"
 
 /* Forward declarations */
@@ -13,7 +14,7 @@ using SDL_GLContext = void*;
 namespace mg
 {
 
-class Window
+class Window : public Renderer
 {
 public:
     enum Flag
@@ -31,6 +32,9 @@ public:
 
     void clear();
     void display();
+
+    void setSize(const Vec2i& size);
+    Vec2i getSize() const;
 
     bool isCreated() const;
 

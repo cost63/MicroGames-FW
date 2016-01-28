@@ -68,6 +68,9 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags)
         return false;
     }
 
+    // Setup renderer buffers
+    setupBuffers();
+
     m_isCreated = true;
     return true;
 }
@@ -91,7 +94,23 @@ void Window::clear()
 
 void Window::display()
 {
+    // Render everything inside renderer
+    render();
+
     SDL_GL_SwapWindow(m_handle);
+}
+
+void Window::setSize(const Vec2i& size)
+{
+    SDL_SetWindowSize(m_handle, size.w, size.h);
+}
+
+Vec2i Window::getSize() const
+{
+    Vec2i size;
+    SDL_GetWindowSize(m_handle, &size.w, &size.h);
+
+    return size;
 }
 
 bool Window::isCreated() const
