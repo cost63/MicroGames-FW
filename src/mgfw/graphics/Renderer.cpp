@@ -31,10 +31,38 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states)
     entity.vertexCount = v.size();
     entity.vertexIndex = m_vertexCount;
 
-    // Copy vertex data to the vertex storage
-    memcpy(m_vertexBuffer + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
+    // If the primitive type is quad, convert its vertices to 2 triangles
+    if(v.type == PrimitiveType::PType_Quads)
+    {
+        // Override the vertex count
+        entity.vertexCount = ( v.size() / 4 ) * 6;
 
-    m_vertexCount += entity.vertexCount;
+        uint32_t totalQuads = v.size() / 4;
+
+        // Go trough each quad in the vertex arraay
+        for(uint32_t i = 0; i < totalQuads; i++)
+        {
+            const Vertex& v0 = v[i + 0];
+            const Vertex& v1 = v[i + 1];
+            const Vertex& v2 = v[i + 2];
+            const Vertex& v3 = v[i + 3];
+
+            // Setup two triangles
+            const Vertex vertices[] = {
+                v0, v1, v2,
+                v2, v3, v0,
+            };
+
+            // Copy triangle vertex data to the vertex storage
+            memcpy(m_vertexBuffer + m_vertexCount, vertices, sizeof(Vertex) * 6);
+            m_vertexCount += 6;
+        }
+    }
+    else {
+        // Copy vertex data to the vertex storage
+        memcpy(m_vertexBuffer + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
+        m_vertexCount += entity.vertexCount;
+    }
 
     // Store command in the command storage
     m_entities[m_entityCount++] = entity;
@@ -42,13 +70,13 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states)
 
 void Renderer::render()
 {
-    // Update buffer with vertices
+    // Bind the VBO so we can update its data
     glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertexCount, nullptr, GL_DYNAMIC_DRAW);
+
+    // Update buffer with vertices
     void* buff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
     memcpy(buff, m_vertexBuffer, sizeof(Vertex) * m_vertexCount);
     glUnmapBuffer(GL_ARRAY_BUFFER);
-//    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertexCount, &m_vertexBuffer);
 
     glBindVertexArray(s_VAO);
 
