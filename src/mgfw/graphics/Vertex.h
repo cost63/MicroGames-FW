@@ -3,11 +3,9 @@
 #include "../math/Vector2.h"
 #include "../graphics/Color.h"
 
-namespace mg
-{
+namespace mg {
 
-struct Vertex
-{
+struct Vertex {
     Vec2f pos;
     Color color;
     Vec2f texCoord;

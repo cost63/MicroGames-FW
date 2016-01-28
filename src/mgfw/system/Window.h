@@ -11,14 +11,11 @@ class SDL_Window;
 /* Using declarations */
 using SDL_GLContext = void*;
 
-namespace mg
-{
+namespace mg {
 
-class Window : public Renderer
-{
+class Window : public Renderer {
 public:
-    enum Flag
-    {
+    enum Flag {
         Shown = 0x00000004,
     };
 

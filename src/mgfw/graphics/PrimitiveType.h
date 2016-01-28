@@ -1,7 +1,6 @@
 #pragma once
 
-namespace mg
-{
+namespace mg {
 
 enum PrimitiveType {
     PType_Points,

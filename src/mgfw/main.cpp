@@ -10,10 +10,8 @@
 
 using namespace mg;
 
-int main(int argc, char** argv)
-{
-    if(!init())
-    {
+int main(int argc, char** argv) {
+    if(!init()) {
         PRINT_ERROR("MGFW initialization failed");
         return 1;
     }
@@ -25,7 +23,6 @@ int main(int argc, char** argv)
 
     RenderStates states;
     states.shader = &s;
-    states.transform = Matrix4();
 
     VertexArray quad(PrimitiveType::PType_Quads, 4);
     quad[0].pos = {150.0, 100};
@@ -38,19 +35,15 @@ int main(int argc, char** argv)
     quad[3].color = Color::White;
 
     bool running = true;
-    while(running)
-    {
+    while(running) {
         SDL_Event event;
-        while(SDL_PollEvent(&event))
-        {
-            if(event.type == SDL_QUIT)
-            {
+
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
                 running = false;
             }
-            else if(event.type == SDL_KEYUP)
-            {
-                if(event.key.keysym.sym == SDLK_ESCAPE)
-                {
+            else if(event.type == SDL_KEYUP) {
+                if(event.key.keysym.sym == SDLK_ESCAPE) {
                     running = false;
                 }
             }

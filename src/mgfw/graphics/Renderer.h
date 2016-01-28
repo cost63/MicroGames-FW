@@ -1,15 +1,17 @@
 #pragma once
 
-#include "../graphics/VertexArray.h"
-#include "../graphics/ShaderProgram.h"
-#include "../graphics/RenderStates.h"
+#include "../math/Vector2.h"
+#include "../math/Matrix4.h"
+#include "../graphics/Vertex.h"
 #include "../graphics/RenderEntity.h"
 
-namespace mg
-{
+namespace mg {
 
-class Renderer
-{
+/* Forward declarations */
+struct RenderStates;
+struct VertexArray;
+
+class Renderer {
 public:
     Renderer();
     ~Renderer();

@@ -2,17 +2,14 @@
 
 #include <iostream>
 
-namespace mg
-{
+namespace mg {
 
 template <typename T> struct Vector2;
 template <typename T> struct Vector3;
 
 template <typename T>
-struct Vector4
-{
-    union
-    {
+struct Vector4 {
+    union {
         T data[ 4 ];
         struct{ T x, y, z, w; };
         struct{ T r, g, b, a; };
@@ -53,24 +50,20 @@ struct Vector4
     const T& operator[]( uint16_t index ) const { return data[ index ]; }
 
     template <typename V>
-    bool operator==( const Vector4<V>& other ) const
-    {
+    bool operator==( const Vector4<V>& other ) const {
         return ( x == other.x ) && ( y == other.y ) && ( z == other.z ) && ( w == other.w );
     }
     template <typename V>
-    bool operator!=( const Vector4<V>& other ) const
-    {
+    bool operator!=( const Vector4<V>& other ) const {
         return !operator==( other );
     }
 
     template <typename V>
-    Vector4<T> operator+( const Vector4<V>& other ) const
-    {
+    Vector4<T> operator+( const Vector4<V>& other ) const {
         return Vector4<T>( x + other.x, y + other.y, z + other.z, w + other.w );
     }
     template <typename V>
-    Vector4<T>& operator+=( const Vector4<V>& other ) const
-    {
+    Vector4<T>& operator+=( const Vector4<V>& other ) const {
         x += other.x;
         y += other.y;
         z += other.z;
@@ -80,13 +73,11 @@ struct Vector4
     }
 
     template <typename V>
-    Vector4<T> operator-( const Vector4<V>& other ) const
-    {
+    Vector4<T> operator-( const Vector4<V>& other ) const {
         return Vector4<T>( x - other.x, y - other.y, z - other.z, w - other.w );
     }
     template <typename V>
-    Vector4<T>& operator-=( const Vector4<V>& other ) const
-    {
+    Vector4<T>& operator-=( const Vector4<V>& other ) const {
         x -= other.x;
         y -= other.y;
         z -= other.z;
@@ -95,12 +86,10 @@ struct Vector4
         return *this;
     }
 
-    Vector4<T> operator*( T scalar ) const
-    {
+    Vector4<T> operator*( T scalar ) const {
         return Vector4<T>( x * scalar, y * scalar, z * scalar, w * scalar );
     }
-    Vector4<T>& operator*=( T scalar ) const
-    {
+    Vector4<T>& operator*=( T scalar ) const {
         x *= scalar;
         y *= scalar;
         z *= scalar;
@@ -110,8 +99,7 @@ struct Vector4
     }
 
     template <typename V>
-    Vector4<T> operator*( const Vector4<V>& other ) const
-    {
+    Vector4<T> operator*( const Vector4<V>& other ) const {
         Vector4<T> result;
 
         for( uint8_t i = 0; i < 4; i++ ) {
@@ -121,12 +109,10 @@ struct Vector4
         return result;
     }
 
-    Vector4<T> operator/( T scalar ) const
-    {
+    Vector4<T> operator/( T scalar ) const {
         return Vector4<T>( x / scalar, y / scalar, z / scalar, w / scalar );
     }
-    Vector4<T>& operator/=( T scalar ) const
-    {
+    Vector4<T>& operator/=( T scalar ) const {
         x /= scalar;
         y /= scalar;
         z /= scalar;
@@ -137,32 +123,27 @@ struct Vector4
 };
 
 template <typename T, typename V>
-float dot( const Vector4<T>& a, const Vector4<V>& b )
-{
+float dot( const Vector4<T>& a, const Vector4<V>& b ) {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
 template <typename T, typename V>
-float lenghtSquared( const Vector4<T>& a )
-{
+float lenghtSquared( const Vector4<T>& a ) {
     return dot( a, a );
 }
 
 template <typename T, typename V>
-float lenght( const Vector4<T>& a )
-{
+float lenght( const Vector4<T>& a ) {
     return sqrtf( lenghtSquared( a ) );
 }
 
 template <typename T>
-Vector4<T> normalized( const Vector4<T>& a )
-{
+Vector4<T> normalized( const Vector4<T>& a ) {
     return a * ( 1.0 / lenght( a ) );
 }
 
 template <typename T>
-std::ostream& operator<<( std::ostream& os, const Vector4<T>& v )
-{
+std::ostream& operator<<( std::ostream& os, const Vector4<T>& v ) {
     return os << "Vector2( " << v.x << ", " << v.y << ", " << v.z << ", " << v.w << " )";
 }
 

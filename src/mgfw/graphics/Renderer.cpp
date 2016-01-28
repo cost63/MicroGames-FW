@@ -3,11 +3,13 @@
 #include <cstring>
 
 #include "../graphics/OpenGL.h"
-#include "../graphics/Vertex.h"
+#include "../graphics/VertexArray.h"
+#include "../graphics/ShaderProgram.h"
+#include "../graphics/RenderStates.h"
+#include "../graphics/RenderEntity.h"
 #include "../math/Vector3.h"
 
-namespace mg
-{
+namespace mg {
 
 Renderer::Renderer()
 : s_VAO(0)
@@ -16,13 +18,14 @@ Renderer::Renderer()
 , m_entityCount(0)
 {}
 
-Renderer::~Renderer()
-{
+Renderer::~Renderer() {
+    glDeleteBuffers(1, &s_VBO);
+    glDeleteVertexArrays(1, &s_VAO);
+
     delete[] m_vertexBuffer;
 }
 
-void Renderer::draw(const VertexArray& v, const RenderStates& states)
-{
+void Renderer::draw(const VertexArray& v, const RenderStates& states) {
     RenderEntity entity;
 
     // Setup the command
@@ -32,16 +35,14 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states)
     entity.vertexIndex = m_vertexCount;
 
     // If the primitive type is quad, convert its vertices to 2 triangles
-    if(v.type == PrimitiveType::PType_Quads)
-    {
+    if(v.type == PrimitiveType::PType_Quads) {
         // Override the vertex count
         entity.vertexCount = ( v.size() / 4 ) * 6;
 
         uint32_t totalQuads = v.size() / 4;
 
         // Go trough each quad in the vertex arraay
-        for(uint32_t i = 0; i < totalQuads; i++)
-        {
+        for(uint32_t i = 0; i < totalQuads; i++) {
             const Vertex& v0 = v[i + 0];
             const Vertex& v1 = v[i + 1];
             const Vertex& v2 = v[i + 2];
@@ -68,8 +69,7 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states)
     m_entities[m_entityCount++] = entity;
 }
 
-void Renderer::render()
-{
+void Renderer::render() {
     // Bind the VBO so we can update its data
     glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
 
@@ -80,14 +80,12 @@ void Renderer::render()
 
     glBindVertexArray(s_VAO);
 
-    for(uint32_t i = 0; i < m_entityCount; i++)
-    {
+    for(uint32_t i = 0; i < m_entityCount; i++) {
         RenderEntity& entity = m_entities[i];
 
         ShaderProgram* shader = entity.states.shader;
 
-        if(shader)
-        {
+        if(shader) {
             shader->use();
             shader->setUniform("projection",m_projection);
             shader->setUniform("transform",entity.states.transform);
@@ -100,15 +98,13 @@ void Renderer::render()
     m_entityCount = 0;
 }
 
-void Renderer::setViewSize(const Vec2i& size)
-{
+void Renderer::setViewSize(const Vec2i& size) {
     m_projection = ortho(0, size.w, size.h, 0);
 }
 
 /* Protected */
 
-void Renderer::setupBuffers()
-{
+void Renderer::setupBuffers() {
     m_vertexBuffer = new Vertex[ c_VBOSize ];
 
     glGenVertexArrays(1, &s_VAO);

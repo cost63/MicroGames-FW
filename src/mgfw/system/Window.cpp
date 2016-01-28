@@ -6,8 +6,7 @@
 #include "..\graphics\OpenGL.h"
 #include "..\system\ErrorLog.h"
 
-namespace mg
-{
+namespace mg {
 
 Window::Window()
 : m_handle(nullptr)
@@ -27,14 +26,12 @@ Window::~Window()
     close();
 }
 
-bool Window::create(const Vec2i& size, const std::string& title, Flag flags)
-{
+bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     // Clean up
     close();
 
     // Make sure SDL video was initialized
-    if(!SDL_WasInit(SDL_INIT_VIDEO))
-    {
+    if(!SDL_WasInit(SDL_INIT_VIDEO)) {
         PRINT_ERROR("SDL Video was not initialized yet");
         return false;
     }
@@ -49,8 +46,7 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags)
 
     m_context = SDL_GL_CreateContext(m_handle);
     // Make sure window context was created, print errors otherwise
-    if(!m_context)
-    {
+    if(!m_context) {
         PRINT_ERROR("Failed to crate window context with following errors:");
         PRINT_ERROR(SDL_GetError());
 
@@ -75,10 +71,8 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags)
     return true;
 }
 
-void Window::close()
-{
-    if( m_handle )
-    {
+void Window::close() {
+    if( m_handle ) {
         SDL_DestroyWindow(m_handle);
         SDL_GL_DeleteContext(m_context);
     }
@@ -86,35 +80,30 @@ void Window::close()
     m_isCreated = false;
 }
 
-void Window::clear()
-{
+void Window::clear() {
     glClearColor(0.1, 0.1, 0.1, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Window::display()
-{
+void Window::display() {
     // Render everything inside renderer
     render();
 
     SDL_GL_SwapWindow(m_handle);
 }
 
-void Window::setSize(const Vec2i& size)
-{
+void Window::setSize(const Vec2i& size) {
     SDL_SetWindowSize(m_handle, size.w, size.h);
 }
 
-Vec2i Window::getSize() const
-{
+Vec2i Window::getSize() const {
     Vec2i size;
     SDL_GetWindowSize(m_handle, &size.w, &size.h);
 
     return size;
 }
 
-bool Window::isCreated() const
-{
+bool Window::isCreated() const {
     return m_isCreated;
 }
 

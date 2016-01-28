@@ -4,18 +4,15 @@
 
 namespace mg {
 
-Vec4f& Matrix4::operator[](uint8_t index)
-{
+Vec4f& Matrix4::operator[](uint8_t index) {
     return data[index];
 }
 
-const Vec4f& Matrix4::operator[](uint8_t index) const
-{
+const Vec4f& Matrix4::operator[](uint8_t index) const {
     return data[index];
 }
 
-bool Matrix4::operator==(const Matrix4& other) const
-{
+bool Matrix4::operator==(const Matrix4& other) const {
     for(uint8_t i = 0; i < 4; i++) {
         if(data[i] != other[i]) {
             return false;
@@ -25,14 +22,12 @@ bool Matrix4::operator==(const Matrix4& other) const
     return true;
 }
 
-bool Matrix4::operator!=(const Matrix4& other) const
-{
+bool Matrix4::operator!=(const Matrix4& other) const {
     return !operator==(other);
 }
 
 
-Matrix4 Matrix4::operator+(const Matrix4& other) const
-{
+Matrix4 Matrix4::operator+(const Matrix4& other) const {
     Matrix4 m;
 
     for(uint8_t i = 0; i < 4; i++) {
@@ -41,13 +36,11 @@ Matrix4 Matrix4::operator+(const Matrix4& other) const
 
     return m;
 }
-Matrix4& Matrix4::operator+=(const Matrix4& other)
-{
+Matrix4& Matrix4::operator+=(const Matrix4& other) {
     return (*this = (*this) + other);
 }
 
-Matrix4 Matrix4::operator-(const Matrix4& other) const
-{
+Matrix4 Matrix4::operator-(const Matrix4& other) const {
     Matrix4 m;
 
     for(uint8_t i = 0; i < 4; i++) {
@@ -56,13 +49,11 @@ Matrix4 Matrix4::operator-(const Matrix4& other) const
 
     return m;
 }
-Matrix4& Matrix4::operator-=(const Matrix4& other)
-{
+Matrix4& Matrix4::operator-=(const Matrix4& other) {
     return (*this = (*this) - other);
 }
 
-Matrix4 Matrix4::operator*(const Matrix4& other) const
-{
+Matrix4 Matrix4::operator*(const Matrix4& other) const {
     Matrix4 result;
 
     for(int aRow = 0; aRow < 4; aRow++) {
@@ -79,15 +70,13 @@ Matrix4 Matrix4::operator*(const Matrix4& other) const
 
     return result;
 }
-Matrix4& Matrix4::operator*=(const Matrix4& other)
-{
+Matrix4& Matrix4::operator*=(const Matrix4& other) {
     return (*this = (*this) * other);
 }
 
 
 
-Matrix4 Matrix4::operator/(float scalar) const
-{
+Matrix4 Matrix4::operator/(float scalar) const {
     Matrix4 m;
 
     for(uint8_t i = 0; i < 4; i++) {

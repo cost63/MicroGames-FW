@@ -3,19 +3,16 @@
 #include <string>
 #include <map>
 
-namespace mg
-{
+namespace mg {
 
 template <typename T> struct Vector2;
 template <typename T> struct Vector3;
 struct Matrix4;
 struct Color;
 
-class ShaderProgram
-{
+class ShaderProgram {
 public:
-    enum Type
-    {
+    enum Type {
         Vertex,
         Fragment
     };

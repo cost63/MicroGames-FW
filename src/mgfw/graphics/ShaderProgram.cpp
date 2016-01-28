@@ -9,12 +9,10 @@
 #include "../math/Matrix4.h"
 #include "../graphics/Color.h"
 
-namespace mg
-{
+namespace mg {
 
 // TODO(All) Once File system is finished, use it instead
-std::string stringFromFile(const std::string& filename)
-{
+std::string stringFromFile(const std::string& filename) {
     std::string output;
     std::string line;
 
@@ -38,61 +36,48 @@ ShaderProgram::ShaderProgram()
 : m_handle(0)
 {}
 
-ShaderProgram::~ShaderProgram()
-{
-    if(m_handle != 0)
-    {
+ShaderProgram::~ShaderProgram() {
+    if(m_handle != 0) {
         glDeleteProgram(m_handle);
     }
 }
 
-bool ShaderProgram::loadFromFile(const std::string& vertexFile, const std::string& fragmentFile)
-{
+bool ShaderProgram::loadFromFile(const std::string& vertexFile, const std::string& fragmentFile) {
     std::string vertexSource;
     std::string fragmentSource;
 
-    if(!vertexFile.empty())
-    {
+    if(!vertexFile.empty()) {
         vertexSource = stringFromFile(vertexFile);
     }
 
-    if(!fragmentFile.empty())
-    {
+    if(!fragmentFile.empty()) {
         fragmentSource = stringFromFile(fragmentFile);
     }
 
     return loadFromSource(vertexSource, fragmentSource);
 }
 
-bool ShaderProgram::loadFromSource(const std::string& vertexSource, const std::string& fragmentSource)
-{
-    if(vertexSource.empty() && fragmentSource.empty())
-    {
+bool ShaderProgram::loadFromSource(const std::string& vertexSource, const std::string& fragmentSource) {
+    if(vertexSource.empty() && fragmentSource.empty()) {
         PRINT_ERROR("Unable to load shader. Both vertex and fragment shader sources are empty");
         return false;
     }
 
     // If the shader program was not created yet
-    if(m_handle == 0)
-    {
+    if(m_handle == 0) {
         // If program creation failed
-        if(!setupHandle())
-        {
+        if(!setupHandle()) {
             return false;
         }
     }
 
-    if(!vertexSource.empty())
-    {
-        if(!setupShader(ShaderProgram::Vertex, vertexSource))
-        {
+    if(!vertexSource.empty()) {
+        if(!setupShader(ShaderProgram::Vertex, vertexSource)) {
             return false;
         }
     }
-    if(!fragmentSource.empty())
-    {
-        if(!setupShader(ShaderProgram::Fragment, fragmentSource))
-        {
+    if(!fragmentSource.empty()) {
+        if(!setupShader(ShaderProgram::Fragment, fragmentSource)) {
             return false;
         }
     }
@@ -102,37 +87,30 @@ bool ShaderProgram::loadFromSource(const std::string& vertexSource, const std::s
     return true;
 }
 
-void ShaderProgram::use() const
-{
-    if(!isInUse())
-    {
+void ShaderProgram::use() const {
+    if(!isInUse()) {
         glUseProgram(m_handle);
     }
 }
 
-void ShaderProgram::stopUsing()
-{
-    if(isInUse())
-    {
+void ShaderProgram::stopUsing() {
+    if(isInUse()) {
         glUseProgram(0);
     }
 }
 
-bool ShaderProgram::isInUse() const
-{
+bool ShaderProgram::isInUse() const {
     int currentProgram = 0;
     glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
 
     return (currentProgram == (int)m_handle);
 }
 
-void ShaderProgram::bindAttribute(uint32_t index, const std::string& name)
-{
+void ShaderProgram::bindAttribute(uint32_t index, const std::string& name) {
     glBindAttribLocation(m_handle, index, name.c_str());
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Vec2f& v)
-{
+void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) {
     use();
 
     int loc = getUniformLoc(name);
@@ -142,8 +120,7 @@ void ShaderProgram::setUniform(const std::string& name, const Vec2f& v)
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Vec3f& v)
-{
+void ShaderProgram::setUniform(const std::string& name, const Vec3f& v) {
     use();
 
     int loc = getUniformLoc(name);
@@ -153,8 +130,7 @@ void ShaderProgram::setUniform(const std::string& name, const Vec3f& v)
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Matrix4& m)
-{
+void ShaderProgram::setUniform(const std::string& name, const Matrix4& m) {
     use();
 
     int loc = getUniformLoc(name);
@@ -164,8 +140,7 @@ void ShaderProgram::setUniform(const std::string& name, const Matrix4& m)
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Color& c)
-{
+void ShaderProgram::setUniform(const std::string& name, const Color& c) {
     use();
 
     int loc = getUniformLoc(name);
@@ -175,20 +150,17 @@ void ShaderProgram::setUniform(const std::string& name, const Color& c)
     }
 }
 
-const std::string& ShaderProgram::getVertexSource() const
-{
+const std::string& ShaderProgram::getVertexSource() const {
     return m_vertexSource;
 }
 
-const std::string& ShaderProgram::getFragmentSource() const
-{
+const std::string& ShaderProgram::getFragmentSource() const {
     return m_fragmentSource;
 }
 
 /* Private */
 
-bool ShaderProgram::setupHandle()
-{
+bool ShaderProgram::setupHandle() {
     m_handle = glCreateProgram();
 
     GLint infoLogLength = 512;
@@ -198,8 +170,7 @@ bool ShaderProgram::setupHandle()
     glGetProgramiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
     glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
 
-    if(errorLength != 0)
-    {
+    if(errorLength != 0) {
         PRINT_ERROR("Failed to create Shader program with following errors:\n" +
                     std::string(infoLog));
 
@@ -209,51 +180,43 @@ bool ShaderProgram::setupHandle()
     return true;
 }
 
-bool ShaderProgram::setupShader(ShaderProgram::Type type, const std::string& source)
-{
+bool ShaderProgram::setupShader(ShaderProgram::Type type, const std::string& source) {
     uint32_t shader = 0;
 
-    if(type == ShaderProgram::Vertex)
-    {
+    if(type == ShaderProgram::Vertex) {
         shader = glCreateShader(GL_VERTEX_SHADER);
     }
-    else
-    {
+    else {
         shader = glCreateShader(GL_FRAGMENT_SHADER);
     }
 
     const char* rawSource = source.c_str();
     glShaderSource(shader, 1, &rawSource, nullptr);
 
-    if(!compile(shader))
-    {
+    if(!compile(shader)) {
         glDeleteShader(shader);
         return false;
     }
 
     glAttachShader(m_handle, shader);
 
-    if(type == ShaderProgram::Vertex)
-    {
+    if(type == ShaderProgram::Vertex) {
         m_vertexSource = source;
     }
-    else
-    {
+    else {
         m_fragmentSource = source;
     }
 
     return true;
 }
 
-bool ShaderProgram::compile(uint32_t shader)
-{
+bool ShaderProgram::compile(uint32_t shader) {
     glCompileShader(shader);
 
     int compiled = false; // Has to be int as glGetShaderiv accepts int as param
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 
-    if(!compiled)
-    {
+    if(!compiled) {
         const int errorLogLength = 512;
         char errorLog[errorLogLength];
 
@@ -267,18 +230,15 @@ bool ShaderProgram::compile(uint32_t shader)
     return true;
 }
 
-int ShaderProgram::getUniformLoc(const std::string& name)
-{
+int ShaderProgram::getUniformLoc(const std::string& name) {
     auto found = m_uniforms.find(name);
 
     int location = -1;
 
-    if(found != m_uniforms.end())
-    {
+    if(found != m_uniforms.end()) {
         location = found->second;
     }
-    else
-    {
+    else {
         location = glGetUniformLocation(m_handle, name.c_str());
         m_uniforms[name] = location;
     }
@@ -286,11 +246,9 @@ int ShaderProgram::getUniformLoc(const std::string& name)
     return location;
 }
 
-void ShaderProgram::link()
-{
+void ShaderProgram::link() {
     // Can't link a program that hasn't be created yet
-    if(m_handle == 0)
-    {
+    if(m_handle == 0) {
         return;
     }
 
@@ -299,8 +257,7 @@ void ShaderProgram::link()
     int success = false;
     glGetProgramiv(m_handle, GL_LINK_STATUS, &success);
 
-    if(!success)
-    {
+    if(!success) {
         int infoLogLength = 512;
         int errorLength = 0;
         char infoLog[512]; // VS doesn't support VLA's (so 512 instead of infoLogLength)

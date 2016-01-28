@@ -3,8 +3,7 @@
 #include "../math/Vector2.h"
 #include "../math/Matrix4.h"
 
-namespace mg
-{
+namespace mg {
 
 class Transformable {
 public:

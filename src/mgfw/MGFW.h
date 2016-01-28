@@ -1,7 +1,6 @@
 #pragma once
 
-namespace mg
-{
+namespace mg {
 
 /* Global variables */
 extern bool g_isGlewInit;

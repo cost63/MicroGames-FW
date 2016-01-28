@@ -7,11 +7,9 @@
 #include "../math/Vector3.h"
 #include "../math/Vector4.h"
 
-namespace mg
-{
+namespace mg {
 
-struct Matrix4
-{
+struct Matrix4 {
     Vec4f data[4];
 
     Matrix4()

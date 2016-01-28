@@ -5,11 +5,9 @@
 #include "../graphics/Vertex.h"
 #include "../graphics/PrimitiveType.h"
 
-namespace mg
-{
+namespace mg {
 
-struct VertexArray
-{
+struct VertexArray {
     VertexArray();
     VertexArray(PrimitiveType type, uint32_t size = 0);
 

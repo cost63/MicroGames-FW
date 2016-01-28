@@ -7,16 +7,13 @@
 #include "graphics/OpenGL.h"
 #include "graphics/Renderer.h"
 
-namespace mg
-{
+namespace mg {
 
 bool g_isGlewInit = false;
 
-bool init()
-{
+bool init() {
     // Make sure SDL video was initialized
-    if(SDL_Init(SDL_INIT_VIDEO) < 0 )
-    {
+    if(SDL_Init(SDL_INIT_VIDEO) < 0 ) {
         PRINT_ERROR("SDL initialization failed with following errors:");
         PRINT_ERROR(SDL_GetError());
         return false;
@@ -30,16 +27,13 @@ bool init()
     return true;
 }
 
-void close()
-{
+void close() {
     SDL_Quit();
 }
 
-bool initGlew()
-{
+bool initGlew() {
     // If Glew was already initialized
-    if(g_isGlewInit)
-    {
+    if(g_isGlewInit) {
         return true;
     }
 
