@@ -8,6 +8,8 @@
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArray.h"
 
+#include "SDL2/SDL_image.h"
+
 using namespace mg;
 
 int main(int argc, char** argv) {
