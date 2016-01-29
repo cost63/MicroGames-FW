@@ -21,8 +21,6 @@ Renderer::Renderer()
 Renderer::~Renderer() {
     glDeleteBuffers(1, &s_VBO);
     glDeleteVertexArrays(1, &s_VAO);
-
-    delete[] m_vertexBuffer;
 }
 
 void Renderer::draw(const VertexArray& v, const RenderStates& states) {
@@ -55,13 +53,13 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states) {
             };
 
             // Copy triangle vertex data to the vertex storage
-            memcpy(m_vertexBuffer + m_vertexCount, vertices, sizeof(Vertex) * 6);
+            memcpy(m_vertexBuffer.data() + m_vertexCount, vertices, sizeof(Vertex) * 6);
             m_vertexCount += 6;
         }
     }
     else {
         // Copy vertex data to the vertex storage
-        memcpy(m_vertexBuffer + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
+        memcpy(m_vertexBuffer.data() + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
         m_vertexCount += entity.vertexCount;
     }
 
@@ -75,8 +73,11 @@ void Renderer::render() {
 
     // Update buffer with vertices
     void* buff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-    memcpy(buff, m_vertexBuffer, sizeof(Vertex) * m_vertexCount);
+    memcpy(buff, m_vertexBuffer.data(), sizeof(Vertex) * m_vertexCount);
     glUnmapBuffer(GL_ARRAY_BUFFER);
+
+    glPolygonMode(GL_FRONT, GL_TRIANGLES);
+    glPolygonMode(GL_BACK, GL_TRIANGLES);
 
     glBindVertexArray(s_VAO);
 
@@ -105,7 +106,8 @@ void Renderer::setViewSize(const Vec2i& size) {
 /* Protected */
 
 void Renderer::setupBuffers() {
-    m_vertexBuffer = new Vertex[ c_VBOSize ];
+    m_vertexBuffer.resize(c_VBOSize);
+    m_entities.resize(c_VBOSize);
 
     glGenVertexArrays(1, &s_VAO);
     glGenBuffers(1, &s_VBO);
