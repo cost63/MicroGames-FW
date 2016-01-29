@@ -24,15 +24,23 @@ int main(int argc, char** argv) {
     RenderStates states;
     states.shader = &s;
 
-    VertexArray quad(PrimitiveType::LineStrip, 4);
-    quad[0].pos = {150.0, 100};
-    quad[1].pos = {350.0, 100};
-    quad[2].pos = {350.0, 300};
-    quad[3].pos = {150.0, 300};
+    VertexArray quad(PrimitiveType::Quads, 4);
+//    quad[0].pos = {150.0, 100};
+//    quad[1].pos = {350.0, 100};
+//    quad[2].pos = {350.0, 300};
+//    quad[3].pos = {150.0, 300};
+
+    quad[0].pos = {-0.5,  0.5};
+    quad[1].pos = { 0.5,  0.5};
+    quad[2].pos = { 0.5, -0.5};
+    quad[3].pos = {-0.5, -0.5};
+
     quad[0].color = Color::Red;
     quad[1].color = Color::Green;
     quad[2].color = Color::Blue;
     quad[3].color = Color::White;
+
+    quad.normalized = true;
 
     bool running = true;
     while(running) {

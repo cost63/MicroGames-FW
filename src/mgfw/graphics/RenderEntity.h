@@ -8,6 +8,7 @@ namespace mg {
 struct RenderEntity {
     RenderStates states;
     PrimitiveType type;
+    bool normalized = false;
     uint32_t vertexIndex = 0;
     uint32_t vertexCount = 0;
 };

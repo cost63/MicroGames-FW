@@ -4,10 +4,12 @@ namespace mg {
 
 VertexArray::VertexArray()
 : type(PrimitiveType::Triangles)
+, normalized(false)
 {}
 
 VertexArray::VertexArray(PrimitiveType _type, uint32_t size /* = */)
 : type(_type)
+, normalized(false)
 {
     if(size != 0) {
         vertices.resize(size);

@@ -20,6 +20,8 @@ struct VertexArray {
 
     std::vector<Vertex> vertices;
     PrimitiveType type;
+
+    bool normalized;
 };
 
 } // namespace mg

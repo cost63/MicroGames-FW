@@ -29,6 +29,7 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states) {
     // Setup entity
     entity.type = v.type;
     entity.states = states;
+    entity.normalized = v.normalized;
     entity.vertexCount = v.size();
     entity.vertexIndex = m_vertexCount;
 
@@ -99,8 +100,14 @@ void Renderer::render() {
         // Apply shader
         if(shader) {
             shader->use();
-            shader->setUniform("projection", m_projection);
             shader->setUniform("transform", entity.states.transform);
+
+            if(entity.normalized) {
+                shader->setUniform("projection", Matrix4());
+            }
+            else {
+                shader->setUniform("projection", m_projection);
+            }
         }
 
         // Draw current vertex pack in the batch
