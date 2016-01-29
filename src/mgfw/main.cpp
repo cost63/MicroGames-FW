@@ -27,17 +27,17 @@ int main(int argc, char** argv) {
     states.texture = &t;
 
     VertexArray quad(PrimitiveType::Quads, 4);
-    quad.normalized = true;
+//    quad.normalized = true;
 
-//    quad[0].pos = {150.0, 100.0};
-//    quad[1].pos = {350.0, 100.0};
-//    quad[2].pos = {350.0, 300.0};
-//    quad[3].pos = {150.0, 300.0};
+    quad[0].pos = {150.0, 100.0};
+    quad[1].pos = {350.0, 100.0};
+    quad[2].pos = {350.0, 300.0};
+    quad[3].pos = {150.0, 300.0};
 
-    quad[0].pos = {-1.0, -1.0};
-    quad[1].pos = { 1.0, -1.0};
-    quad[2].pos = { 1.0,  1.0};
-    quad[3].pos = {-1.0,  1.0};
+//    quad[0].pos = {-1.0,  1.0};
+//    quad[1].pos = { 1.0,  1.0};
+//    quad[2].pos = { 1.0, -1.0};
+//    quad[3].pos = {-1.0, -1.0};
 
     quad[0].color = Color::Red;
     quad[1].color = Color::Green;

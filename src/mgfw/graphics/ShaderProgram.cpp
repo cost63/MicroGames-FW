@@ -130,6 +130,16 @@ void ShaderProgram::setUniform(const std::string& name, uint32_t n) {
     }
 }
 
+void ShaderProgram::setUniform(const std::string& name, bool b) {
+    use();
+
+    int loc = getUniformLoc(name);
+
+    if(loc != -1) {
+        glUniform1i(loc, b);
+    }
+}
+
 void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) {
     use();
 

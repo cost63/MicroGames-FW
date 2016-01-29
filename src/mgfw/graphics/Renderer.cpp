@@ -97,7 +97,7 @@ void Renderer::render() {
     // Bind the vertex array
     glBindVertexArray(s_VAO);
 
-    glEnable(GL_TEXTURE_2D);
+//    glEnable(GL_TEXTURE_2D);
 
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
@@ -126,6 +126,7 @@ void Renderer::render() {
             entity.states.texture->bind();
 
             shader->setUniform("texture", 0);
+            shader->setUniform("hasTexture", true);
         }
 
         // Draw current vertex pack in the batch

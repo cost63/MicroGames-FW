@@ -57,8 +57,6 @@ bool Texture::loadFromFile(const std::string& filename) {
 }
 
 void Texture::bind() {
-    glActiveTexture(GL_TEXTURE0);
-    glClientActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_handle);
 }
 
