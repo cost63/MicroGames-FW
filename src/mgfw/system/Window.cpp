@@ -65,7 +65,7 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     }
 
     // Setup renderer buffers
-    setupBuffers();
+    setupRenderer();
 
     m_isCreated = true;
     return true;

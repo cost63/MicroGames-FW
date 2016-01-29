@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "../system/ErrorLog.h"
 #include "../graphics/OpenGL.h"
 #include "../graphics/VertexArray.h"
 #include "../graphics/ShaderProgram.h"
@@ -21,6 +22,10 @@ Renderer::Renderer()
 Renderer::~Renderer() {
     glDeleteBuffers(1, &s_VBO);
     glDeleteVertexArrays(1, &s_VAO);
+}
+
+void Renderer::draw(const VertexArray& v) {
+    draw(v, RenderStates());
 }
 
 void Renderer::draw(const VertexArray& v, const RenderStates& states) {
@@ -97,17 +102,21 @@ void Renderer::render() {
 
         ShaderProgram* shader = entity.states.shader;
 
-        // Apply shader
-        if(shader) {
-            shader->use();
-            shader->setUniform("transform", entity.states.transform);
+        // If there was no custom shader specified, use default one
+        if(!shader) {
+            shader = &m_defShaderProgram;
+        }
 
-            if(entity.normalized) {
-                shader->setUniform("projection", Matrix4());
-            }
-            else {
-                shader->setUniform("projection", m_projection);
-            }
+        // Apply shader
+        shader->use();
+        shader->setUniform("transform", entity.states.transform);
+
+        // Check if projection should be used
+        if(entity.normalized) {
+            shader->setUniform("projection", Matrix4());
+        }
+        else {
+            shader->setUniform("projection", m_projection);
         }
 
         // Draw current vertex pack in the batch
@@ -124,7 +133,8 @@ void Renderer::setViewSize(const Vec2i& size) {
 
 /* Protected */
 
-void Renderer::setupBuffers() {
+void Renderer::setupRenderer() {
+    /* Setup buffers */
     m_vertexBuffer.resize(c_VBOSize);
     m_entities.resize(c_VBOSize);
 
@@ -133,6 +143,7 @@ void Renderer::setupBuffers() {
 
     glBindVertexArray(s_VAO);
 
+    // Initialize VBO with empty data
     glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
     glBufferData(GL_ARRAY_BUFFER, c_VBOSize, nullptr, GL_DYNAMIC_DRAW);
 
@@ -143,8 +154,17 @@ void Renderer::setupBuffers() {
     glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (const GLvoid*)sizeof(Vec2f) );
     glEnableVertexAttribArray(1);
 
+    // Unbind buffers
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    /* Setup default shaders */
+    if(!m_defShaderProgram.loadFromFile(
+            "src/mgfw/graphics/shaders/default.vert",
+            "src/mgfw/graphics/shaders/default.frag"))
+    {
+        PRINT_ERROR("Renderer failed to initialize default shader");
+    }
 }
 
 } // namespace mg
