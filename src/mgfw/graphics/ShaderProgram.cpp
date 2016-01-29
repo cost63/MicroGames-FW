@@ -110,6 +110,26 @@ void ShaderProgram::bindAttribute(uint32_t index, const std::string& name) {
     glBindAttribLocation(m_handle, index, name.c_str());
 }
 
+void ShaderProgram::setUniform(const std::string& name, int n) {
+    use();
+
+    int loc = getUniformLoc(name);
+
+    if(loc != -1) {
+        glUniform1i(loc, n);
+    }
+}
+
+void ShaderProgram::setUniform(const std::string& name, uint32_t n) {
+    use();
+
+    int loc = getUniformLoc(name);
+
+    if(loc != -1) {
+        glUniform1ui(loc, n);
+    }
+}
+
 void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) {
     use();
 

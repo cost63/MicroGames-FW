@@ -5,13 +5,15 @@
 namespace mg
 {
 
+class Texture;
 class ShaderProgram;
 
 // TODO(Smeky) Add transform and texture once they are implemented
 struct RenderStates
 {
-    ShaderProgram* shader = nullptr;
     Matrix4 transform;
+    Texture* texture = nullptr;
+    ShaderProgram* shader = nullptr;
 };
 
 } // namespace mg

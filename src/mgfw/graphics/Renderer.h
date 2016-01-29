@@ -47,7 +47,7 @@ private:
 
     // Projection
     // TODO(Smeky) Add support for window resizing and projection change
-    Matrix4 m_projection = ortho(0, 500, 400, 0);
+    Matrix4 m_projection = ortho(0, 1000, 700, 0);
 };
 
 } // namespace mg

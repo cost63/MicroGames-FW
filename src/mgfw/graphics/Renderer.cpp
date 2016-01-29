@@ -5,6 +5,7 @@
 #include "../system/ErrorLog.h"
 #include "../graphics/OpenGL.h"
 #include "../graphics/VertexArray.h"
+#include "../graphics/Texture.h"
 #include "../graphics/ShaderProgram.h"
 #include "../graphics/RenderStates.h"
 #include "../graphics/RenderEntity.h"
@@ -96,6 +97,8 @@ void Renderer::render() {
     // Bind the vertex array
     glBindVertexArray(s_VAO);
 
+    glEnable(GL_TEXTURE_2D);
+
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
         RenderEntity& entity = m_entities[i];
@@ -117,6 +120,12 @@ void Renderer::render() {
         }
         else {
             shader->setUniform("projection", m_projection);
+        }
+
+        if(entity.states.texture) {
+            entity.states.texture->bind();
+
+            shader->setUniform("texture", 0);
         }
 
         // Draw current vertex pack in the batch
@@ -153,6 +162,9 @@ void Renderer::setupRenderer() {
     // Color
     glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (const GLvoid*)sizeof(Vec2f) );
     glEnableVertexAttribArray(1);
+    // Texture coordinates
+    glVertexAttribPointer(2, 2, GL_FLOAT, false, sizeof(Vertex), (const GLvoid*)(sizeof(Vec2f) + sizeof(Color)));
+    glEnableVertexAttribArray(2);
 
     // Unbind buffers
     glBindBuffer(GL_ARRAY_BUFFER, 0);

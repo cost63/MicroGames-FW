@@ -31,6 +31,8 @@ public:
 
     void bindAttribute(uint32_t index, const std::string& name);
 
+    void setUniform(const std::string& name, int n);
+    void setUniform(const std::string& name, uint32_t n);
     void setUniform(const std::string& name, const Vector2<float>& v);
     void setUniform(const std::string& name, const Vector3<float>& v);
     void setUniform(const std::string& name, const Matrix4& m);
