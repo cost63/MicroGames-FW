@@ -26,15 +26,16 @@ Renderer::~Renderer() {
 void Renderer::draw(const VertexArray& v, const RenderStates& states) {
     RenderEntity entity;
 
-    // Setup the command
+    // Setup entity
     entity.type = v.type;
     entity.states = states;
     entity.vertexCount = v.size();
     entity.vertexIndex = m_vertexCount;
 
     // If the primitive type is quad, convert its vertices to 2 triangles
-    if(v.type == PrimitiveType::PType_Quads) {
-        // Override the vertex count
+    if(v.type == PrimitiveType::Quads) {
+        // Override the entity attributes
+        entity.type = PrimitiveType::Triangles;
         entity.vertexCount = ( v.size() / 4 ) * 6;
 
         uint32_t totalQuads = v.size() / 4;
@@ -68,6 +69,16 @@ void Renderer::draw(const VertexArray& v, const RenderStates& states) {
 }
 
 void Renderer::render() {
+    const uint32_t mode[] = {
+        GL_POINTS,
+        GL_LINES,
+        GL_LINE_STRIP,
+        GL_LINE_LOOP,
+        GL_TRIANGLES,
+        GL_TRIANGLE_STRIP,
+        GL_TRIANGLE_FAN,
+    };
+
     // Bind the VBO so we can update its data
     glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
 
@@ -76,23 +87,24 @@ void Renderer::render() {
     memcpy(buff, m_vertexBuffer.data(), sizeof(Vertex) * m_vertexCount);
     glUnmapBuffer(GL_ARRAY_BUFFER);
 
-    glPolygonMode(GL_FRONT, GL_TRIANGLES);
-    glPolygonMode(GL_BACK, GL_TRIANGLES);
-
+    // Bind the vertex array
     glBindVertexArray(s_VAO);
 
+    // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
         RenderEntity& entity = m_entities[i];
 
         ShaderProgram* shader = entity.states.shader;
 
+        // Apply shader
         if(shader) {
             shader->use();
-            shader->setUniform("projection",m_projection);
-            shader->setUniform("transform",entity.states.transform);
+            shader->setUniform("projection", m_projection);
+            shader->setUniform("transform", entity.states.transform);
         }
 
-        glDrawArrays(GL_TRIANGLES, entity.vertexIndex, entity.vertexCount);
+        // Draw current vertex pack in the batch
+        glDrawArrays(mode[(int)entity.type], entity.vertexIndex, entity.vertexCount);
     }
 
     m_vertexCount = 0;

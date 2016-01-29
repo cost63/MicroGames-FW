@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     RenderStates states;
     states.shader = &s;
 
-    VertexArray quad(PrimitiveType::PType_Quads, 4);
+    VertexArray quad(PrimitiveType::LineStrip, 4);
     quad[0].pos = {150.0, 100};
     quad[1].pos = {350.0, 100};
     quad[2].pos = {350.0, 300};

@@ -3,7 +3,7 @@
 namespace mg {
 
 VertexArray::VertexArray()
-: type(PrimitiveType::PType_Triangles)
+: type(PrimitiveType::Triangles)
 {}
 
 VertexArray::VertexArray(PrimitiveType _type, uint32_t size /* = */)
