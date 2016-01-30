@@ -65,7 +65,7 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     }
 
     // Setup renderer buffers
-    setupRenderer(Vec2f(size.w, size.h));
+    setupRenderer(size);
 
     m_isCreated = true;
     return true;
@@ -93,9 +93,8 @@ void Window::display() {
 }
 
 void Window::updateView() {
-    Vec2i size = getSize();
     // Update view size to the window size
-    setViewSize(Vec2f(size.w, size.h));
+    setViewSize(getSize());
 }
 
 void Window::setSize(const Vec2i& size) {

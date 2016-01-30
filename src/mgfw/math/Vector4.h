@@ -23,6 +23,9 @@ struct Vector4 {
     Vector4( T _xyzw ) : x( _xyzw ), y( _xyzw ), z( _xyzw ), w( _xyzw ) {}
     Vector4( T _xyzw[ 3 ] ) : x( _xyzw[ 0 ] ), y( _xyzw[ 1 ] ), z( _xyzw[ 2 ] ), w( _xyzw[ 3 ] ) {}
 
+    template <typename U>
+    Vector4(const Vector4<U>& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
+
     explicit Vector4( const Vector2<T>& other, T _z, T _w )
     : x( other.x )
     , y( other.y )

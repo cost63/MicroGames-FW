@@ -200,7 +200,7 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
 /* Private */
 
 void Renderer::updateView() {
-    float aspect = (float)m_viewSize.w / m_viewSize.h;
+    float aspect = m_viewSize.w / m_viewSize.h;
 
     int width = m_viewSize.h * aspect;
     int left = ( m_viewSize.w - width ) / 2;

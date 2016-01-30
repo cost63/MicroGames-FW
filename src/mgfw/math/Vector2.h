@@ -22,6 +22,7 @@ struct Vector2 {
     Vector2( T _xy[ 2 ] ) : x( _xy[ 0 ] ), y( _xy[ 1 ] ) {}
 
     template <typename U>
+    Vector2(const Vector2<U>& v) : x(v.x), y(v.y) {}
 
     /** Operators */
 

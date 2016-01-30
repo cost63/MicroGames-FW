@@ -24,6 +24,9 @@ struct Vector3 {
     Vector3( T _xyz ) : x( _xyz ), y( _xyz ), z( _xyz ) {}
     Vector3( T _xyz[ 3 ] ) : x( _xyz[ 0 ] ), y( _xyz[ 1 ] ), z( _xyz[ 2 ] ) {}
 
+    template <typename U>
+    Vector3(const Vector3<U>& v) : x(v.x), y(v.y), z(v.z) {}
+
     explicit Vector3( const Vector2<T>& other, T _z )
     : x( other.x )
     , y( other.y )
