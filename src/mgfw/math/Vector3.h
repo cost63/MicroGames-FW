@@ -41,21 +41,21 @@ struct Vector3 {
     T& operator[]( uint16_t index ) { return data[ index ]; }
     const T& operator[]( uint16_t index ) const { return data[ index ]; }
 
-    template <typename V>
-    bool operator==( const Vector3<V>& other ) const {
+    template <typename U>
+    bool operator==( const Vector3<U>& other ) const {
         return ( x == other.x ) && ( y == other.y ) && ( z == other.z );
     }
-    template <typename V>
-    bool operator!=( const Vector3<V>& other ) const {
+    template <typename U>
+    bool operator!=( const Vector3<U>& other ) const {
         return !operator==( other );
     }
 
-    template <typename V>
-    Vector3<T> operator+( const Vector3<V>& other ) const {
+    template <typename U>
+    Vector3<T> operator+( const Vector3<U>& other ) const {
         return Vector3<T>( x + other.x, y + other.y, z + other.z );
     }
-    template <typename V>
-    Vector3<T>& operator+=( const Vector3<V>& other ) const {
+    template <typename U>
+    Vector3<T>& operator+=( const Vector3<U>& other ) const {
         x += other.x;
         y += other.y;
         z += other.z;
@@ -63,12 +63,12 @@ struct Vector3 {
         return *this;
     }
 
-    template <typename V>
-    Vector3<T> operator-( const Vector3<V>& other ) const {
+    template <typename U>
+    Vector3<T> operator-( const Vector3<U>& other ) const {
         return Vector3<T>( x - other.x, y - other.y, z - other.z );
     }
-    template <typename V>
-    Vector3<T>& operator-=( const Vector3<V>& other ) const {
+    template <typename U>
+    Vector3<T>& operator-=( const Vector3<U>& other ) const {
         x -= other.x;
         y -= other.y;
         z -= other.z;
@@ -87,15 +87,9 @@ struct Vector3 {
         return *this;
     }
 
-    template <typename V>
-    Vector3<T> operator*( const Vector3<V>& other ) const {
-        Vector3<T> result;
-
-        for( uint8_t i = 0; i < 3; i++ ) {
-            result[ i ] = data[ i ] * other[ i ];
-        }
-
-        return result;
+    template <typename U>
+    Vector3<T> operator*( const Vector3<U>& other ) const {
+        return Vector3<T>( x * other.x, y * other.y, z * other.z );
     }
 
     Vector3<T> operator/( T scalar ) const {
@@ -122,13 +116,13 @@ Vector3<T> operator*( float scalar, const Vector3<T>& v ) {
     return result;
 }
 
-template <typename T, typename V>
-float dot( const Vector3<T>& a, const Vector3<V>& b ) {
+template <typename T, typename U>
+float dot( const Vector3<T>& a, const Vector3<U>& b ) {
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-template <typename T, typename V>
-Vector3<float> cross( const Vector3<T>& a, const Vector3<V>& b ) {
+template <typename T, typename U>
+Vector3<float> cross( const Vector3<T>& a, const Vector3<U>& b ) {
     return Vector3<float>( a.y * b.z - b.y * a.z,  // x
                            a.z * b.x - b.z * a.x,  // y
                            a.x * b.y - b.x * a.y   // z

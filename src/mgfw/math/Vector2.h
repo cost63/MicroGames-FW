@@ -21,30 +21,32 @@ struct Vector2 {
     Vector2( T _xy ) : x( _xy ), y( _xy ) {}
     Vector2( T _xy[ 2 ] ) : x( _xy[ 0 ] ), y( _xy[ 1 ] ) {}
 
+    template <typename U>
+
     /** Operators */
 
     T& operator[]( uint16_t index ) { return data[ index ]; }
     const T& operator[]( uint16_t index ) const { return data[ index ]; }
 
-    template <typename V>
-    bool operator==( const Vector2<V>& other ) const {
+    template <typename U>
+    bool operator==( const Vector2<U>& other ) const {
         return ( x == other.x ) && ( y == other.y );
     }
-    template <typename V>
-    bool operator!=( const Vector2<V>& other ) const {
+    template <typename U>
+    bool operator!=( const Vector2<U>& other ) const {
         return !operator==( other );
     }
 
-    template <typename V>
-    Vector2<T> operator+( const Vector2<V>& other ) const {
+    template <typename U>
+    Vector2<T> operator+( const Vector2<U>& other ) const {
         return Vector2<T>( x + other.x, y + other.y );
     }
-    template <typename V>
-    Vector2<T> operator+( V v ) const {
+    template <typename U>
+    Vector2<T> operator+( U v ) const {
         return Vector2<T>( x + v, y + v );
     }
-    template <typename V>
-    Vector2<T>& operator+=( const Vector2<V>& other ) {
+    template <typename U>
+    Vector2<T>& operator+=( const Vector2<U>& other ) {
         x += other.x;
         y += other.y;
 
@@ -54,12 +56,12 @@ struct Vector2 {
     Vector2<T> operator-() const {
         return Vector2<T>( - x, - y );
     }
-    template <typename V>
-    Vector2<T> operator-( const Vector2<V>& other ) const {
+    template <typename U>
+    Vector2<T> operator-( const Vector2<U>& other ) const {
         return Vector2<T>( x - other.x, y - other.y );
     }
-    template <typename V>
-    Vector2<T>& operator-=( const Vector2<V>& other ) {
+    template <typename U>
+    Vector2<T>& operator-=( const Vector2<U>& other ) {
         x -= other.x;
         y -= other.y;
 
@@ -76,16 +78,9 @@ struct Vector2 {
         return *this;
     }
 
-    template <typename V>
-    Vector2<T> operator*( const Vector2<V>& other ) const {
-        Vector2<T> result;
-
-        for( uint8_t i = 0; i < 2; i++ )
-        {
-            result[ i ] = data[ i ] * other[ i ];
-        }
-
-        return result;
+    template <typename U>
+    Vector2<T> operator*( const Vector2<U>& other ) const {
+        return Vector2<T>( x * other.x, y * other.y );
     }
 
     Vector2<T> operator/( T scalar ) const {
@@ -99,13 +94,13 @@ struct Vector2 {
     }
 };
 
-template <typename T, typename V>
-float dot( const Vector2<T>& a, const Vector2<V>& b ) {
+template <typename T, typename U>
+float dot( const Vector2<T>& a, const Vector2<U>& b ) {
     return a.x * b.x + a.y * b.y;
 }
 
-template <typename T, typename V>
-float cross( const Vector2<T>& a, const Vector2<V>& b ) {
+template <typename T, typename U>
+float cross( const Vector2<T>& a, const Vector2<U>& b ) {
     return a.x * b.y - a.y * b.x;
 }
 
@@ -124,8 +119,8 @@ Vector2<T> normalized( const Vector2<T>& a ) {
     return a * ( 1.0 / lenght( a ) );
 }
 
-template <typename T, typename V>
-float angle( const Vector2<T>& a, const Vector2<V>& b ) {
+template <typename T, typename U>
+float angle( const Vector2<T>& a, const Vector2<U>& b ) {
     return std::atan2( b.y - a.y, b.x - a.x );
 }
 
