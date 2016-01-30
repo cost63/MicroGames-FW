@@ -16,7 +16,13 @@ namespace mg {
 class Window : public Renderer {
 public:
     enum Flag {
-        Shown = 0x00000004,
+        Fullscreen  = 0x00000001,
+        Shown       = 0x00000004,
+        Hidden      = 0x00000008,
+        Borderless  = 0x00000010,
+        Resizeable  = 0x00000020,
+        Minimized   = 0x00000040,
+        Maximized   = 0x00000080,
     };
 
 public:
@@ -29,6 +35,8 @@ public:
 
     void clear();
     void display();
+
+    void updateView();
 
     void setSize(const Vec2i& size);
     Vec2i getSize() const;

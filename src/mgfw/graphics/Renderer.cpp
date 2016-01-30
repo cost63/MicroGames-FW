@@ -18,6 +18,7 @@ Renderer::Renderer()
 , s_VBO(0)
 , m_vertexCount(0)
 , m_entityCount(0)
+, m_isViewRelative(true)
 {}
 
 Renderer::~Renderer() {
@@ -137,13 +138,26 @@ void Renderer::render() {
     m_entityCount = 0;
 }
 
-void Renderer::setViewSize(const Vec2i& size) {
-    m_projection = ortho(0, size.w, size.h, 0);
+void Renderer::setViewSize(const Vec2f& size) {
+    // Prevent pointless calculations
+    if(m_viewSize != size) {
+        m_viewSize = size;
+
+        updateView();
+    }
+}
+
+void Renderer::setRelativeViewEnabled(bool enabled) {
+    m_isViewRelative = enabled;
+}
+
+bool Renderer::isRelativeViewEnabled() const {
+    return m_isViewRelative;
 }
 
 /* Protected */
 
-void Renderer::setupRenderer() {
+void Renderer::setupRenderer(const Vec2f& viewSize) {
     /* Setup buffers */
     m_vertexBuffer.resize(c_VBOSize);
     m_entities.resize(c_VBOSize);
@@ -177,6 +191,24 @@ void Renderer::setupRenderer() {
             "src/mgfw/graphics/shaders/default.frag"))
     {
         PRINT_ERROR("Renderer failed to initialize default shader");
+    }
+
+    /* Setup view */
+    m_projection = ortho(0, viewSize.w, viewSize.h, 0);
+}
+
+/* Private */
+
+void Renderer::updateView() {
+    float aspect = (float)m_viewSize.w / m_viewSize.h;
+
+    int width = m_viewSize.h * aspect;
+    int left = ( m_viewSize.w - width ) / 2;
+
+    glViewport(left, 0, width, m_viewSize.h);
+
+    if(!m_isViewRelative) {
+        m_projection = ortho(0, m_viewSize.w, m_viewSize.h, 0);
     }
 }
 

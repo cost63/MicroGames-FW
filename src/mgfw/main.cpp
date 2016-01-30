@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    Window window(Vec2i(600, 450),"Framework test", Window::Shown);
+    Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
     Texture t;
     t.loadFromFile("test.png");
@@ -65,6 +65,11 @@ int main(int argc, char** argv) {
             else if(event.type == SDL_KEYUP) {
                 if(event.key.keysym.sym == SDLK_ESCAPE) {
                     running = false;
+                }
+            }
+            if(event.type == SDL_WINDOWEVENT) {
+                if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    window.updateView();
                 }
             }
         }

@@ -26,10 +26,17 @@ public:
 
     void render();
 
-    void setViewSize(const Vec2i& size);
+    void setViewSize(const Vec2f& size);
+
+    // Tell the renderer to scale its content relative to the view size
+    void setRelativeViewEnabled(bool enabled);
+    bool isRelativeViewEnabled() const;
 
 protected:
-    void setupRenderer();
+    void setupRenderer(const Vec2f& viewSize);
+
+private:
+    void updateView();
 
 private:
     // Vertex buffer IDs
@@ -45,11 +52,13 @@ private:
     std::vector<RenderEntity> m_entities;
     uint32_t m_entityCount;
 
+    // Default shader
     ShaderProgram m_defShaderProgram;
 
     // Projection
-    // TODO(Smeky) Add support for window resizing and projection change
-    Matrix4 m_projection = ortho(0, 600, 450, 0);
+    bool m_isViewRelative;
+    Vec2f m_viewSize;
+    Matrix4 m_projection;
 };
 
 } // namespace mg

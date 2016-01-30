@@ -65,7 +65,7 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     }
 
     // Setup renderer buffers
-    setupRenderer();
+    setupRenderer(Vec2f(size.w, size.h));
 
     m_isCreated = true;
     return true;
@@ -90,6 +90,12 @@ void Window::display() {
     render();
 
     SDL_GL_SwapWindow(m_handle);
+}
+
+void Window::updateView() {
+    Vec2i size = getSize();
+    // Update view size to the window size
+    setViewSize(Vec2f(size.w, size.h));
 }
 
 void Window::setSize(const Vec2i& size) {
