@@ -60,6 +60,10 @@ void Texture::bind() {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 }
 
+uint32_t Texture::getHandle() const {
+    return m_handle;
+}
+
 Vec2u Texture::getSize() const {
     return m_size;
 }

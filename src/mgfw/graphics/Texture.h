@@ -14,6 +14,7 @@ public:
 
     void bind();
 
+    uint32_t getHandle() const;
     Vec2u getSize() const;
 
 private:
