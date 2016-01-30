@@ -25,49 +25,49 @@ Renderer::~Renderer() {
     glDeleteVertexArrays(1, &s_VAO);
 }
 
-void Renderer::draw(const VertexArray& v) {
-    draw(v, RenderStates());
+void Renderer::draw(const Drawable& drawable, const RenderStates& states /* = RenderStates() */) {
+    drawable.draw(*this, states);
 }
 
-void Renderer::draw(const VertexArray& v, const RenderStates& states) {
+void Renderer::draw(const VertexArray& vertices, const RenderStates& states /* = RenderStates() */) {
     RenderEntity entity;
 
     // Setup entity
-    entity.type = v.type;
+    entity.type = vertices.type;
     entity.states = states;
-    entity.normalized = v.normalized;
-    entity.vertexCount = v.size();
+    entity.normalized = vertices.normalized;
+    entity.vertexCount = vertices.size();
     entity.vertexIndex = m_vertexCount;
 
     // If the primitive type is quad, convert its vertices to 2 triangles
-    if(v.type == PrimitiveType::Quads) {
+    if(vertices.type == PrimitiveType::Quads) {
         // Override the entity attributes
         entity.type = PrimitiveType::Triangles;
-        entity.vertexCount = ( v.size() / 4 ) * 6;
+        entity.vertexCount = ( vertices.size() / 4 ) * 6;
 
-        uint32_t totalQuads = v.size() / 4;
+        uint32_t totalQuads = vertices.size() / 4;
 
         // Go trough each quad in the vertex arraay
         for(uint32_t i = 0; i < totalQuads; i++) {
-            const Vertex& v0 = v[i + 0];
-            const Vertex& v1 = v[i + 1];
-            const Vertex& v2 = v[i + 2];
-            const Vertex& v3 = v[i + 3];
+            const Vertex& v0 = vertices[i + 0];
+            const Vertex& v1 = vertices[i + 1];
+            const Vertex& v2 = vertices[i + 2];
+            const Vertex& v3 = vertices[i + 3];
 
             // Setup two triangles
-            const Vertex vertices[] = {
+            const Vertex quadVertices[] = {
                 v0, v1, v2,
                 v2, v3, v0,
             };
 
             // Copy triangle vertex data to the vertex storage
-            memcpy(m_vertexBuffer.data() + m_vertexCount, vertices, sizeof(Vertex) * 6);
+            memcpy(m_vertexBuffer.data() + m_vertexCount, quadVertices, sizeof(Vertex) * 6);
             m_vertexCount += 6;
         }
     }
     else {
         // Copy vertex data to the vertex storage
-        memcpy(m_vertexBuffer.data() + m_vertexCount, v.data(), sizeof(Vertex) * entity.vertexCount);
+        memcpy(m_vertexBuffer.data() + m_vertexCount, vertices.data(), sizeof(Vertex) * entity.vertexCount);
         m_vertexCount += entity.vertexCount;
     }
 

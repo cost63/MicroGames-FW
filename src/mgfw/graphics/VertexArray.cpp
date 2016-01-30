@@ -24,6 +24,10 @@ const Vertex& VertexArray::operator[](uint32_t index) const {
     return vertices[index];
 }
 
+void VertexArray::draw(Renderer& renderer, RenderStates states) const {
+    renderer.draw(*this, states);
+}
+
 void VertexArray::resize(uint32_t size) {
     vertices.resize(size);
 }

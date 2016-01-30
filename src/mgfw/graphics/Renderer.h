@@ -11,6 +11,8 @@
 namespace mg {
 
 /* Forward declarations */
+class Drawable;
+
 struct RenderStates;
 struct VertexArray;
 
@@ -19,8 +21,8 @@ public:
     Renderer();
     ~Renderer();
 
-    void draw(const VertexArray& v);
-    void draw(const VertexArray& v, const RenderStates& states);
+    void draw(const Drawable& drawable, const RenderStates& states = RenderStates());
+    void draw(const VertexArray& vertices, const RenderStates& states = RenderStates());
 
     void render();
 
@@ -47,7 +49,7 @@ private:
 
     // Projection
     // TODO(Smeky) Add support for window resizing and projection change
-    Matrix4 m_projection = ortho(0, 1000, 700, 0);
+    Matrix4 m_projection = ortho(0, 600, 450, 0);
 };
 
 } // namespace mg

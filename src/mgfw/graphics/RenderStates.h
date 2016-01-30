@@ -12,7 +12,7 @@ class ShaderProgram;
 struct RenderStates
 {
     Matrix4 transform;
-    Texture* texture = nullptr;
+    const Texture* texture = nullptr;
     ShaderProgram* shader = nullptr;
 };
 

@@ -12,7 +12,7 @@ public:
 
     bool loadFromFile(const std::string& filename);
 
-    void bind();
+    void bind() const;
 
     uint32_t getHandle() const;
     Vec2u getSize() const;

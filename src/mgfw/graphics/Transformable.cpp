@@ -154,7 +154,7 @@ void Transformable::rotateRad(float radians) {
     setRotationRad(m_rotation + radians * (180 / PI));
 }
 
-const Matrix4& Transformable::getMatrix() {
+const Matrix4& Transformable::getMatrix() const {
     if(m_isUpdateMatrix) {
         m_matrix = Matrix4();
 

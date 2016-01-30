@@ -49,7 +49,7 @@ public:
     void rotate(float degrees);
     void rotateRad(float radians);
 
-    const Matrix4& getMatrix();
+    const Matrix4& getMatrix() const;
 
 protected:
     Vec2f m_pos;
@@ -58,8 +58,8 @@ protected:
     Vec2f m_origin;
     float m_rotation;   // Rotation is in degrees
 
-    Matrix4 m_matrix;
-    bool m_isUpdateMatrix;
+    mutable Matrix4 m_matrix;
+    mutable bool m_isUpdateMatrix;
 };
 
 } // namespace mg

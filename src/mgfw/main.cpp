@@ -7,6 +7,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArray.h"
+#include "graphics/Sprite.h"
 
 #include "graphics/Texture.h"
 
@@ -23,31 +24,35 @@ int main(int argc, char** argv) {
     Texture t;
     t.loadFromFile("test.png");
 
-    RenderStates states;
-    states.texture = &t;
+//    RenderStates states;
+//    states.texture = &t;
 
-    VertexArray quad(PrimitiveType::Quads, 4);
-    quad.normalized = true;
+    Sprite s;
+    s.setTexture(&t);
+    s.setSize(Vec2f(600, 450));
+
+//    VertexArray quad(PrimitiveType::Quads, 4);
+//    quad.normalized = true;
 
 //    quad[0].pos = {150.0, 100.0};
 //    quad[1].pos = {350.0, 100.0};
 //    quad[2].pos = {350.0, 300.0};
 //    quad[3].pos = {150.0, 300.0};
 
-    quad[0].pos = {-1.0,  1.0};
-    quad[1].pos = { 1.0,  1.0};
-    quad[2].pos = { 1.0, -1.0};
-    quad[3].pos = {-1.0, -1.0};
-
-    quad[0].color = Color::Red;
-    quad[1].color = Color::Green;
-    quad[2].color = Color::Blue;
-    quad[3].color = Color::White;
-
-    quad[0].texCoord = {0, 0};
-    quad[1].texCoord = {1, 0};
-    quad[2].texCoord = {1, 1};
-    quad[3].texCoord = {0, 1};
+//    quad[0].pos = {-1.0,  1.0};
+//    quad[1].pos = { 1.0,  1.0};
+//    quad[2].pos = { 1.0, -1.0};
+//    quad[3].pos = {-1.0, -1.0};
+//
+//    quad[0].color = Color::Red;
+//    quad[1].color = Color::Green;
+//    quad[2].color = Color::Blue;
+//    quad[3].color = Color::White;
+//
+//    quad[0].texCoord = {0, 0};
+//    quad[1].texCoord = {1, 0};
+//    quad[2].texCoord = {1, 1};
+//    quad[3].texCoord = {0, 1};
 
     bool running = true;
     while(running) {
@@ -67,7 +72,7 @@ int main(int argc, char** argv) {
         window.clear();
 
         // Render ...
-        window.draw(quad, states);
+        window.draw(s);
 
         window.display();
     }
