@@ -20,6 +20,11 @@ public:
     void setSize(float wh);
     Vec2f getSize() const;
 
+    void setCenter(const Vec2f& center);
+    void setCenter(float x, float y);
+    void setCenter(float xy);
+    Vec2f getCenter() const;
+
     void setBox(const fRect& box);
     void setBox(const Vec2f& pos, const Vec2f& size);
     void setBox(float x, float y, float w, float h);

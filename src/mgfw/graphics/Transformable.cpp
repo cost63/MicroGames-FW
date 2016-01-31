@@ -47,6 +47,22 @@ Vec2f Transformable::getSize() const {
     return m_size;
 }
 
+void Transformable::setCenter(const Vec2f& center) {
+    setPos(center - m_size / 2);
+}
+
+void Transformable::setCenter(float x, float y) {
+    setCenter(Vec2f(x, y));
+}
+
+void Transformable::setCenter(float xy) {
+    setCenter(Vec2f(xy));
+}
+
+Vec2f Transformable::getCenter() const {
+    return m_pos + m_size / 2;
+}
+
 void Transformable::setBox(const fRect& box) {
     setPos(box.pos());
     setSize(box.size());
