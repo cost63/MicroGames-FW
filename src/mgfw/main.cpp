@@ -29,7 +29,8 @@ int main(int argc, char** argv) {
 
     Sprite s;
     s.setTexture(&t);
-    s.setSize(600, 450);
+    s.setSize(500, 350);
+    s.setClip(0, 0, 500, 350);
 
 //    VertexArray quad(PrimitiveType::Quads, 4);
 //    quad.normalized = true;

@@ -6,6 +6,7 @@ namespace mg {
 
 Sprite::Sprite()
 : m_texture(nullptr)
+, m_isClipSet(false)
 {
     // Setup default vertices
     m_vertices.resize(4);
@@ -35,11 +36,52 @@ void Sprite::setTexture(const Texture* texture) {
     if(texture) {
         const Vec2u tSize = texture->getSize();
         setSize(tSize.x, tSize.y);
+
+        if(!m_isClipSet) {
+            m_clip.x = 0;
+            m_clip.y = 0;
+            m_clip.w = tSize.w;
+            m_clip.h = tSize.h;
+        }
+
+        updateClipVertices();
     }
 }
 
 const Texture* Sprite::getTexture() const {
     return m_texture;
+}
+
+void Sprite::setClip(const iRect& clip) {
+    m_clip = clip;
+
+    updateClipVertices();
+
+    m_isClipSet = true;
+}
+
+void Sprite::setClip(int x, int y, int w, int h) {
+    setClip(iRect(x, y, w, h));
+}
+
+iRect Sprite::getClip() const {
+    return m_clip;
+}
+
+/* Private */
+
+void Sprite::updateClipVertices() {
+    if(m_texture) {
+        const Vec2u tSize = m_texture->getSize();
+
+        Vec2f cPos(Vec2f(m_clip.pos()) / tSize);
+        Vec2f cSize(Vec2f(m_clip.size()) / tSize);
+
+        m_vertices[0].texCoord = cPos;
+        m_vertices[1].texCoord = Vec2f( cPos.x + cSize.w, cPos.y );
+        m_vertices[2].texCoord = Vec2f( cPos.x + cSize.w, cPos.y + cSize.h );
+        m_vertices[3].texCoord = Vec2f( cPos.x, cPos.y + cSize.h );
+    }
 }
 
 } // namespace mg

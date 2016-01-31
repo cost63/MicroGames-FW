@@ -1,5 +1,6 @@
 #pragma once
 
+#include "..\math\Rect.h"
 #include "..\graphics\Transformable.h"
 #include "..\graphics\Drawable.h"
 #include "..\graphics\VertexArray.h"
@@ -15,10 +16,19 @@ public:
     void setTexture(const Texture* texture);
     const Texture* getTexture() const;
 
+    void setClip(const iRect& clip);
+    void setClip(int x, int y, int w, int h);
+    iRect getClip() const;
+
+private:
+    void updateClipVertices();
+
 private:
     VertexArray m_vertices;
     const Texture* m_texture;
 
+    iRect m_clip;
+    bool m_isClipSet;   // If clip was set manually
 };
 
 } // namespace mg

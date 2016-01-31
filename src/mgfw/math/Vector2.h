@@ -84,6 +84,10 @@ struct Vector2 {
         return Vector2<T>( x * other.x, y * other.y );
     }
 
+    template <typename U>
+    Vector2<T> operator/(const Vector2<U>& other) const {
+        return Vector2<T>(x / other.x, y / other.y);
+    }
     Vector2<T> operator/( T scalar ) const {
         return Vector2<T>( x / scalar, y / scalar );
     }
