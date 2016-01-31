@@ -24,36 +24,10 @@ int main(int argc, char** argv) {
     Texture t;
     t.loadFromFile("test.png");
 
-//    RenderStates states;
-//    states.texture = &t;
-
     Sprite s;
     s.setTexture(&t);
-    s.setSize(500, 350);
-    s.setClip(0, 0, 500, 350);
-
-//    VertexArray quad(PrimitiveType::Quads, 4);
-//    quad.normalized = true;
-
-//    quad[0].pos = {150.0, 100.0};
-//    quad[1].pos = {350.0, 100.0};
-//    quad[2].pos = {350.0, 300.0};
-//    quad[3].pos = {150.0, 300.0};
-
-//    quad[0].pos = {-1.0,  1.0};
-//    quad[1].pos = { 1.0,  1.0};
-//    quad[2].pos = { 1.0, -1.0};
-//    quad[3].pos = {-1.0, -1.0};
-//
-//    quad[0].color = Color::Red;
-//    quad[1].color = Color::Green;
-//    quad[2].color = Color::Blue;
-//    quad[3].color = Color::White;
-//
-//    quad[0].texCoord = {0, 0};
-//    quad[1].texCoord = {1, 0};
-//    quad[2].texCoord = {1, 1};
-//    quad[3].texCoord = {0, 1};
+    s.setSize(100, 100);
+    s.setClip(500, 500, 100, 100);
 
     bool running = true;
     while(running) {

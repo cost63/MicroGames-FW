@@ -18,6 +18,7 @@ Renderer::Renderer()
 , s_VBO(0)
 , m_vertexCount(0)
 , m_entityCount(0)
+, m_lastTextureHandle(0)
 , m_isViewRelative(true)
 {}
 
@@ -98,8 +99,6 @@ void Renderer::render() {
     // Bind the vertex array
     glBindVertexArray(s_VAO);
 
-//    glEnable(GL_TEXTURE_2D);
-
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
         RenderEntity& entity = m_entities[i];
@@ -124,7 +123,14 @@ void Renderer::render() {
         }
 
         if(entity.states.texture) {
-            entity.states.texture->bind();
+            // Check if new texture was provided
+            uint32_t tHandle = entity.states.texture->getHandle();
+
+            if(m_lastTextureHandle != tHandle) {
+                entity.states.texture->bind();
+                m_lastTextureHandle = tHandle;
+            }
+
 
             shader->setUniform("texture", 0);
             shader->setUniform("hasTexture", true);

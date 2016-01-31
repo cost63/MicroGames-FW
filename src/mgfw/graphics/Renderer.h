@@ -55,6 +55,9 @@ private:
     // Default shader
     ShaderProgram m_defShaderProgram;
 
+    // Handle of the last used texture
+    uint32_t m_lastTextureHandle;
+
     // Projection
     bool m_isViewRelative;
     Vec2f m_viewSize;
