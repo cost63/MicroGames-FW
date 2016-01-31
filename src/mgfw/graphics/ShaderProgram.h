@@ -31,13 +31,13 @@ public:
 
     void bindAttribute(uint32_t index, const std::string& name);
 
-    void setUniform(const std::string& name, int n);
-    void setUniform(const std::string& name, uint32_t n);
-    void setUniform(const std::string& name, bool b);
-    void setUniform(const std::string& name, const Vector2<float>& v);
-    void setUniform(const std::string& name, const Vector3<float>& v);
-    void setUniform(const std::string& name, const Matrix4& m);
-    void setUniform(const std::string& name, const Color& c);
+    void setUniform(const std::string& name, int n) const;
+    void setUniform(const std::string& name, uint32_t n) const;
+    void setUniform(const std::string& name, bool b) const;
+    void setUniform(const std::string& name, const Vector2<float>& v) const;
+    void setUniform(const std::string& name, const Vector3<float>& v) const;
+    void setUniform(const std::string& name, const Matrix4& m) const;
+    void setUniform(const std::string& name, const Color& c) const;
 
     const std::string& getVertexSource() const;
     const std::string& getFragmentSource() const;
@@ -47,7 +47,7 @@ private:
     bool setupShader(ShaderProgram::Type type, const std::string& source);
 
     bool compile(uint32_t shader);
-    int getUniformLoc(const std::string& name);
+    int getUniformLoc(const std::string& name) const;
 
     void link();
 
@@ -56,7 +56,7 @@ private:
     std::string m_vertexSource;
     std::string m_fragmentSource;
 
-    std::map<std::string, int> m_uniforms;
+    mutable std::map<std::string, int> m_uniforms;
 
 };
 

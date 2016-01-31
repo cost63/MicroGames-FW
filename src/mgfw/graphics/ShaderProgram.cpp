@@ -110,7 +110,7 @@ void ShaderProgram::bindAttribute(uint32_t index, const std::string& name) {
     glBindAttribLocation(m_handle, index, name.c_str());
 }
 
-void ShaderProgram::setUniform(const std::string& name, int n) {
+void ShaderProgram::setUniform(const std::string& name, int n) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -120,7 +120,7 @@ void ShaderProgram::setUniform(const std::string& name, int n) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, uint32_t n) {
+void ShaderProgram::setUniform(const std::string& name, uint32_t n) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -130,7 +130,7 @@ void ShaderProgram::setUniform(const std::string& name, uint32_t n) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, bool b) {
+void ShaderProgram::setUniform(const std::string& name, bool b) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -140,7 +140,7 @@ void ShaderProgram::setUniform(const std::string& name, bool b) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) {
+void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -150,7 +150,7 @@ void ShaderProgram::setUniform(const std::string& name, const Vec2f& v) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Vec3f& v) {
+void ShaderProgram::setUniform(const std::string& name, const Vec3f& v) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -160,7 +160,7 @@ void ShaderProgram::setUniform(const std::string& name, const Vec3f& v) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Matrix4& m) {
+void ShaderProgram::setUniform(const std::string& name, const Matrix4& m) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -170,7 +170,7 @@ void ShaderProgram::setUniform(const std::string& name, const Matrix4& m) {
     }
 }
 
-void ShaderProgram::setUniform(const std::string& name, const Color& c) {
+void ShaderProgram::setUniform(const std::string& name, const Color& c) const {
     use();
 
     int loc = getUniformLoc(name);
@@ -260,7 +260,7 @@ bool ShaderProgram::compile(uint32_t shader) {
     return true;
 }
 
-int ShaderProgram::getUniformLoc(const std::string& name) {
+int ShaderProgram::getUniformLoc(const std::string& name) const {
     auto found = m_uniforms.find(name);
 
     int location = -1;

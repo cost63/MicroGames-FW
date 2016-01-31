@@ -32,49 +32,12 @@ void Renderer::draw(const Drawable& drawable, const RenderStates& states /* = Re
 }
 
 void Renderer::draw(const VertexArray& vertices, const RenderStates& states /* = RenderStates() */) {
-    RenderEntity entity;
-
-    // Setup entity
-    entity.type = vertices.type;
-    entity.states = states;
-    entity.normalized = vertices.normalized;
-    entity.vertexCount = vertices.size();
-    entity.vertexIndex = m_vertexCount;
-
-    // If the primitive type is quad, convert its vertices to 2 triangles
     if(vertices.type == PrimitiveType::Quads) {
-        // Override the entity attributes
-        entity.type = PrimitiveType::Triangles;
-        entity.vertexCount = ( vertices.size() / 4 ) * 6;
-
-        uint32_t totalQuads = vertices.size() / 4;
-
-        // Go trough each quad in the vertex arraay
-        for(uint32_t i = 0; i < totalQuads; i++) {
-            const Vertex& v0 = vertices[i + 0];
-            const Vertex& v1 = vertices[i + 1];
-            const Vertex& v2 = vertices[i + 2];
-            const Vertex& v3 = vertices[i + 3];
-
-            // Setup two triangles
-            const Vertex quadVertices[] = {
-                v0, v1, v2,
-                v2, v3, v0,
-            };
-
-            // Copy triangle vertex data to the vertex storage
-            memcpy(m_vertexBuffer.data() + m_vertexCount, quadVertices, sizeof(Vertex) * 6);
-            m_vertexCount += 6;
-        }
+        batchQuads(vertices, states);
     }
     else {
-        // Copy vertex data to the vertex storage
-        memcpy(m_vertexBuffer.data() + m_vertexCount, vertices.data(), sizeof(Vertex) * entity.vertexCount);
-        m_vertexCount += entity.vertexCount;
+        batchVertices(vertices, states);
     }
-
-    // Store command in the command storage
-    m_entities[m_entityCount++] = entity;
 }
 
 void Renderer::render() {
@@ -91,7 +54,7 @@ void Renderer::render() {
     // Bind the VBO so we can update its data
     glBindBuffer(GL_ARRAY_BUFFER, s_VBO);
 
-    // Update buffer with vertices
+    // Upload batched vertices to the buffer
     void* buff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
     memcpy(buff, m_vertexBuffer.data(), sizeof(Vertex) * m_vertexCount);
     glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -101,40 +64,10 @@ void Renderer::render() {
 
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
-        RenderEntity& entity = m_entities[i];
+        const RenderEntity& entity = m_entities[i];
 
-        ShaderProgram* shader = entity.states.shader;
-
-        // If there was no custom shader specified, use default one
-        if(!shader) {
-            shader = &m_defShaderProgram;
-        }
-
-        // Apply shader
-        shader->use();
-        shader->setUniform("transform", entity.states.transform);
-
-        // Check if projection should be used
-        if(entity.normalized) {
-            shader->setUniform("projection", Matrix4());
-        }
-        else {
-            shader->setUniform("projection", m_projection);
-        }
-
-        if(entity.states.texture) {
-            // Check if new texture was provided
-            uint32_t tHandle = entity.states.texture->getHandle();
-
-            if(m_lastTextureHandle != tHandle) {
-                entity.states.texture->bind();
-                m_lastTextureHandle = tHandle;
-            }
-
-
-            shader->setUniform("texture", 0);
-            shader->setUniform("hasTexture", true);
-        }
+        applyShader(entity);
+        applyTexture(entity);
 
         // Draw current vertex pack in the batch
         glDrawArrays(mode[(int)entity.type], entity.vertexIndex, entity.vertexCount);
@@ -191,7 +124,7 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    /* Setup default shaders */
+    // Setup default shader program
     if(!m_defShaderProgram.loadFromFile(
             "src/mgfw/graphics/shaders/default.vert",
             "src/mgfw/graphics/shaders/default.frag"))
@@ -199,7 +132,7 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
         PRINT_ERROR("Renderer failed to initialize default shader");
     }
 
-    /* Setup view */
+    // Setup view
     m_projection = ortho(0, viewSize.w, viewSize.h, 0);
 }
 
@@ -215,6 +148,121 @@ void Renderer::updateView() {
 
     if(!m_isViewRelative) {
         m_projection = ortho(0, m_viewSize.w, m_viewSize.h, 0);
+    }
+}
+
+void Renderer::batchVertices(const VertexArray& vertices, const RenderStates& states) {
+    // Make sure not vertex array size is less then buffer size
+    if(vertices.size() >= c_VBOSize) {
+        PRINT_ERROR("VertexArray size exceeded vertex buffer size");
+        return;
+    }
+
+    RenderEntity entity;
+
+    // Setup entity
+    entity.type         = vertices.type;
+    entity.states       = states;
+    entity.normalized   = vertices.normalized;
+    entity.vertexCount  = vertices.size();
+    entity.vertexIndex  = m_vertexCount;
+
+    // Buffer is full, render everything in it and make it empty
+    if(m_vertexCount + entity.vertexCount >= c_VBOSize) {
+        render();
+    }
+
+    // Copy vertex data to the vertex storage
+    memcpy(m_vertexBuffer.data() + m_vertexCount, vertices.data(), sizeof(Vertex) * entity.vertexCount);
+    m_vertexCount += entity.vertexCount;
+
+    // Store command in the command storage
+    m_entities[m_entityCount++] = entity;
+}
+
+void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& states) {
+    // Calculate amount of triangle vertices as we will convert quads to triangles
+    const uint32_t triangleVertexCount = ( vertices.size() / 4 ) * 6;
+
+    // Make sure not vertex array size is less then buffer size
+    if(triangleVertexCount >= c_VBOSize) {
+        PRINT_ERROR("VertexArray size exceeded vertex buffer size");
+        return;
+    }
+
+    RenderEntity entity;
+
+    // Setup entity
+    entity.type         = PrimitiveType::Triangles;
+    entity.states       = states;
+    entity.normalized   = vertices.normalized;
+    entity.vertexCount  = triangleVertexCount;
+    entity.vertexIndex  = m_vertexCount;
+
+    // Buffer is full, render everything in it and make it empty
+    if(m_vertexCount + entity.vertexCount >= c_VBOSize) {
+        render();
+    }
+
+    /* Convert quad vertices to triangles */
+    uint32_t totalQuads = vertices.size() / 4;
+
+    // Go trough each quad in the vertex array
+    for(uint32_t i = 0; i < totalQuads; i++) {
+        const Vertex& v0 = vertices[i + 0];
+        const Vertex& v1 = vertices[i + 1];
+        const Vertex& v2 = vertices[i + 2];
+        const Vertex& v3 = vertices[i + 3];
+
+        // Setup two triangles
+        const Vertex quadVertices[] = {
+            v0, v1, v2,
+            v2, v3, v0,
+        };
+
+        // Copy triangles to the vertex storage
+        memcpy(m_vertexBuffer.data() + m_vertexCount, quadVertices, sizeof(Vertex) * 6);
+        m_vertexCount += 6;
+    }
+
+    // Store entity in the entity buffer
+    m_entities[m_entityCount++] = entity;
+}
+
+void Renderer::applyShader(const RenderEntity& entity) {
+    const ShaderProgram* shader = entity.states.shader;
+
+    // If there was no custom shader specified, use the default one
+    if(!shader) {
+        shader = &m_defShaderProgram;
+    }
+
+    const Matrix4& transform = entity.states.transform;
+    const Matrix4& projection = entity.normalized ? Matrix4() : m_projection;
+
+    // Apply shader
+    shader->use();
+    shader->setUniform("transform", transform);
+    shader->setUniform("projection", projection);
+
+    if(entity.states.texture) {
+        shader->setUniform("texture", 0);
+        shader->setUniform("hasTexture", true);
+    }
+}
+
+void Renderer::applyTexture(const RenderEntity& entity) {
+    if(entity.states.texture) {
+        uint32_t tHandle = entity.states.texture->getHandle();
+
+        // Check if new texture was provided
+        if(m_lastTextureHandle != tHandle) {
+            // Bind the texture
+            entity.states.texture->bind();
+
+            // Store its handle so we don't bind the same texture twice
+            m_lastTextureHandle = tHandle;
+        }
     }
 }
 

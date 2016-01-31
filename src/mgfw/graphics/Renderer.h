@@ -38,6 +38,12 @@ protected:
 private:
     void updateView();
 
+    void batchVertices(const VertexArray& vertices, const RenderStates& states);
+    void batchQuads(const VertexArray& vertices, const RenderStates& states);
+
+    void applyShader(const RenderEntity& entity);
+    void applyTexture(const RenderEntity& entity);
+
 private:
     // Vertex buffer IDs
     uint32_t s_VAO;
@@ -52,7 +58,7 @@ private:
     std::vector<RenderEntity> m_entities;
     uint32_t m_entityCount;
 
-    // Default shader
+    // Shader
     ShaderProgram m_defShaderProgram;
 
     // Handle of the last used texture
