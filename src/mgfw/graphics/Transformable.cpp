@@ -47,6 +47,34 @@ Vec2f Transformable::getSize() const {
     return m_size;
 }
 
+void Transformable::setBox(const fRect& box) {
+    setPos(box.pos());
+    setSize(box.size());
+}
+
+void Transformable::setBox(const Vec2f& pos, const Vec2f& size) {
+    setPos(pos);
+    setSize(size);
+}
+
+void Transformable::setBox(float x, float y, float w, float h) {
+    setPos(x, y);
+    setSize(x, y);
+}
+
+void Transformable::setBox(float xy, float wh) {
+    setPos(xy);
+    setSize(wh);
+}
+
+void Transformable::setBox(float xywh) {
+    setPos(xywh);
+    setSize(xywh);
+}
+
+fRect Transformable::getBox() const {
+    return fRect(m_pos, m_size);
+}
 
 void Transformable::setScale(const Vec2f& scale) {
     m_scale = scale;
@@ -65,7 +93,6 @@ void Transformable::setScale(float wh) {
 Vec2f Transformable::getScale() const {
     return m_scale;
 }
-
 
 void Transformable::setOrigin(const Vec2f& origin) {
     m_origin = origin;

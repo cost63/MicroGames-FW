@@ -1,6 +1,5 @@
 #pragma once
 
-#include "..\math\Rect.h"
 #include "..\graphics\Transformable.h"
 #include "..\graphics\Drawable.h"
 #include "..\graphics\VertexArray.h"

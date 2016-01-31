@@ -2,6 +2,7 @@
 
 #include "../math/Vector2.h"
 #include "../math/Matrix4.h"
+#include "../math/Rect.h"
 
 namespace mg {
 
@@ -18,6 +19,13 @@ public:
     void setSize(float w, float h);
     void setSize(float wh);
     Vec2f getSize() const;
+
+    void setBox(const fRect& box);
+    void setBox(const Vec2f& pos, const Vec2f& size);
+    void setBox(float x, float y, float w, float h);
+    void setBox(float xy, float wh);
+    void setBox(float xywh);
+    fRect getBox() const;
 
     void setScale(const Vec2f& scale);
     void setScale(float w, float h);
