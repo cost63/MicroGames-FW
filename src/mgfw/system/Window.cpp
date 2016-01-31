@@ -93,8 +93,18 @@ void Window::display() {
 }
 
 void Window::updateView() {
-    // Update view size to the window size
     setViewSize(getSize());
+}
+
+void Window::setPos(const Vec2i& pos) {
+    SDL_SetWindowPosition(m_handle, pos.x, pos.y);
+}
+
+Vec2i Window::getPos() const {
+    Vec2i pos;
+    SDL_GetWindowPosition(m_handle, &pos.x, &pos.y);
+
+    return pos;
 }
 
 void Window::setSize(const Vec2i& size) {

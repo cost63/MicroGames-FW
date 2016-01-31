@@ -36,7 +36,11 @@ public:
     void clear();
     void display();
 
+    // Update view size to the window size
     void updateView();
+
+    void setPos(const Vec2i& pos);
+    Vec2i getPos() const;
 
     void setSize(const Vec2i& size);
     Vec2i getSize() const;
