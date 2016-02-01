@@ -10,10 +10,10 @@ void main()
 {
     vec4 finalColor = color;
 
-    if( hasTexture ) {
-        vec3 texColor = texture2D( texture, texCoord ).rgb;
-        finalColor = vec4( color.rgb * texColor, color.a );
-    }
+    // if( hasTexture ) {
+    //     vec3 texColor = texture2D( texture, texCoord ).rgb;
+    //     finalColor = vec4( color.rgb * texColor, color.a );
+    // }
 
     // gl_FragColor = vec4(texColor, 1);
     gl_FragColor = finalColor;

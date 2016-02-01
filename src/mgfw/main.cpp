@@ -8,6 +8,7 @@
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Sprite.h"
+#include "graphics/CircleShape.h"
 
 #include "graphics/Texture.h"
 
@@ -21,13 +22,12 @@ int main(int argc, char** argv) {
 
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
-    Texture t;
-    t.loadFromFile("test.png");
-
-    Sprite s;
-    s.setTexture(&t);
-    s.setSize(100, 100);
-    s.setClip(500, 500, 100, 100);
+    CircleShape s;
+    s.setRadius(200.0);
+    s.setSagmentCount(64);
+    s.setColor(Color::Red);
+    s.getVertices()[0].color = Color::Yellow;
+    s.move(300, 225);
 
     bool running = true;
     while(running) {

@@ -1,9 +1,16 @@
 #include "Shape.h"
 
+#define PI 3.1415926535897
+
 namespace mg {
 
 Shape::Shape()
-{}
+: m_texture(nullptr)
+{
+    // This is important for correct transform calculation
+    // because shapes do not work with transformable's size
+    m_size = Vec2f(1.0, 1.0);
+}
 
 void Shape::draw(Renderer& renderer, RenderStates states) const {
     states.transform *= getMatrix();
