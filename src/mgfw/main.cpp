@@ -9,6 +9,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
+#include "graphics/LineShape.h"
 
 #include "graphics/Texture.h"
 
@@ -22,12 +23,7 @@ int main(int argc, char** argv) {
 
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
-    CircleShape s;
-    s.setRadius(200.0);
-    s.setSagmentCount(64);
-    s.setColor(Color::Red);
-    s.getVertices()[0].color = Color::Yellow;
-    s.move(300, 225);
+    LineShape s;
 
     bool running = true;
     while(running) {
