@@ -24,7 +24,7 @@ void storeError(const std::string& msg,
 
 } // namespace priv
 
-const std::string& getError() const {
+const std::string& getError() {
     return _errorMsg;
 }
 

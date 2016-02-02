@@ -65,6 +65,13 @@ public:
     const Matrix4& getMatrix() const;
 
 protected:
+    virtual void onPosChange(const Vec2f& prevPos) {}
+    virtual void onSizeChange(const Vec2f& prevSize) {}
+    virtual void onScaleChange(const Vec2f& prevScale) {}
+    virtual void onOriginChange(const Vec2f& prevOrigin) {}
+    virtual void onRotationChange(float prevRotation) {}
+
+protected:
     Vec2f m_pos;
     Vec2f m_size;
     Vec2f m_scale;

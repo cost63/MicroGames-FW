@@ -11,9 +11,13 @@ Transformable::Transformable()
 {}
 
 void Transformable::setPos(const Vec2f& pos) {
+    const Vec2f prev = m_pos;
+
     m_pos = pos;
 
     m_isUpdateMatrix = true;
+
+    onPosChange(prev);
 }
 
 void Transformable::setPos(float x, float y) {
@@ -30,9 +34,13 @@ Vec2f Transformable::getPos() const {
 
 
 void Transformable::setSize(const Vec2f& size) {
+    const Vec2f prev = m_size;
+
     m_size = size;
 
     m_isUpdateMatrix = true;
+
+    onSizeChange(prev);
 }
 
 void Transformable::setSize(float w, float h) {
@@ -93,9 +101,13 @@ fRect Transformable::getBox() const {
 }
 
 void Transformable::setScale(const Vec2f& scale) {
+    const Vec2f prev = m_scale;
+
     m_scale = scale;
 
     m_isUpdateMatrix = true;
+
+    onScaleChange(prev);
 }
 
 void Transformable::setScale(float w, float h) {
@@ -111,9 +123,13 @@ Vec2f Transformable::getScale() const {
 }
 
 void Transformable::setOrigin(const Vec2f& origin) {
+    const Vec2f prev = m_origin;
+
     m_origin = origin;
 
     m_isUpdateMatrix = true;
+
+    onOriginChange(prev);
 }
 
 void Transformable::setOrigin(float x, float y) {
@@ -130,15 +146,23 @@ Vec2f Transformable::getOrigin() const {
 
 
 void Transformable::setRotation(float degrees) {
+    const float prev = m_rotation;
+
     m_rotation = degrees;
 
     m_isUpdateMatrix = true;
+
+    onRotationChange(prev);
 }
 
 void Transformable::setRotationRad(float radians) {
+    const float prev = m_rotation;
+
     m_rotation = radians * (180 / PI);
 
     m_isUpdateMatrix = true;
+
+    onRotationChange(prev);
 }
 
 float Transformable::getRotation() const {

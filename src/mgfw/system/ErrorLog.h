@@ -14,6 +14,6 @@ void storeError(const std::string& msg,
 } // namespace priv
 
 // Returns stored error message. Empty string if no message was stored yet
-const std::string& getError() const;
+const std::string& getError();
 
 } // namespace mg
