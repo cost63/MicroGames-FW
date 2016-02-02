@@ -129,7 +129,7 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
             "src/mgfw/graphics/shaders/default.vert",
             "src/mgfw/graphics/shaders/default.frag"))
     {
-        PRINT_ERROR("Renderer failed to initialize default shader");
+        priv::storeError("Renderer failed to initialize default shader");
     }
 
     // Setup view
@@ -154,7 +154,7 @@ void Renderer::updateView() {
 void Renderer::batchVertices(const VertexArray& vertices, const RenderStates& states) {
     // Make sure not vertex array size is less then buffer size
     if(vertices.size() >= c_VBOSize) {
-        PRINT_ERROR("VertexArray size exceeded vertex buffer size");
+        priv::storeError("VertexArray size exceeded vertex buffer size");
         return;
     }
 
@@ -186,7 +186,7 @@ void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& state
 
     // Make sure not vertex array size is less then buffer size
     if(triangleVertexCount >= c_VBOSize) {
-        PRINT_ERROR("VertexArray size exceeded vertex buffer size");
+        priv::storeError("VertexArray size exceeded vertex buffer size");
         return;
     }
 

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <iostream>
+#include <string>
 
-#ifndef PRINT_ERROR
+namespace mg {
+namespace priv {
 
-#ifdef MGFW_DEBUG
-#define PRINT_ERROR(error) \
-    std::cerr << error << std::endl;
-#else
-#define PRINT_ERROR(error)
-#endif // MGFW_DEBUG
+void storeError(const std::string& msg, const std::string& prefix = "[Error]", const std::string& prefix2 = std::string());
 
-#endif // PRINT_ERROR
+} // namespace priv
+
+const std::string& getError();
+
+} // namespace mg

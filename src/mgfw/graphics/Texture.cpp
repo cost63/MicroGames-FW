@@ -18,8 +18,8 @@ bool Texture::loadFromFile(const std::string& filename) {
 
     // Check if surface was created
     if(!surface) {
-        PRINT_ERROR("Failed to load image at: " + filename);
-        PRINT_ERROR(SDL_GetError());
+        priv::storeError("Failed to load image at: " + filename);
+        priv::storeError(SDL_GetError());
         return false;
     }
 
