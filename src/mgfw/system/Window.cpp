@@ -48,8 +48,8 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     m_context = SDL_GL_CreateContext(m_handle);
     // Make sure window context was created, print errors otherwise
     if(!m_context) {
-        priv::storeError("Failed to crate window context with following errors:");
-        priv::storeError(SDL_GetError());
+        priv::storeError("Failed to crate window context with following errors:\n" +
+                         std::string(SDL_GetError()));
 
         // Also make sure to cleanup the window
         SDL_DestroyWindow(m_handle);

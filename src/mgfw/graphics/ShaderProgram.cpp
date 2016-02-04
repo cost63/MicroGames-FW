@@ -202,7 +202,7 @@ bool ShaderProgram::setupHandle() {
 
     if(errorLength != 0) {
         priv::storeError("Failed to create Shader program with following errors:\n" +
-                    std::string(infoLog));
+                         std::string(infoLog));
 
         return false;
     }

@@ -14,8 +14,8 @@ bool g_isGlewInit = false;
 bool init() {
     // Make sure SDL video was initialized
     if(SDL_Init(SDL_INIT_VIDEO) < 0 ) {
-        priv::storeError("SDL initialization failed with following errors:");
-        priv::storeError(SDL_GetError());
+        priv::storeError("SDL initialization failed with following errors:\n" +
+                         std::string(SDL_GetError()));
 
         return false;
     }
@@ -44,8 +44,10 @@ bool initGlew() {
 
     // Check for Glew init errors
     if( glewError != GL_NO_ERROR ) {
-        priv::storeError("Glew initialization failed with following errors:");
-        priv::storeError(reinterpret_cast<const char*>(glewGetErrorString(glewError)));
+        const char* errMsg = reinterpret_cast<const char*>(glewGetErrorString(glewError));
+
+        priv::storeError("Glew initialization failed with following errors:\n" +
+                         std::string(errMsg));
 
         return false;
     }
