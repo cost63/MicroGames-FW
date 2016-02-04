@@ -62,6 +62,9 @@ void Renderer::render() {
     // Bind the vertex array
     glBindVertexArray(s_VAO);
 
+    // To be removed
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
         const RenderEntity& entity = m_entities[i];

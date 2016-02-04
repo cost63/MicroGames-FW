@@ -9,7 +9,6 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
-#include "graphics/LineShape.h"
 
 #include "graphics/Texture.h"
 
@@ -23,7 +22,7 @@ int main(int argc, char** argv) {
 
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
-    LineShape s;
+//    LineShape s;
 
     bool running = true;
     while(running) {
@@ -48,7 +47,7 @@ int main(int argc, char** argv) {
         window.clear();
 
         // Render ...
-        window.draw(s);
+//        window.draw(s);
 
         window.display();
     }
