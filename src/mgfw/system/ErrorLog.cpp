@@ -9,9 +9,9 @@ std::string _errorMsg;
 
 namespace priv {
 
-void storeError(const std::string& msg,
-                const std::string& prefix /* = "[Error]" */,
-                const std::string& prefix2 /* = std::string() */)
+void logError(const std::string& msg,
+              const std::string& prefix /* = "[Error]" */,
+              const std::string& prefix2 /* = std::string() */)
 {
     // Store error
     _errorMsg = prefix + prefix2 + " " + msg;

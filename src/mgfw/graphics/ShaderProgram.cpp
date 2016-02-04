@@ -26,7 +26,7 @@ std::string stringFromFile(const std::string& filename) {
         }
     }
     else {
-        priv::storeError( "Unable to open file " + filename );
+        priv::logError( "Unable to open file " + filename );
     }
 
     return output;
@@ -59,7 +59,7 @@ bool ShaderProgram::loadFromFile(const std::string& vertexFile, const std::strin
 
 bool ShaderProgram::loadFromSource(const std::string& vertexSource, const std::string& fragmentSource) {
     if(vertexSource.empty() && fragmentSource.empty()) {
-        priv::storeError("Unable to load shader. Both vertex and fragment shader sources are empty");
+        priv::logError("Unable to load shader. Both vertex and fragment shader sources are empty");
         return false;
     }
 
@@ -201,8 +201,8 @@ bool ShaderProgram::setupHandle() {
     glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
 
     if(errorLength != 0) {
-        priv::storeError("Failed to create Shader program with following errors:\n" +
-                         std::string(infoLog));
+        priv::logError("Failed to create Shader program with following errors:\n" +
+                       std::string(infoLog));
 
         return false;
     }
@@ -252,7 +252,7 @@ bool ShaderProgram::compile(uint32_t shader) {
 
         glGetShaderInfoLog(shader, errorLogLength, nullptr, errorLog);
 
-        priv::storeError(std::string(errorLog));
+        priv::logError(std::string(errorLog));
 
         return false;
     }
@@ -296,7 +296,7 @@ void ShaderProgram::link() {
         glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
 
         if(errorLength != 0) {
-            priv::storeError("Failed to link Shader program with following errors:\n" +
+            priv::logError("Failed to link Shader program with following errors:\n" +
                              std::string(infoLog));
         }
     }

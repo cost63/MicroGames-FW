@@ -32,7 +32,7 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
 
     // Make sure SDL video was initialized
     if(!SDL_WasInit(SDL_INIT_VIDEO)) {
-        priv::storeError("SDL Video was not initialized yet");
+        priv::logError("SDL Video was not initialized yet");
 
         return false;
     }
@@ -48,8 +48,8 @@ bool Window::create(const Vec2i& size, const std::string& title, Flag flags) {
     m_context = SDL_GL_CreateContext(m_handle);
     // Make sure window context was created, print errors otherwise
     if(!m_context) {
-        priv::storeError("Failed to crate window context with following errors:\n" +
-                         std::string(SDL_GetError()));
+        priv::logError("Failed to crate window context with following errors:\n" +
+                       std::string(SDL_GetError()));
 
         // Also make sure to cleanup the window
         SDL_DestroyWindow(m_handle);

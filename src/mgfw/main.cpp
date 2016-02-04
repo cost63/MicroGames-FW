@@ -16,7 +16,7 @@ using namespace mg;
 
 int main(int argc, char** argv) {
     if(!init()) {
-        priv::storeError("MGFW initialization failed");
+        priv::logError("MGFW initialization failed");
         return 1;
     }
 
