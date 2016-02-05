@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <iostream>
-#include <SDL2/SDL_ttf.h>
 
 #include "MGFW.h"
 #include "system/Window.h"
@@ -10,6 +9,14 @@
 #include "graphics/VertexArray.h"
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
+
+// Temporary - linking test
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+#include FT_OUTLINE_H
+#include FT_BITMAP_H
+#include FT_STROKER_H
 
 #include "graphics/Texture.h"
 

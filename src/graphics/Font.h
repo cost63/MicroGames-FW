@@ -2,6 +2,9 @@
 
 namespace mg {
 
+/* Forward declarations */
+struct TTF_Font;
+
 class Font {
 public:
     Font();
