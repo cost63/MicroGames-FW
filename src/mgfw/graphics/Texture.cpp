@@ -12,20 +12,22 @@ Texture::Texture()
 {}
 
 bool Texture::loadFromFile(const std::string& filename) {
-    clear();
+    Image image;
 
-    SDL_Surface* surface = IMG_Load(filename.c_str());
+    bool result = image.loadFromFile(filename);
 
-    // Check if surface was created
-    if(!surface) {
-        priv::logError("Failed to load image at: " + filename + "\n" +
-                       SDL_GetError());
-        return false;
+    if(result) {
+        copyFromImage(image);
     }
 
+    return result;
+}
+
+void Texture::copyFromImage(const Image& image) {
+    clear();
+
     // Store texture size
-    m_size.w = surface->w;
-    m_size.h = surface->h;
+    m_size = image.getSize();
 
     // Generate new texture in OpenGL
     glGenTextures(1, &m_handle);
@@ -41,9 +43,9 @@ bool Texture::loadFromFile(const std::string& filename) {
             m_size.w,           // Width
             m_size.h,           // Height
             0,                  // Border
-            GL_RGB,             // Format
+            GL_RGBA,            // Format
             GL_UNSIGNED_BYTE,   // Type
-            surface->pixels     // Data
+            image.getPixels()   // Data
     );
 
     // Set filters
@@ -52,8 +54,6 @@ bool Texture::loadFromFile(const std::string& filename) {
 
     // Unbind the texture
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    return true;
 }
 
 void Texture::bind() const {

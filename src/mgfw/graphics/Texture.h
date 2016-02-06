@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../math/Vector2.h"
+#include "../graphics/Image.h"
 
 namespace mg {
 
@@ -11,6 +11,8 @@ public:
     Texture();
 
     bool loadFromFile(const std::string& filename);
+
+    void copyFromImage(const Image& image);
 
     void bind() const;
 

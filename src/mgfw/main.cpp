@@ -10,6 +10,7 @@
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
 
+#include "graphics/Image.h"
 #include "graphics/Texture.h"
 #include "graphics/Font.h"
 
@@ -23,8 +24,15 @@ int main(int argc, char** argv) {
 
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
-    Font f;
-    f.loadFromFile("arial.ttf");
+    Image image;
+    image.loadFromFile("test.png");
+
+    Texture tex;
+    tex.copyFromImage(image);
+
+    Sprite s;
+    s.setTexture(&tex);
+    s.setSize(600, 450);
 
     bool running = true;
     while(running) {
@@ -49,7 +57,7 @@ int main(int argc, char** argv) {
         window.clear();
 
         // Render ...
-//        window.draw(s);
+        window.draw(s);
 
         window.display();
     }
