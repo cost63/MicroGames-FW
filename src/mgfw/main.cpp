@@ -10,15 +10,8 @@
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
 
-// Temporary - linking test
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_GLYPH_H
-#include FT_OUTLINE_H
-#include FT_BITMAP_H
-#include FT_STROKER_H
-
 #include "graphics/Texture.h"
+#include "graphics/Font.h"
 
 using namespace mg;
 
@@ -30,7 +23,8 @@ int main(int argc, char** argv) {
 
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
-//    LineShape s;
+    Font f;
+    f.loadFromFile("arial.ttf");
 
     bool running = true;
     while(running) {
