@@ -21,10 +21,10 @@ void Image::create(const Vec2u& size, const Color& color /* = Color::Black */) {
         m_pixels.resize(sizeInBytes);
 
         for(uint32_t i = 0; i < sizeInBytes; i += 4 ) {
-            m_pixels[i + 0] = color.r;
-            m_pixels[i + 1] = color.g;
-            m_pixels[i + 2] = color.b;
-            m_pixels[i + 3] = color.a;
+            m_pixels[i + 3] = color.r;
+            m_pixels[i + 2] = color.g;
+            m_pixels[i + 1] = color.b;
+            m_pixels[i + 0] = color.a;
         }
     }
     else {

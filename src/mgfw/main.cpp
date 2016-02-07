@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
 
     Image image;
-    image.loadFromFile("test.png");
+    image.create(Vec2u(300, 300), Color::Yellow);
 
     Texture tex;
     tex.copyFromImage(image);
