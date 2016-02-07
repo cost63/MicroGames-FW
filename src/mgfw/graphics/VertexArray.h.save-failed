@@ -10,18 +10,18 @@ namespace mg {
 
 struct VertexArray : public Drawable {
     /* Iterator */
-    class Iterator {
+    class Iter {
     public:
-        Iterator(VertexArray& va, uint32_t index = 0)
+        Iter(VertexArray& va, unsigned index = 0)
         : m_va(va)
         , m_index(index)
         {}
 
-        bool operator!=(const Iterator& other) const {
+        bool operator!=(const Iter& other) const {
             return (m_index != other.m_index);
         }
 
-        Iterator& operator++() {
+        const Iter& operator++() {
             m_index++;
             return *this;
         }
@@ -32,13 +32,12 @@ struct VertexArray : public Drawable {
 
     private:
         VertexArray&    m_va;
-        uint32_t        m_index;
+        uint16_t        m_index;
     };
 
     /* Constant Iterator */
     class ConstIterator {
-    public:
-        ConstIterator(const VertexArray& va, uint32_t index = 0)
+        ConstIterator(const VertexArray& va, unsigned index = 0)
         : m_va(va)
         , m_index(index)
         {}
@@ -47,7 +46,7 @@ struct VertexArray : public Drawable {
             return (m_index != other.m_index);
         }
 
-        ConstIterator& operator++() {
+        const ConstIterator& operator++() {
             m_index++;
             return *this;
         }
@@ -58,7 +57,7 @@ struct VertexArray : public Drawable {
 
     private:
         const VertexArray&  m_va;
-        uint32_t            m_index;
+        uint16_t            m_index;
     };
 
 
@@ -75,29 +74,36 @@ struct VertexArray : public Drawable {
     Vertex& operator[](uint32_t index);
     const Vertex& operator[](uint32_t index) const;
 
+    /* Range based iteration methods */
+    Vertex& get(uint32_t index) {
+        return vertices[index];
+    }
+
+    const Vertex& get(uint32_t index) const {
+        return vertices[index];
+    }
+
+    Iter begin() {
+        return Iter(*this, 0);
+    }
+
+    Iter end() {
+        return Iter(*this, vertices.size());
+    }
+
+    ConstIterator begin() const {
+        return Iter(*this, 0);
+    }
+
+    ConstIterator end() {
+        return Iter(*this, vertices.size());
+    }
 
     void draw(Renderer& renderer, RenderStates states) const;
 
     void resize(uint32_t size);
     size_t size() const;
     const Vertex* data() const;
-
-    /* Range based iteration methods */
-    Iterator begin() {
-        return Iterator(*this, 0);
-    }
-
-    Iterator end() {
-        return Iterator(*this, vertices.size());
-    }
-
-    ConstIterator begin() const {
-        return ConstIterator(*this, 0);
-    }
-
-    ConstIterator end() const {
-        return ConstIterator(*this, vertices.size());
-    }
 };
 
 } // namespace mg

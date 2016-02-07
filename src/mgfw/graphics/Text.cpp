@@ -18,7 +18,7 @@ const Font* Text::getFont() const {
 
 /* Private */
 
-void Text::ensureUpdate() {
+void Text::ensureUpdate() const {
 
 }
 
