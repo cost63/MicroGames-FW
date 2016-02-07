@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../graphics/VertexArray.h"
+
 namespace mg {
 
 /* Forward declarations */
@@ -13,8 +15,12 @@ public:
     const Font* getFont() const;
 
 private:
+    void ensureUpdate() const;
+
+private:
     const Font* m_font;
 
+    VertexArray m_vertices;
 };
 
 } // namespace mg

@@ -16,4 +16,10 @@ const Font* Text::getFont() const {
     return m_font;
 }
 
+/* Private */
+
+void Text::ensureUpdate() {
+
+}
+
 } // namespace mg
