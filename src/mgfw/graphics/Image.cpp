@@ -21,10 +21,10 @@ void Image::create(const Vec2u& size, const Color& color /* = Color::Black */) {
         m_pixels.resize(sizeInBytes);
 
         for(uint32_t i = 0; i < sizeInBytes; i += 4 ) {
-            m_pixels[i + 0] = color.r;
-            m_pixels[i + 1] = color.g;
-            m_pixels[i + 2] = color.b;
-            m_pixels[i + 3] = color.a;
+            m_pixels[i + 3] = color.r;
+            m_pixels[i + 2] = color.g;
+            m_pixels[i + 1] = color.b;
+            m_pixels[i + 0] = color.a;
         }
     }
     else {
@@ -54,29 +54,33 @@ bool Image::loadFromFile(const std::string& filename) {
     m_size.w = surface->w;
     m_size.h = surface->h;
 
-    m_pixels.resize(m_size.w * m_size.h * 4);
+    const uint32_t sizeInBytes = m_size.w * m_size.h * 4;
+    const uint32_t format = surface->format->format;
+
+    m_pixels.resize(sizeInBytes);
 
     // If pixel format of the loaded image is not RGBA, change it
-    if(surface->format->format != SDL_PIXELFORMAT_RGBA8888) {
+    if(format != SDL_PIXELFORMAT_RGBA8888) {
         SDL_Surface* formatted = SDL_ConvertSurfaceFormat(surface,
                                                           SDL_PIXELFORMAT_RGBA8888,
                                                           surface->flags);
 
-        // Make sure format conversion went alright
         if(!formatted) {
-            priv::logError("Failed to change image format to RGBA from file: " + filename);
-
-            return false;
+            priv::logError("Failed to convert image format from " +
+                           std::string(SDL_GetPixelFormatName(format)) +
+                           " to " +
+                           std::string(SDL_GetPixelFormatName(SDL_PIXELFORMAT_RGBA8888)) +
+                           "\nfile: " +
+                           filename);
         }
 
-        // Copy pixels from the formatted surface
-        memcpy(&m_pixels[0], formatted->pixels, m_size.w * m_size.h * 4);
+        memcpy(&m_pixels[0], formatted->pixels, sizeInBytes);
 
         SDL_FreeSurface(formatted);
     }
     else {
         // Copy pixels from the surface
-        memcpy(&m_pixels[0], surface->pixels, m_size.w * m_size.h * 4);
+        memcpy(&m_pixels[0], surface->pixels, sizeInBytes);
     }
 
     SDL_FreeSurface(surface);

@@ -43,7 +43,7 @@ void Texture::copyFromImage(const Image& image) {
             m_size.w,           // Width
             m_size.h,           // Height
             0,                  // Border
-            GL_RGBA,            // Format
+            GL_ABGR_EXT,        // Format   - SDL format is reversed => SDL_RGBA == GL_ABGR
             GL_UNSIGNED_BYTE,   // Type
             image.getPixels()   // Data
     );

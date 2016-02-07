@@ -11,9 +11,9 @@ public:
     Font();
     ~Font();
 
-    bool loadFromFile(const std::string& filename);
-
     void clear();
+
+    bool loadFromFile(const std::string& filename);
 
 private:
     void* m_library;

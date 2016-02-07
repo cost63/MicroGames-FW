@@ -36,6 +36,10 @@ size_t VertexArray::size() const {
     return vertices.size();
 }
 
+void VertexArray::clear() {
+    vertices.clear();
+}
+
 const Vertex* VertexArray::data() const {
     return vertices.data();
 }
