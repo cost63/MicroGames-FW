@@ -80,6 +80,7 @@ struct VertexArray : public Drawable {
 
     void resize(uint32_t size);
     size_t size() const;
+    void clear();
     const Vertex* data() const;
 
     /* Range based iteration methods */
