@@ -14,7 +14,7 @@ Current dependencies are all included inside the dependecies/* folder.
 * SDL2_ttf (2.0.14)
 * Glew 
 
-For more info about including these dependencies in your IDE, see our [https://github.com/MicroGamesDev/MicroGames-FW/wiki/Setup-of-dependencies/](wiki page)
+For more info about including these dependencies in your IDE, see our [wiki page](https://github.com/MicroGamesDev/MicroGames-FW/wiki/Setup-of-dependencies/)
 
 ### Coding conventions
 All code should be refactored to follow our coding conventions. You can find them [here](https://github.com/MicroGamesDev/MicroGames-FW/wiki/Coding-Conventions)
