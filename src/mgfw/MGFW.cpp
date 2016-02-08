@@ -1,6 +1,7 @@
 #include "MGFW.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "system/ErrorLog.h"
 #include "system/Window.h"
@@ -12,10 +13,21 @@ namespace mg {
 bool g_isGlewInit = false;
 
 bool init() {
-    // Make sure SDL video was initialized
+    // Initialize SDL
     if(SDL_Init(SDL_INIT_VIDEO) < 0 ) {
         priv::logError("SDL initialization failed with following errors:\n" +
                        std::string(SDL_GetError()));
+
+        return false;
+    }
+
+    // Initialize TTF
+    if(TTF_Init() < 0) {
+        priv::logError("SDL_ttf initialization failed with following errors:\n" +
+                       std::string(TTF_GetError()));
+
+        // Cleanup
+        SDL_Quit();
 
         return false;
     }
