@@ -26,7 +26,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_version.h"
-#include "..\..\SDL2-2.0.4\i686-w64-mingw32\include\SDL2\begin_code.h"
+#include "SDL2/begin_code.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -140,6 +140,6 @@ extern DECLSPEC int SDLCALL IMG_SavePNG_RW(SDL_Surface *surface, SDL_RWops *dst,
 #ifdef __cplusplus
 }
 #endif
-#include "..\..\SDL2-2.0.4\i686-w64-mingw32\include\SDL2\close_code.h"
+#include "SDL2\close_code.h"
 
 #endif /* _SDL_IMAGE_H */

@@ -14,6 +14,9 @@
 #include "graphics/Texture.h"
 #include "graphics/Font.h"
 
+#include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_image.h"
+
 using namespace mg;
 
 int main(int argc, char** argv) {
