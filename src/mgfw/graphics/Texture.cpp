@@ -56,6 +56,36 @@ void Texture::copyFromImage(const Image& image) {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Texture::setPixels(const uint8_t* pixels, const Vec2u& pos, const Vec2u& size) {
+//    if(size > m_size) {
+//        priv::logError("Unable to set texture pixels. Given size is too large",
+//                       "[Warning]");
+//        return;
+//    }
+
+    if(m_handle && pixels) {
+        // Bind this texture
+        glBindTexture(GL_TEXTURE_2D, m_handle);
+
+        // Update textures pixels
+        glTexSubImage2D(
+                GL_TEXTURE_2D,      // target
+                0,                  // level
+                pos.x,              // X-position
+                pos.y,              // Y-position
+                size.w,             // width
+                size.h,             // height
+                GL_RGBA,            // format
+                GL_UNSIGNED_BYTE,   // pixels type
+                pixels              // pixel data
+        );
+    }
+}
+
+void Texture::setPixels(const Image& img, const Vec2u& pos /*= Vec2u() */) {
+    setPixels(img.getPixels(), pos, img.getSize());
+}
+
 void Texture::bind() const {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 }
