@@ -39,6 +39,23 @@ struct Vector2 {
     }
 
     template <typename U>
+    bool operator<(const Vector2<U>& other) const {
+        return (x < other.x) && (y < other.y);
+    }
+    template <typename U>
+    bool operator<=(const Vector2<U>& other) const {
+        return (x <= other.x) && (y <= other.y);
+    }
+    template <typename U>
+    bool operator>(const Vector2<U>& other) const {
+        return (x > other.x) && (y > other.y);
+    }
+    template <typename U>
+    bool operator>=(const Vector2<U>& other) const {
+        return (x >= other.x) && (y >= other.y);
+    }
+
+    template <typename U>
     Vector2<T> operator+( const Vector2<U>& other ) const {
         return Vector2<T>( x + other.x, y + other.y );
     }

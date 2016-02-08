@@ -57,11 +57,11 @@ void Texture::copyFromImage(const Image& image) {
 }
 
 void Texture::setPixels(const uint8_t* pixels, const Vec2u& pos, const Vec2u& size) {
-//    if(size > m_size) {
-//        priv::logError("Unable to set texture pixels. Given size is too large",
-//                       "[Warning]");
-//        return;
-//    }
+    if(size > m_size) {
+        priv::logError("Unable to set texture pixels. Given size is too large",
+                       "[Warning]");
+        return;
+    }
 
     if(m_handle && pixels) {
         // Bind this texture
