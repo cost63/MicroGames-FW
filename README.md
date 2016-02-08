@@ -10,4 +10,11 @@ The framework is written purely in C++ (C++14) and is currently compiled only fo
 Current dependencies are all included inside the dependecies/* folder.
 
 * SDL2 ( 2.0.4 )
+* SDL2_image (2.0.1)
+* SDL2_ttf (2.0.14)
 * Glew 
+
+For more info about including these dependencies in your IDE, see our [https://github.com/MicroGamesDev/MicroGames-FW/wiki/Setup-of-dependencies/](wiki page)
+
+### Coding conventions
+All code should be refactored to follow our coding conventions. You can find them [here](https://github.com/MicroGamesDev/MicroGames-FW/wiki/Coding-Conventions)
