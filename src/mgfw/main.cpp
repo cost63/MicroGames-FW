@@ -37,6 +37,10 @@ int main(int argc, char** argv) {
     s.setTexture(&tex);
     s.setSize(600, 450);
 
+    Font f;
+    f.loadFromFile("arial.ttf");
+    Font::Glyph g = f.getGlyph('C', 12);
+
     bool running = true;
     while(running) {
         SDL_Event event;
