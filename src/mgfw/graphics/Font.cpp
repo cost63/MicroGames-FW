@@ -33,6 +33,16 @@ bool Font::loadFromFile(const std::string& filename) {
     return true;
 }
 
+Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
+    Glyph glyph;
+
+    // ...
+
+    return glyph;
+}
+
+/* Private */
+
 void Font::clear() {
     if(m_handle) {
         TTF_CloseFont((TTF_Font*)m_handle);
