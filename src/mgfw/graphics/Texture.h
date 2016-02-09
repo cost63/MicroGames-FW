@@ -13,6 +13,7 @@ public:
     bool loadFromFile(const std::string& filename);
 
     void copyFromImage(const Image& image);
+    Image copyToImage() const;
 
     void setPixels(const uint8_t* pixels, const Vec2u& pos, const Vec2u& size);
     void setPixels(const Image& img, const Vec2u& pos = Vec2u());
