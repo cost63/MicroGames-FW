@@ -20,6 +20,9 @@ Connection::Connection(string hostName, int port)
 
     }
 
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
+
+
     server = gethostbyname(hostName.c_str());
 
     if (server == NULL) {
@@ -67,6 +70,19 @@ void Connection::send_and_wait_resp(string msg)
     }
 
     printf("%s\n",buffer);
+
+
+//    retval = send(client->acpt_fd, msgcb->data_ptr, MSGCB_DLEN(msgcb),
+//                  MSG_DONTWAIT);
+
+
+//    if (retval < 0) {
+//        if (errno == EAGAIN) {
+
+//        } else {
+
+//        }
+//    }
 
 }
 

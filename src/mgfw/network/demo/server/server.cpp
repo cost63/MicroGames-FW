@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 int main( int argc, char *argv[] ) {
     int sockfd, newsockfd, portno;
@@ -22,6 +23,8 @@ int main( int argc, char *argv[] ) {
         perror("ERROR opening socket");
         exit(1);
     }
+
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
 
     /* Initialize socket structure */
     bzero((char *) &serv_addr, sizeof(serv_addr));
