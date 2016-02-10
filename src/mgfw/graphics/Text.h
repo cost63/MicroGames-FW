@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "../graphics/Drawable.h"
 #include "../graphics/VertexArray.h"
 
 namespace mg {
@@ -13,6 +14,8 @@ class Text {
 public:
     Text();
 
+    void draw(Renderer& renderer, RenderStates states) const;
+
     void setFont(const Font* font);
     const Font* getFont() const;
 
@@ -23,10 +26,16 @@ public:
     uint16_t getCharSize() const;
 
 private:
+    void updateText() const;
+
+private:
     const Font* m_font;
 
     std::string m_string;
     uint16_t m_charSize;
+
+    mutable VertexArray m_vertices;
+    mutable bool m_needUpdate;
 };
 
 } // namespace mg

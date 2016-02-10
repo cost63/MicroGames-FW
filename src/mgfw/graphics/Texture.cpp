@@ -82,6 +82,30 @@ void Texture::setPixels(const uint8_t* pixels, const Vec2u& pos, const Vec2u& si
     }
 }
 
+Image Texture::copyToImage() const {
+    Image image;
+
+    // Make sure the texture was created
+    if(m_handle) {
+        // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, m_handle);
+
+        uint8_t* pixels = new uint8_t[m_size.w * m_size.h];
+
+        glGetTexImage(
+                GL_TEXTURE_2D,      // target
+                0,                  // level
+                GL_RGBA,            // format
+                GL_UNSIGNED_BYTE,   // pixels type
+                pixels              // pixel data
+        );
+
+        image.create(m_size, pixels);
+    }
+
+    return image;
+}
+
 void Texture::setPixels(const Image& img, const Vec2u& pos /*= Vec2u() */) {
     setPixels(img.getPixels(), pos, img.getSize());
 }
