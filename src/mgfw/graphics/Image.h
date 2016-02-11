@@ -17,6 +17,8 @@ public:
 
     bool loadFromFile(const std::string& filename);
 
+    void copyPixels(const uint8_t* pixels, const Vec2u& size, const Vec2u& pos = Vec2u());
+
     void setPixel(const Vec2u& pos, const Color& color);
     Color getPixel(const Vec2u& pos) const;
 

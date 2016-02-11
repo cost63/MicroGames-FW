@@ -25,21 +25,28 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    Window window(Vec2i(600, 450),"Framework test", Window::Resizeable);
+    const Vec2i windowSize = Vec2i(600, 450);
+    Window window(windowSize,"Framework test", Window::Resizeable);
 
     Image image;
     image.create(Vec2u(300, 300), Color::Yellow);
+
+    Image image2;
+    image2.create(Vec2u(200, 200), Color::Red);
+
+    Image image3;
+    image3.create(Vec2u(100, 100), Color::Orange);
+
+    image.copyPixels(image2.getPixels(), image2.getSize(), Vec2u(50, 50));
+    image.copyPixels(image3.getPixels(), image3.getSize(), Vec2u(100, 100));
 
     Texture tex;
     tex.copyFromImage(image);
 
     Sprite s;
     s.setTexture(&tex);
-    s.setSize(600, 450);
-
-    Font f;
-    f.loadFromFile("arial.ttf");
-    Font::Glyph g = f.getGlyph('C', 12);
+    s.setSize(300, 300);
+    s.setCenter(windowSize / 2);
 
     bool running = true;
     while(running) {

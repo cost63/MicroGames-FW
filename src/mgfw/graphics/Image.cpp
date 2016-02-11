@@ -88,6 +88,28 @@ bool Image::loadFromFile(const std::string& filename) {
     return true;
 }
 
+void Image::copyPixels(const uint8_t* pixels, const Vec2u& size, const Vec2u& pos /*= Vec2u()*/) {
+    // If position exceeds image size, copy nothing
+    if(pos > m_size) {
+        return;
+    }
+
+    // Make sure size of the copy area does not exceed image size
+    const Vec2u clampedSize = Vec2u(
+            m_size.w - pos.x < size.w ? m_size.w - pos.x : size.w,
+            m_size.h - pos.y < size.h ? m_size.h - pos.y : size.h
+    );
+
+    // Copy pixels
+    for(uint16_t y = 0; y < size.h; y++) {
+        uint32_t toIndex    = ((pos.y + y) * m_size.w + pos.x) * 4;
+        uint32_t fromIndex  = (y * size.w) * 4;
+
+        // Copy the whole row of pixels
+        memcpy(m_pixels.data() + toIndex, pixels + fromIndex, size.w * 4);
+    }
+}
+
 void Image::setPixel(const Vec2u& pos, const Color& color) {
     uint32_t index = pos.y * m_size.w + pos.x;
 

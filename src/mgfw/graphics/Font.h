@@ -26,7 +26,9 @@ public:
 private:
     /* Private structures */
     struct GlyphLayer {
+        // Contains a glyph for each character code
         std::map<uint16_t, Glyph> glyphs;
+        // Texture of all glyphs
         Texture texture;
     };
 
@@ -38,6 +40,8 @@ private:
 
     Font::GlyphLayer& addLayer(uint16_t charSize) const;
     Font::Glyph addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const;
+
+    void enlargeLayerTexture(Font::GlyphLayer& layer) const;
 
 private:
     /* Member variables */

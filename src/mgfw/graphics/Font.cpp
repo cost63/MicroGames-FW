@@ -106,9 +106,31 @@ Font::GlyphLayer& Font::addLayer(uint16_t charSize) const {
 Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     Glyph glyph;
 
+    // White color for the glyph (colors are added in vertices through shaders)
+    SDL_Color color;
+    color.r = 255;
+    color.g = 255;
+    color.b = 255;
+    color.a = 255;
+
+    SDL_Surface* surface = TTF_RenderGlyph_Blended((TTF_Font*)m_handle, charCode, color);
+
+    if(!surface) {
+        priv::logError(
+                "Failed to setup font glyph with following errors:\n" +
+                std::string(TTF_GetError())
+        );
+
+        return glyph;
+    }
+
 
 
     return glyph;
+}
+
+void Font::enlargeLayerTexture(Font::GlyphLayer& layer) const {
+    Image original = layer.texture.copyToImage();
 }
 
 } // namespace mg
