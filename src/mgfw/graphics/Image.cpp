@@ -37,6 +37,8 @@ void Image::create(const Vec2u& size, const uint8_t* pixels) {
 
     m_pixels.resize(sizeInBytes);
 
+    m_size = size;
+
     memcpy(&m_pixels[0], pixels, sizeInBytes);
 }
 

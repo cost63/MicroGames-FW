@@ -28,24 +28,55 @@ int main(int argc, char** argv) {
     const Vec2i windowSize = Vec2i(600, 450);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
-    Image image;
-    image.create(Vec2u(300, 300), Color::Yellow);
+//    Image image;
+//    image.create(Vec2u(300, 300), Color::Yellow);
+//
+//    Image image2;
+//    image2.create(Vec2u(200, 200), Color::Red);
+//
+//    Image image3;
+//    image3.create(Vec2u(100, 100), Color::Orange);
+//
+//    image.copyPixels(image2.getPixels(), image2.getSize(), Vec2u(50, 50));
+//    image.copyPixels(image3.getPixels(), image3.getSize(), Vec2u(100, 100));
 
-    Image image2;
-    image2.create(Vec2u(200, 200), Color::Red);
+    Font f;
+    f.loadFromFile("arial.ttf", 11);
+    f.getGlyph('S', 11);
+    f.getGlyph('M', 11);
+    f.getGlyph('E', 11);
+    f.getGlyph('K', 11);
+    f.getGlyph('Y', 11);
 
-    Image image3;
-    image3.create(Vec2u(100, 100), Color::Orange);
+//    Image test;
+//    test.create(Vec2u(5, 5), Color::Yellow);
+//    test.setPixel(Vec2u(0, 0), Color(30, 60, 90, 255));
+//
+//    Texture t;
+//    t.copyFromImage(test);
+//
+//
+//    t.copyFromImage(t.copyToImage());
+//
+//    Image img = t.copyToImage();
+//
+//    std::cout << img.getPixel(Vec2u(0, 0)) << std::endl;
+//    std::cout << t.copyToImage().getPixel(Vec2u(0, 0)) << std::endl;
 
-    image.copyPixels(image2.getPixels(), image2.getSize(), Vec2u(50, 50));
-    image.copyPixels(image3.getPixels(), image3.getSize(), Vec2u(100, 100));
-
-    Texture tex;
-    tex.copyFromImage(image);
+    Texture& tex = f.getTex();
+//    Image img = tex.copyToImage();
+//
+//    for(uint16_t y = 0; y < tex.getSize().h; y++) {
+//        for(uint16_t x = 0; x < tex.getSize().w; x++) {
+//            std::cout << img.getPixel({x ,y}) << ",";
+//        }
+//
+//        std::cout << std::endl;
+//    }
 
     Sprite s;
     s.setTexture(&tex);
-    s.setSize(300, 300);
+    s.setSize(440, 440);
     s.setCenter(windowSize / 2);
 
     bool running = true;

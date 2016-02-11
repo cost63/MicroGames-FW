@@ -23,6 +23,8 @@ public:
 
     Font::Glyph getGlyph(uint16_t charCode, uint16_t charSize) const;
 
+    Texture& getTex();
+
 private:
     /* Private structures */
     struct GlyphLayer {
@@ -30,6 +32,8 @@ private:
         std::map<uint16_t, Glyph> glyphs;
         // Texture of all glyphs
         Texture texture;
+        // Current length of each glyph row
+        std::vector<uint16_t> lengths;
     };
 
 private:

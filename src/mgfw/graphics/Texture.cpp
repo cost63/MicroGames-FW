@@ -90,17 +90,20 @@ Image Texture::copyToImage() const {
         // Bind the texture
         glBindTexture(GL_TEXTURE_2D, m_handle);
 
-        uint8_t* pixels = new uint8_t[m_size.w * m_size.h];
+        uint8_t* pixels = new uint8_t[m_size.w * m_size.h * 4];
 
         glGetTexImage(
                 GL_TEXTURE_2D,      // target
                 0,                  // level
-                GL_RGBA,            // format
+                GL_ABGR_EXT,        // format
                 GL_UNSIGNED_BYTE,   // pixels type
                 pixels              // pixel data
         );
 
         image.create(m_size, pixels);
+
+        // Don't forget to clean up
+        delete[] pixels;
     }
 
     return image;

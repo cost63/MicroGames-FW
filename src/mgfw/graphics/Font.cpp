@@ -72,6 +72,10 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
     }
 }
 
+Texture& Font::getTex() {
+    return m_glyphCatalog.begin()->second.texture;
+}
+
 /* Private */
 
 void Font::clear() {
@@ -100,7 +104,16 @@ bool Font::setCurFontSize(uint16_t charSize) const {
 }
 
 Font::GlyphLayer& Font::addLayer(uint16_t charSize) const {
-    return m_glyphCatalog.insert(std::make_pair(charSize, GlyphLayer())).first->second;
+    GlyphLayer layer;
+
+    // Setup default texture
+    Image image;
+    image.create(Vec2u(charSize * 4, charSize * 4), Color::Transparent);
+
+    layer.texture.copyFromImage(image);
+    layer.lengths.resize(4, 0);
+
+    return m_glyphCatalog.insert(std::make_pair(charSize, layer)).first->second;
 }
 
 Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
@@ -115,6 +128,7 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
 
     SDL_Surface* surface = TTF_RenderGlyph_Blended((TTF_Font*)m_handle, charCode, color);
 
+    // Make sure glyph's surface was created properly
     if(!surface) {
         priv::logError(
                 "Failed to setup font glyph with following errors:\n" +
@@ -124,13 +138,83 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
         return glyph;
     }
 
+    const Vec2u glyphSize   = Vec2u(surface->w, surface->h);
+    const Vec2u texSize     = layer.texture.getSize();
 
+    // Variables used when looking for free space in a row
+    // Note: length of the first row is as default because in case we don't find
+    // a free row, we enlarge the texture which will create free space in
+    // all rows, thus we use the first one
+    uint16_t rowIndex   = 0;
+    uint16_t rowLength  = layer.lengths[0];
+    bool wasRowFound    = false;
+
+    // Find row that has space for the glyph
+    for(uint16_t i = 0; i < layer.lengths.size(); i++) {
+        uint16_t& length = layer.lengths[i];
+
+        // If the glyph width fits in the row
+        if(length + glyphSize.w < texSize.w ) {
+            rowIndex    = i;
+            rowLength   = length;
+            wasRowFound = true;
+            break;
+        }
+    }
+
+    if(!wasRowFound) {
+        enlargeLayerTexture(layer);
+    }
+
+    // Add glyph's width to the row's length
+    layer.lengths[rowIndex] += glyphSize.w;
+
+    // Get height of the current font. +1 is an offset to prevent some unwanted artifacts
+    const int fontHeight = TTF_FontHeight((TTF_Font*)m_handle) + 1;
+    const Vec2u glyphPos = Vec2u(rowLength, rowIndex * fontHeight);
+
+    // Get texture's image
+    Image texImage = layer.texture.copyToImage();
+
+    // Create image from the glyph
+    Image glyphImage;
+    glyphImage.create(glyphSize, (uint8_t*)surface->pixels);
+
+    // Copy glyphs image to the layer's texture
+    texImage.copyPixels(
+            glyphImage.getPixels(),
+            glyphImage.getSize(),
+            glyphPos
+    );
+
+    layer.texture.copyFromImage(texImage);
+
+    // Store glyph's clip on the layer textures
+    glyph.clip.x = glyphPos.x;
+    glyph.clip.y = glyphPos.y;
+    glyph.clip.w = glyphSize.w;
+    glyph.clip.h = glyphSize.h;
+
+    std::cout << glyph.clip << std::endl;
+
+    // Store the glyph in the layer
+    layer.glyphs[charCode] = glyph;
 
     return glyph;
 }
 
 void Font::enlargeLayerTexture(Font::GlyphLayer& layer) const {
-    Image original = layer.texture.copyToImage();
+    // For code readability
+    Texture& texture = layer.texture;
+
+    // Setup enlarged image
+    Image enlarged;
+    enlarged.create(texture.getSize() * 2);
+    // Copy all pixels from original texture
+    enlarged.copyPixels(texture.copyToImage().getPixels(), texture.getSize());
+
+    // Re-create texture from the enlarged image
+    texture.copyFromImage(enlarged);
 }
 
 } // namespace mg
