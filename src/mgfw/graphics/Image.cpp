@@ -197,10 +197,10 @@ uint8_t* Image::convertPixelFormat(
     if(from == Image::ARGB) {
         if(to == Image::RGBA) {
             for(uint32_t i = 0; i < size; i += 4) {
-                pixels[i + 3] = src[i + 0];
-                pixels[i + 0] = src[i + 1];
-                pixels[i + 1] = src[i + 2];
-                pixels[i + 2] = src[i + 3];
+                pixels[i + 2] = src[i + 0];
+                pixels[i + 1] = src[i + 1];
+                pixels[i + 0] = src[i + 2];
+                pixels[i + 3] = src[i + 3];
             }
         }
     }

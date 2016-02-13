@@ -121,9 +121,9 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
 
     // White color for the glyph (colors are added in vertices through shaders)
     SDL_Color color;
-    color.r = 30;
-    color.g = 60;
-    color.b = 90;
+    color.r = 255;
+    color.g = 255;
+    color.b = 255;
     color.a = 255;
 
     SDL_Surface* surface = TTF_RenderGlyph_Blended((TTF_Font*)m_handle, charCode, color);
