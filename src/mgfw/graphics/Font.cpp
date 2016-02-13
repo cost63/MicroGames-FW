@@ -72,8 +72,14 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
     }
 }
 
-Texture& Font::getTex() {
-    return m_glyphCatalog.begin()->second.texture;
+const Texture* Font::getTexture(uint16_t charSize) const {
+    auto found = m_glyphCatalog.find(charSize);
+
+    if(found != m_glyphCatalog.end()) {
+        return &found->second.texture;
+    }
+
+    return nullptr;
 }
 
 /* Private */

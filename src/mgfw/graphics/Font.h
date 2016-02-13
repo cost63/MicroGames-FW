@@ -23,7 +23,7 @@ public:
 
     Font::Glyph getGlyph(uint16_t charCode, uint16_t charSize) const;
 
-    Texture& getTex();
+    const Texture* getTexture(uint16_t charSize) const;
 
 private:
     /* Private structures */
