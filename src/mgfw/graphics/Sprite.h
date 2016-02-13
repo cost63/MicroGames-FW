@@ -21,6 +21,7 @@ public:
 
 private:
     void updateClipVertices();
+    void onSizeChange(const Vec2f& prevSize);
 
 private:
     VertexArray m_vertices;

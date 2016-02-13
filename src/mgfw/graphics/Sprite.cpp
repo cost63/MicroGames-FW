@@ -12,15 +12,15 @@ Sprite::Sprite()
     m_vertices.resize(4);
     m_vertices.type = PrimitiveType::Quads;
 
-    m_vertices[0].pos = Vec2f( 0,  0);
-    m_vertices[1].pos = Vec2f( 1,  0);
-    m_vertices[2].pos = Vec2f( 1,  1);
-    m_vertices[3].pos = Vec2f( 0,  1);
-
-    m_vertices[0].texCoord = Vec2f(0, 0);
-    m_vertices[1].texCoord = Vec2f(1, 0);
-    m_vertices[2].texCoord = Vec2f(1, 1);
-    m_vertices[3].texCoord = Vec2f(0, 1);
+//    m_vertices[0].pos = Vec2f( 0,  0);
+//    m_vertices[1].pos = Vec2f( 1,  0);
+//    m_vertices[2].pos = Vec2f( 1,  1);
+//    m_vertices[3].pos = Vec2f( 0,  1);
+//
+//    m_vertices[0].texCoord = Vec2f(0, 0);
+//    m_vertices[1].texCoord = Vec2f(1, 0);
+//    m_vertices[2].texCoord = Vec2f(1, 1);
+//    m_vertices[3].texCoord = Vec2f(0, 1);
 }
 
 void Sprite::draw(Renderer& renderer, RenderStates states) const {
@@ -35,7 +35,7 @@ void Sprite::setTexture(const Texture* texture) {
 
     if(texture) {
         const Vec2u tSize = texture->getSize();
-        setSize(tSize.x, tSize.y);
+        setSize(tSize);
 
         if(!m_isClipSet) {
             m_clip.x = 0;
@@ -82,6 +82,12 @@ void Sprite::updateClipVertices() {
         m_vertices[2].texCoord = Vec2f( cPos.x + cSize.w, cPos.y + cSize.h );
         m_vertices[3].texCoord = Vec2f( cPos.x, cPos.y + cSize.h );
     }
+}
+
+void Sprite::onSizeChange(const Vec2f& prevSize) {
+    m_vertices[1].pos.x = m_size.x;
+    m_vertices[2].pos   = m_size;
+    m_vertices[3].pos.y = m_size.y;
 }
 
 } // namespace mg
