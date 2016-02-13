@@ -30,11 +30,17 @@ int main(int argc, char** argv) {
 
     Font f;
     f.loadFromFile("arial.ttf", 30);
-    f.getGlyph('S', 30);
+    f.getGlyph('M', 30);
+    f.getGlyph('i', 30);
+    f.getGlyph('c', 30);
+    f.getGlyph('r', 30);
+    f.getGlyph('o', 30);
+    f.getGlyph(' ', 30);
+    f.getGlyph('G', 30);
+    f.getGlyph('a', 30);
     f.getGlyph('m', 30);
     f.getGlyph('e', 30);
-    f.getGlyph('k', 30);
-    f.getGlyph('y', 30);
+    f.getGlyph('s', 30);
 
     Texture& tex = f.getTex();
 
