@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    const Vec2i windowSize = Vec2i(600, 450);
+    const Vec2i windowSize = Vec2i(1024, 768);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
 //    const Vec2f offset = { 50, 50 };
