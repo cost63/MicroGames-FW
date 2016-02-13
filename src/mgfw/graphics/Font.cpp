@@ -122,8 +122,8 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     // White color for the glyph (colors are added in vertices through shaders)
     SDL_Color color;
     color.r = 255;
-    color.g = 255;
-    color.b = 255;
+    color.g = 0;
+    color.b = 0;
     color.a = 255;
 
     SDL_Surface* surface = TTF_RenderGlyph_Blended((TTF_Font*)m_handle, charCode, color);
@@ -137,6 +137,17 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
 
         return glyph;
     }
+
+    // Convert pixels because TTF gives us wrong format
+    uint8_t* pixels = Image::convertPixelFormat(
+                            (uint8_t*)surface->pixels,
+                            surface->w * surface->h,
+                            priv::getFormatFromSDLFormat(surface->format->format),
+                            Image::RGBA
+                      );
+
+    std::cout << Color((uint8_t*)surface->pixels) << std::endl;
+    std::cout << Color(pixels) << std::endl;
 
     const Vec2u glyphSize   = Vec2u(surface->w, surface->h);
     const Vec2u texSize     = layer.texture.getSize();
@@ -173,21 +184,7 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     const int fontHeight = TTF_FontHeight((TTF_Font*)m_handle) + 1;
     const Vec2u glyphPos = Vec2u(rowLength, rowIndex * fontHeight);
 
-    // Get texture's image
-    Image texImage = layer.texture.copyToImage();
-
-    // Create image from the glyph
-    Image glyphImage;
-    glyphImage.create(glyphSize, (uint8_t*)surface->pixels);
-
-    // Copy glyphs image to the layer's texture
-    texImage.copyPixels(
-            glyphImage.getPixels(),
-            glyphImage.getSize(),
-            glyphPos
-    );
-
-    layer.texture.copyFromImage(texImage);
+    layer.texture.setPixels(pixels, glyphPos, glyphSize);
 
     // Store glyph's clip on the layer textures
     glyph.clip.x = glyphPos.x;
@@ -195,10 +192,12 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     glyph.clip.w = glyphSize.w;
     glyph.clip.h = glyphSize.h;
 
-    std::cout << glyph.clip << std::endl;
-
     // Store the glyph in the layer
     layer.glyphs[charCode] = glyph;
+
+    // Clean up the glyph surface and pixels
+    SDL_FreeSurface(surface);
+    delete[] pixels;
 
     return glyph;
 }

@@ -6,6 +6,33 @@
 #include "../system/ErrorLog.h"
 
 namespace mg {
+namespace priv {
+
+int getFormatFromSDLFormat(int sdlFormat) {
+    int result = 0;
+
+    switch(sdlFormat) {
+    // RGB
+    case SDL_PIXELFORMAT_RGB888:
+    case SDL_PIXELFORMAT_RGB24:     result = Image::RGB; break;
+    // RGBA
+    case SDL_PIXELFORMAT_RGBA8888:  result = Image::RGBA; break;
+    // BGR
+    case SDL_PIXELFORMAT_BGR888:
+    case SDL_PIXELFORMAT_BGR24:     result = Image::BGR; break;
+    // BGRA
+    case SDL_PIXELFORMAT_BGRA8888:  result = Image::BGRA; break;
+    // ARGB
+    case SDL_PIXELFORMAT_ARGB8888:  result = Image::ARGB; break;
+    // ABGR
+    case SDL_PIXELFORMAT_ABGR8888:  result = Image::ABGR; break;
+    default: break;
+    }
+
+    return result;
+}
+
+} // namespace priv
 
 Image::Image()
 {}
@@ -103,12 +130,12 @@ void Image::copyPixels(const uint8_t* pixels, const Vec2u& size, const Vec2u& po
     );
 
     // Copy pixels
-    for(uint16_t y = 0; y < size.h; y++) {
+    for(uint16_t y = 0; y < clampedSize.h; y++) {
         uint32_t toIndex    = ((pos.y + y) * m_size.w + pos.x) * 4;
-        uint32_t fromIndex  = (y * size.w) * 4;
+        uint32_t fromIndex  = (y * clampedSize.w) * 4;
 
         // Copy the whole row of pixels
-        memcpy(m_pixels.data() + toIndex, pixels + fromIndex, size.w * 4);
+        memcpy(m_pixels.data() + toIndex, pixels + fromIndex, clampedSize.w * 4);
     }
 }
 
@@ -139,6 +166,46 @@ const uint8_t* Image::getPixels() const {
 
 Vec2u Image::getSize() const {
     return m_size;
+}
+
+/* Static */
+
+uint8_t* Image::convertPixelFormat(
+                    const uint8_t* src,
+                    uint32_t pxCount,
+                    int from,
+                    int to)
+{
+    const auto getFormatSize = [=](int format) {
+        switch(format) {
+        case Image::RGB:  return 3; break;
+        case Image::BGR:  return 3; break;
+        case Image::RGBA: return 4; break;
+        case Image::BGRA: return 4; break;
+        case Image::ARGB: return 4; break;
+        case Image::ABGR: return 4; break;
+        default:          return 0; break;
+        }
+    };
+
+    const uint32_t fromFormatSize = getFormatSize(from);
+    const uint32_t toFormatSize   = getFormatSize(to);
+
+    uint32_t size   = pxCount * toFormatSize;
+    uint8_t* pixels = new uint8_t[size];
+
+    if(from == Image::ARGB) {
+        if(to == Image::RGBA) {
+            for(uint32_t i = 0; i < size; i += 4) {
+                pixels[i + 3] = src[i + 0];
+                pixels[i + 0] = src[i + 1];
+                pixels[i + 1] = src[i + 2];
+                pixels[i + 2] = src[i + 3];
+            }
+        }
+    }
+
+    return pixels;
 }
 
 } // namespace mg

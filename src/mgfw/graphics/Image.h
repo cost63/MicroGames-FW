@@ -6,8 +6,24 @@
 #include "../graphics/Color.h"
 
 namespace mg {
+namespace priv {
+
+// Returns Image pixel format form SDL pixel format
+int getFormatFromSDLFormat(int sdlFormat);
+
+} // namespace priv
 
 class Image {
+public:
+    enum PixelFormat {
+        RGB     = 1,
+        RGBA    = 2,
+        BGR     = 3,
+        BGRA    = 4,
+        ARGB    = 5,
+        ABGR    = 6,
+    };
+
 public:
     Image();
     ~Image();
@@ -25,6 +41,9 @@ public:
     const uint8_t* getPixels() const;
 
     Vec2u getSize() const;
+
+public:
+    static uint8_t* convertPixelFormat(const uint8_t* src, uint32_t pxCount, int from, int to);
 
 private:
     Vec2u m_size;

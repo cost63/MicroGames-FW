@@ -26,6 +26,13 @@ Color::Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a /* = 255 */)
 , a(_a)
 {}
 
+Color::Color(const uint8_t* pixel)
+: r(pixel[0])
+, g(pixel[1])
+, b(pixel[2])
+, a(pixel[3])
+{}
+
 std::array<float, 4> Color::getNormalized() const {
     std::array<float, 4> normalized = {
         (float)(r) / 255,

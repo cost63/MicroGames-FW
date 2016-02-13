@@ -40,13 +40,13 @@ int main(int argc, char** argv) {
 //    image.copyPixels(image2.getPixels(), image2.getSize(), Vec2u(50, 50));
 //    image.copyPixels(image3.getPixels(), image3.getSize(), Vec2u(100, 100));
 
-    Font f;
-    f.loadFromFile("arial.ttf", 11);
-    f.getGlyph('S', 11);
-    f.getGlyph('M', 11);
-    f.getGlyph('E', 11);
-    f.getGlyph('K', 11);
-    f.getGlyph('Y', 11);
+//    Font f;
+//    f.loadFromFile("arial.ttf", 30);
+//    f.getGlyph('S', 30);
+//    f.getGlyph('m', 30);
+//    f.getGlyph('e', 30);
+//    f.getGlyph('k', 30);
+//    f.getGlyph('y', 30);
 
 //    Image test;
 //    test.create(Vec2u(5, 5), Color::Yellow);
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
 //    std::cout << img.getPixel(Vec2u(0, 0)) << std::endl;
 //    std::cout << t.copyToImage().getPixel(Vec2u(0, 0)) << std::endl;
 
-    Texture& tex = f.getTex();
+//    Texture& tex = f.getTex();
 //    Image img = tex.copyToImage();
 //
 //    for(uint16_t y = 0; y < tex.getSize().h; y++) {
@@ -74,10 +74,17 @@ int main(int argc, char** argv) {
 //        std::cout << std::endl;
 //    }
 
-    Sprite s;
-    s.setTexture(&tex);
-    s.setSize(440, 440);
-    s.setCenter(windowSize / 2);
+//    Sprite s;
+//    s.setTexture(&tex);
+//    s.setSize(440, 440);
+//    s.setCenter(windowSize / 2);
+
+    VertexArray s;
+    s.type = PrimitiveType::Triangles;
+    s.resize(3);
+    s[0] = Vertex(Vec2f(300, 100), Color(255, 0, 0, 100));
+    s[1] = Vertex(Vec2f(150, 300), Color::Yellow);
+    s[2] = Vertex(Vec2f(450, 300), Color::Transparent);
 
     bool running = true;
     while(running) {

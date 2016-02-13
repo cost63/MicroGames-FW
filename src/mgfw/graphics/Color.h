@@ -19,6 +19,7 @@ struct Color {
 
     Color();
     Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a = 255);
+    Color(const uint8_t* pixel);
 
     uint8_t& operator[](uint8_t index);
     const uint8_t& operator[](uint8_t index) const;
