@@ -44,17 +44,14 @@ int main(int argc, char** argv) {
 //    s[5] = Vertex(offset + Vec2f(size.x, 0), Color::Green);
 //    s[6] = Vertex(offset + size, Color::Blue);
 //    s[7] = Vertex(offset + Vec2f(0, size.y), Color::White);
-
-//    Font f;
-//    f.loadFromFile("arial.ttf", 30);
 //
-    Texture tex;
-    tex.loadFromFile("test.png");
-
-    Sprite s;
-    s.setTexture(&tex);
-    s.setSize(windowSize);
-    s.setCenter(windowSize / 2);
+//    Texture tex;
+//    tex.loadFromFile("test.png");
+//
+//    Sprite s;
+//    s.setTexture(&tex);
+//    s.setSize(windowSize);
+//    s.setCenter(windowSize / 2);
 
 //    VertexArray s;
 //    s.type = PrimitiveType::Quads;
@@ -75,11 +72,14 @@ int main(int argc, char** argv) {
 //    RenderStates a;
 //    a.texture = &tex;
 //    a.transform = t.getMatrix();
+    Font f;
+    f.loadFromFile("arial.ttf", 30);
 
-//    Text s;
-//    s.setFont(&f);
-//    s.setString("Test string");
-//    s.setCharSize(100);
+    Text s;
+    s.setFont(&f);
+    s.setString("Test string: Micro games!");
+    s.setCharSize(60);
+    s.move(50, 50);
 
     bool running = true;
     while(running) {
