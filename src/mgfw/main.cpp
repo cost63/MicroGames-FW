@@ -13,6 +13,7 @@
 #include "graphics/Image.h"
 #include "graphics/Texture.h"
 #include "graphics/Font.h"
+#include "graphics/Text.h"
 
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
@@ -30,24 +31,28 @@ int main(int argc, char** argv) {
 
     Font f;
     f.loadFromFile("arial.ttf", 30);
-    f.getGlyph('M', 30);
-    f.getGlyph('i', 30);
-    f.getGlyph('c', 30);
-    f.getGlyph('r', 30);
-    f.getGlyph('o', 30);
-    f.getGlyph(' ', 30);
-    f.getGlyph('G', 30);
-    f.getGlyph('a', 30);
-    f.getGlyph('m', 30);
-    f.getGlyph('e', 30);
-    f.getGlyph('s', 30);
+//    f.getGlyph('M', 30);
+//    f.getGlyph('i', 30);
+//    f.getGlyph('c', 30);
+//    f.getGlyph('r', 30);
+//    f.getGlyph('o', 30);
+//    f.getGlyph(' ', 30);
+//    f.getGlyph('G', 30);
+//    f.getGlyph('a', 30);
+//    f.getGlyph('m', 30);
+//    f.getGlyph('e', 30);
+//    f.getGlyph('s', 30);
 
-    Texture& tex = f.getTex();
+//    Texture& tex = f.getTex();
 
-    Sprite s;
-    s.setTexture(&tex);
-    s.setSize(440, 440);
-    s.setCenter(windowSize / 2);
+//    Sprite s;
+//    s.setTexture(&tex);
+//    s.setSize(440, 440);
+//    s.setCenter(windowSize / 2);
+
+    Text s;
+    s.setFont(&f);
+    s.setString("Test string");
 
     bool running = true;
     while(running) {

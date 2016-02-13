@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "../graphics/Transformable.h"
 #include "../graphics/Drawable.h"
 #include "../graphics/VertexArray.h"
 
@@ -10,7 +11,7 @@ namespace mg {
 /* Forward declarations */
 class Font;
 
-class Text {
+class Text : public Transformable, public Drawable {
 public:
     Text();
 
