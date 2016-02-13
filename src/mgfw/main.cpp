@@ -29,32 +29,32 @@ int main(int argc, char** argv) {
     const Vec2i windowSize = Vec2i(600, 450);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
-    const Vec2f offset = { 50, 50 };
-    const Vec2f size = { 100, 100 };
-
-    VertexArray s;
-    s.type = PrimitiveType::Quads;
-    s.resize(8);
-    s[0] = Vertex({0, 0}, Color::Red);
-    s[1] = Vertex({size.x, 0}, Color::Green);
-    s[2] = Vertex(size, Color::Blue);
-    s[3] = Vertex({0, size.y}, Color::White);
-
-    s[4] = Vertex(offset + Vec2f(0, 0), Color::Red);
-    s[5] = Vertex(offset + Vec2f(size.x, 0), Color::Green);
-    s[6] = Vertex(offset + size, Color::Blue);
-    s[7] = Vertex(offset + Vec2f(0, size.y), Color::White);
+//    const Vec2f offset = { 50, 50 };
+//    const Vec2f size = { 100, 100 };
+//
+//    VertexArray s;
+//    s.type = PrimitiveType::Quads;
+//    s.resize(8);
+//    s[0] = Vertex({0, 0}, Color::Red);
+//    s[1] = Vertex({size.x, 0}, Color::Green);
+//    s[2] = Vertex(size, Color::Blue);
+//    s[3] = Vertex({0, size.y}, Color::White);
+//
+//    s[4] = Vertex(offset + Vec2f(0, 0), Color::Red);
+//    s[5] = Vertex(offset + Vec2f(size.x, 0), Color::Green);
+//    s[6] = Vertex(offset + size, Color::Blue);
+//    s[7] = Vertex(offset + Vec2f(0, size.y), Color::White);
 
 //    Font f;
 //    f.loadFromFile("arial.ttf", 30);
 //
-//    Texture tex;
-//    tex.loadFromFile("test.png");
+    Texture tex;
+    tex.loadFromFile("test.png");
 
-//    Sprite s;
-//    s.setTexture(&tex);
-//    s.setSize(windowSize);
-//    s.setCenter(windowSize / 2);
+    Sprite s;
+    s.setTexture(&tex);
+    s.setSize(windowSize);
+    s.setCenter(windowSize / 2);
 
 //    VertexArray s;
 //    s.type = PrimitiveType::Quads;
