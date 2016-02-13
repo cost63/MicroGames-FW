@@ -211,7 +211,7 @@ void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& state
     uint32_t totalQuads = vertices.size() / 4;
 
     // Go trough each quad in the vertex array
-    for(uint32_t i = 0; i < totalQuads; i++) {
+    for(uint32_t i = 0; i < totalQuads * 4; i += 4) {
         const Vertex& v0 = vertices[i + 0];
         const Vertex& v1 = vertices[i + 1];
         const Vertex& v2 = vertices[i + 2];

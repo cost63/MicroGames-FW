@@ -150,11 +150,8 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
                             surface->w * surface->h,
                             priv::getFormatFromSDLFormat(surface->format->format),
                             Image::RGBA
+
                       );
-
-    std::cout << Color((uint8_t*)surface->pixels) << std::endl;
-    std::cout << Color(pixels) << std::endl << std::endl;
-
     const Vec2u glyphSize   = Vec2u(surface->w, surface->h);
     const Vec2u texSize     = layer.texture.getSize();
 

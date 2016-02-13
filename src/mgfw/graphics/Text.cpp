@@ -6,15 +6,31 @@ namespace mg {
 
 Text::Text()
 : m_font(nullptr)
+, m_charSize(11)
 , m_needUpdate(false)
-{}
+{
+    m_vertices.type = PrimitiveType::Quads;
+//    m_size = Vec2f(500, 500);
+}
 
 void Text::draw(Renderer& renderer, RenderStates states) const {
+    if(!m_font) {
+        return;
+    }
+
     if(m_needUpdate) {
         updateText();
     }
 
-    // ...
+    states.texture = m_font->getTexture(m_charSize);
+
+    Transformable t;
+    t.setPos(m_pos);
+    t.setSize(states.texture->getSize());
+
+    states.transform *= t.getMatrix();
+
+    renderer.draw(m_vertices, states);
 }
 
 void Text::setFont(const Font* font) {
@@ -77,11 +93,25 @@ void Text::updateText() const {
         v2.pos = offset + clip.size();
         v3.pos = Vec2f(offset.x, offset.y + clip.h);
 
+//        if(current == 's') {
+//            v0.color = Color::Red;
+//            v1.color = Color::Red;
+//            v2.color = Color::Red;
+//            v3.color = Color::Red;
+//        }
+
+        v0.color = Color::Red;
+        v1.color = Color::Yellow;
+        v2.color = Color::Yellow;
+        v3.color = Color::Yellow;
+
         // Set glyph's texture clip
         v0.texCoord = clip.pos();
         v1.texCoord = clip.pos() + Vec2f(clip.w, 0);
         v2.texCoord = clip.pos() + clip.size();
         v3.texCoord = clip.pos() + Vec2f(0, clip.h);
+
+        offset.x += clip.w;
     }
 
     m_needUpdate = false;

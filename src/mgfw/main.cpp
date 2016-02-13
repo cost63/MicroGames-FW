@@ -29,30 +29,57 @@ int main(int argc, char** argv) {
     const Vec2i windowSize = Vec2i(600, 450);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
-    Font f;
-    f.loadFromFile("arial.ttf", 30);
-//    f.getGlyph('M', 30);
-//    f.getGlyph('i', 30);
-//    f.getGlyph('c', 30);
-//    f.getGlyph('r', 30);
-//    f.getGlyph('o', 30);
-//    f.getGlyph(' ', 30);
-//    f.getGlyph('G', 30);
-//    f.getGlyph('a', 30);
-//    f.getGlyph('m', 30);
-//    f.getGlyph('e', 30);
-//    f.getGlyph('s', 30);
+    const Vec2f offset = { 50, 50 };
+    const Vec2f size = { 100, 100 };
 
-//    Texture& tex = f.getTex();
+    VertexArray s;
+    s.type = PrimitiveType::Quads;
+    s.resize(8);
+    s[0] = Vertex({0, 0}, Color::Red);
+    s[1] = Vertex({size.x, 0}, Color::Green);
+    s[2] = Vertex(size, Color::Blue);
+    s[3] = Vertex({0, size.y}, Color::White);
+
+    s[4] = Vertex(offset + Vec2f(0, 0), Color::Red);
+    s[5] = Vertex(offset + Vec2f(size.x, 0), Color::Green);
+    s[6] = Vertex(offset + size, Color::Blue);
+    s[7] = Vertex(offset + Vec2f(0, size.y), Color::White);
+
+//    Font f;
+//    f.loadFromFile("arial.ttf", 30);
+//
+//    Texture tex;
+//    tex.loadFromFile("test.png");
 
 //    Sprite s;
 //    s.setTexture(&tex);
-//    s.setSize(440, 440);
+//    s.setSize(windowSize);
 //    s.setCenter(windowSize / 2);
 
-    Text s;
-    s.setFont(&f);
-    s.setString("Test string");
+//    VertexArray s;
+//    s.type = PrimitiveType::Quads;
+//    s.resize(4);
+//    s[0].pos = Vec2f(0, 0);
+//    s[1].pos = Vec2f(600, 0);
+//    s[2].pos = Vec2f(600, 450);
+//    s[3].pos = Vec2f(0, 450);
+//
+//    s[0].texCoord = Vec2f(0, 0);
+//    s[1].texCoord = Vec2f(tex.getSize().w, 0);
+//    s[2].texCoord = Vec2f(tex.getSize().w, tex.getSize().h);
+//    s[3].texCoord = Vec2f(0, tex.getSize().h);
+//
+//    Transformable t;
+//    t.setSize(tex.getSize());
+//
+//    RenderStates a;
+//    a.texture = &tex;
+//    a.transform = t.getMatrix();
+
+//    Text s;
+//    s.setFont(&f);
+//    s.setString("Test string");
+//    s.setCharSize(100);
 
     bool running = true;
     while(running) {

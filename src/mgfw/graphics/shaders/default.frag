@@ -11,7 +11,7 @@ void main()
     vec4 finalColor = color;
 
     if( hasTexture ) {
-        vec4 texColor = texture2D( texture, texCoord );
+        vec4 texColor = texture2D( texture, texCoord ).rgba;
         finalColor = texColor * color;
     }
 
