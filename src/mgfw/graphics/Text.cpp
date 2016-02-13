@@ -76,6 +76,14 @@ void Text::updateText() const {
         const Font::Glyph glyph = m_font->getGlyph(current, m_charSize);
         const iRect clip        = glyph.clip;
 
+        // Line breaking
+        if(current == '\n') {
+            offset.x  = 0.0;
+            offset.y += glyph.clip.h;
+
+            continue;
+        }
+
         Vertex& v0 = m_vertices[4 * i + 0];
         Vertex& v1 = m_vertices[4 * i + 1];
         Vertex& v2 = m_vertices[4 * i + 2];

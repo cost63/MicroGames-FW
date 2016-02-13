@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 
     Text s;
     s.setFont(&f);
-    s.setString("Test string: Micro games!");
+    s.setString("Test string:\nMicro games!");
     s.setCharSize(60);
     s.move(50, 50);
 
