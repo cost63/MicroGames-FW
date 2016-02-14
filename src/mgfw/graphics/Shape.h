@@ -9,7 +9,7 @@ class Shape : public Transformable, public Drawable {
 public:
     Shape();
 
-    void draw(Renderer& renderer, RenderStates states) const;
+    void draw(Renderer& renderer, RenderStates states) const override;
 
     void setColor(const Color& color);
     Color getColor() const;

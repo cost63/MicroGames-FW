@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
             const float c = std::cos(ticks);
             const float s = std::sin(ticks);
 
-            r.rotate(delta.asSeconds() * 80);
+            r.rotate(delta.asSeconds() * 20);
             r.setScale(c + 1.5, c + 1.5);
             r.getVertices()[0].color.r = (std::abs(c)) * 255;
             r.getVertices()[1].color.g = (std::abs(-s)) * 255;

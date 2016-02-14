@@ -75,8 +75,7 @@ struct VertexArray : public Drawable {
     Vertex& operator[](uint32_t index);
     const Vertex& operator[](uint32_t index) const;
 
-
-    void draw(Renderer& renderer, RenderStates states) const;
+    void draw(Renderer& renderer, RenderStates states) const override;
 
     void resize(uint32_t size);
     size_t size() const;

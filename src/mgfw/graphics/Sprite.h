@@ -10,7 +10,7 @@ class Sprite : public Transformable, public Drawable {
 public:
     Sprite();
 
-    void draw(Renderer& renderer, RenderStates states) const ;
+    void draw(Renderer& renderer, RenderStates states) const override;
 
     void setTexture(const Texture* texture);
     const Texture* getTexture() const;
@@ -21,7 +21,7 @@ public:
 
 private:
     void updateClipVertices();
-    void onSizeChange(const Vec2f& prevSize);
+    void onSizeChange(const Vec2f& prevSize) override;
 
 private:
     VertexArray m_vertices;
