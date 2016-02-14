@@ -4,6 +4,7 @@
 #include "MGFW.h"
 #include "system/Window.h"
 #include "system/ErrorLog.h"
+#include "system/Clock.h"
 #include "graphics/Renderer.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArray.h"
@@ -25,6 +26,9 @@ int main(int argc, char** argv) {
         priv::logError("MGFW initialization failed");
         return 1;
     }
+
+    uint16_t frames = 0;
+    Clock clock;
 
     const Vec2i windowSize = Vec2i(1024, 768);
     Window window(windowSize,"Framework test", Window::Resizeable);
@@ -75,14 +79,21 @@ int main(int argc, char** argv) {
     Font f;
     f.loadFromFile("arial.ttf", 30);
 
-    Text s;
-    s.setFont(&f);
-    s.setString("Test string:\nMicro games!");
-    s.setCharSize(60);
-    s.move(50, 50);
+    Text fpsText;
+    fpsText.setFont(&f);
+    fpsText.setCharSize(16);
+    fpsText.move(5, 5);
 
     bool running = true;
     while(running) {
+        frames++;
+
+        if(clock.getElapsedTime().asSeconds() > 0.25) {
+            uint16_t fps = (float)frames / clock.restart().asSeconds();
+            fpsText.setString("fps: " + std::to_string(fps));
+            frames = 0;
+        }
+
         SDL_Event event;
 
         while(SDL_PollEvent(&event)) {
@@ -104,7 +115,7 @@ int main(int argc, char** argv) {
         window.clear();
 
         // Render ...
-        window.draw(s);
+        window.draw(fpsText);
 
         window.display();
     }
