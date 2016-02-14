@@ -153,6 +153,6 @@ std::ostream& operator<<(std::ostream& os, const Vector2<T>& v) {
 
 #define Vec2f Vector2<float>
 #define Vec2i Vector2<int>
-#define Vec2u Vector2<unsigned int>
+#define Vec2u Vector2<uint32_t>
 
 } // namespace mg

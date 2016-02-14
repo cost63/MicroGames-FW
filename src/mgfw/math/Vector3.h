@@ -154,6 +154,6 @@ std::ostream& operator<<( std::ostream& os, const Vector3<T>& v ) {
 
 #define Vec3f Vector3<float>
 #define Vec3i Vector3<int>
-#define Vec3u Vector3<unsigned int>
+#define Vec3u Vector3<uint32_t>
 
 } // namespace mg

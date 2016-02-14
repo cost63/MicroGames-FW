@@ -143,7 +143,7 @@ std::ostream& operator<<( std::ostream& os, const Rect<T>& r ) {
 }
 
 #define iRect Rect<int>
-#define uRect Rect<unsigned int>
 #define fRect Rect<float>
+#define uRect Rect<uint32_t>
 
 } // namespace mg

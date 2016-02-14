@@ -146,6 +146,6 @@ std::ostream& operator<<( std::ostream& os, const Vector4<T>& v ) {
 
 #define Vec4f Vector4<float>
 #define Vec4i Vector4<int>
-#define Vec4u Vector4<unsigned int>
+#define Vec4u Vector4<uint32_t>
 
 } // namespace mg
