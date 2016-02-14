@@ -1,3 +1,6 @@
+## Allow .dll
+!*.dll
+
 ## Independent ignores
 [Tt]ests/
 
