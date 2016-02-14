@@ -62,6 +62,7 @@ void Renderer::render() {
     // Bind the vertex array
     glBindVertexArray(s_VAO);
 
+    // Enable alpha blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -252,6 +253,9 @@ void Renderer::applyShader(const RenderEntity& entity) {
         shader->setUniform("texture", 0);
         shader->setUniform("hasTexture", true);
     }
+    else {
+        shader->setUniform("hasTexture", false);
+    }
 }
 
 void Renderer::applyTexture(const RenderEntity& entity) {
@@ -266,6 +270,10 @@ void Renderer::applyTexture(const RenderEntity& entity) {
             // Store its handle so we don't bind the same texture twice
             m_lastTextureHandle = tHandle;
         }
+    }
+    else {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        m_lastTextureHandle = 0;
     }
 }
 
