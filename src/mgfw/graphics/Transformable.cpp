@@ -223,20 +223,24 @@ void Transformable::rotateRad(float radians) {
 
 const Matrix4& Transformable::getMatrix() const {
     if(m_isUpdateMatrix) {
-        m_matrix = Matrix4();
+        const float angle = -m_rotation * (PI / 180);
+        const float c = std::cos(angle);
+        const float s = std::sin(angle);
 
-        // Position
-        m_matrix.translate(m_pos - m_origin);
+        const Vec2f scaleCos(m_scale.x * c, m_scale.y * c);
+        const Vec2f scaleSin(m_scale.x * s, m_scale.y * s);
 
-        // Rotation
-        m_matrix.translate(m_origin);
-        m_matrix.rotate(m_rotation * (PI / 180));
-        m_matrix.translate(-m_origin);
+        const Vec2f translation(
+                -m_origin.x * scaleCos.x - m_origin.y * scaleSin.y + m_pos.x,
+                 m_origin.x * scaleSin.x - m_origin.y * scaleCos.y + m_pos.y
+        );
 
-        // Size
-        m_matrix.translate(m_origin);
-        m_matrix.scale(m_scale);
-        m_matrix.translate(-m_origin);
+        m_matrix = Matrix4(
+                { +scaleCos.x, scaleSin.y, 0.0, translation.x },
+                { -scaleSin.x, scaleCos.y, 0.0, translation.y },
+                {  0.0,        0.0,        1.0, 0.0 },
+                {  0.0,        0.0,        0.0, 1.0 }
+        );
 
         m_isUpdateMatrix = false;
     }

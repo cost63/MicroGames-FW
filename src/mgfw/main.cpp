@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     Clock clock;
     Clock fpsClock;
 
-    const Vec2i windowSize = Vec2i(1024, 768);
+    const Vec2i windowSize = Vec2i(768, 768);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
     Font f;
@@ -47,7 +47,14 @@ int main(int argc, char** argv) {
     r.setSize(windowSize / 4);
     r.setOrigin(windowSize / 8);
     r.setPos(windowSize / 2);
-    r.setColor(Color::Orange);
+    r.setColor(Color::Red);
+
+    RectShape y;
+    y.setSize(windowSize / 4);
+    y.setOrigin(windowSize / 8);
+    y.setPos(windowSize / 2);
+    y.setColor(Color::Blue);
+    y.setRotation(45);
 
     bool running = true;
     while(running) {
@@ -70,12 +77,19 @@ int main(int argc, char** argv) {
             const float c = std::cos(ticks);
             const float s = std::sin(ticks);
 
-            r.rotate(delta.asSeconds() * 20);
+            r.rotate(delta.asSeconds() * 50);
             r.setScale(c + 1.5, c + 1.5);
-            r.getVertices()[0].color.r = (std::abs(c)) * 255;
-            r.getVertices()[1].color.g = (std::abs(-s)) * 255;
-            r.getVertices()[2].color.b = (std::abs(s)) * 255;
-            r.getVertices()[3].color.a = (std::abs(-c)) * 255;
+            r.getVertices()[0].color.a = (std::abs(c)) * 127;
+            r.getVertices()[1].color.a = (std::abs(c)) * 127;
+            r.getVertices()[2].color.a = (std::abs(c)) * 127;
+            r.getVertices()[3].color.a = (std::abs(c)) * 127;
+
+            y.rotate(delta.asSeconds() * 50);
+            y.setScale(c + 1.5, c + 1.5);
+            y.getVertices()[0].color.a = (std::abs(s)) * 127;
+            y.getVertices()[1].color.a = (std::abs(s)) * 127;
+            y.getVertices()[2].color.a = (std::abs(s)) * 127;
+            y.getVertices()[3].color.a = (std::abs(s)) * 127;
         }
 
         SDL_Event event;
@@ -100,6 +114,7 @@ int main(int argc, char** argv) {
 
         // Render ...
         window.draw(r);
+        window.draw(y);
         window.draw(fpsText);
 
         window.display();
