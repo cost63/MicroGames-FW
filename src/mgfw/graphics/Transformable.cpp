@@ -234,7 +234,9 @@ const Matrix4& Transformable::getMatrix() const {
         m_matrix.translate(-m_origin);
 
         // Size
+        m_matrix.translate(m_origin);
         m_matrix.scale(m_scale);
+        m_matrix.translate(-m_origin);
 
         m_isUpdateMatrix = false;
     }

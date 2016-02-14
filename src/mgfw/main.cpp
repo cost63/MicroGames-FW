@@ -43,18 +43,38 @@ int main(int argc, char** argv) {
     fpsText.move(5, 5);
 
     RectShape r;
-    r.setSize(windowSize / 2);
-    r.setCenter(windowSize / 2);
+    r.setSize(windowSize / 4);
+    r.setOrigin(windowSize / 8);
+    r.setPos(windowSize / 2);
     r.setColor(Color::Orange);
 
     bool running = true;
     while(running) {
-        frames++;
+        Time delta = clock.restart();
 
-        if(clock.getElapsedTime().asSeconds() > 0.25) {
-            uint16_t fps = (float)frames / clock.restart().asSeconds();
-            fpsText.setString("fps: " + std::to_string(fps));
-            frames = 0;
+        /* FPS related logic */
+        {
+            frames++;
+
+            if(clock.getElapsedTime().asSeconds() > 0.25) {
+                uint16_t fps = (float)frames / delta.asSeconds();
+                fpsText.setString("fps: " + std::to_string(fps));
+                frames = 0;
+            }
+        }
+
+        /* Rectangle tests */
+        {
+            const float ticks = (float)SDL_GetTicks() / 1000;
+            const float c = std::cos(ticks);
+            const float s = std::sin(ticks);
+
+            r.rotate(delta.asSeconds() * 80);
+            r.setScale(c + 1.5, c + 1.5);
+            r.getVertices()[0].color.r = (std::abs(c)) * 255;
+            r.getVertices()[1].color.g = (std::abs(s)) * 255;
+            r.getVertices()[2].color.b = (std::abs(c)) * 255;
+            r.getVertices()[3].color.a = (std::abs(s)) * 255;
         }
 
         SDL_Event event;
