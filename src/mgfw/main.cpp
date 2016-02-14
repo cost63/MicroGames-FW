@@ -30,6 +30,7 @@ int main(int argc, char** argv) {
 
     uint16_t frames = 0;
     Clock clock;
+    Clock fpsClock;
 
     const Vec2i windowSize = Vec2i(1024, 768);
     Window window(windowSize,"Framework test", Window::Resizeable);
@@ -56,8 +57,8 @@ int main(int argc, char** argv) {
         {
             frames++;
 
-            if(clock.getElapsedTime().asSeconds() > 0.25) {
-                uint16_t fps = (float)frames / delta.asSeconds();
+            if(fpsClock.getElapsedTime().asSeconds() > 0.25) {
+                uint16_t fps = (float)frames / fpsClock.restart().asSeconds();
                 fpsText.setString("fps: " + std::to_string(fps));
                 frames = 0;
             }
@@ -72,9 +73,9 @@ int main(int argc, char** argv) {
             r.rotate(delta.asSeconds() * 80);
             r.setScale(c + 1.5, c + 1.5);
             r.getVertices()[0].color.r = (std::abs(c)) * 255;
-            r.getVertices()[1].color.g = (std::abs(s)) * 255;
-            r.getVertices()[2].color.b = (std::abs(c)) * 255;
-            r.getVertices()[3].color.a = (std::abs(s)) * 255;
+            r.getVertices()[1].color.g = (std::abs(-s)) * 255;
+            r.getVertices()[2].color.b = (std::abs(s)) * 255;
+            r.getVertices()[3].color.a = (std::abs(-c)) * 255;
         }
 
         SDL_Event event;
