@@ -40,8 +40,9 @@ int main(int argc, char** argv) {
 
     Text fpsText;
     fpsText.setFont(&f);
-    fpsText.setCharSize(16);
+    fpsText.setCharSize(32);
     fpsText.move(5, 5);
+    fpsText.setBoldStyle(true);
 
     RectShape r;
     r.setSize(windowSize / 4);
@@ -66,7 +67,7 @@ int main(int argc, char** argv) {
 
             if(fpsClock.getElapsedTime().asSeconds() > 0.25) {
                 uint16_t fps = (float)frames / fpsClock.restart().asSeconds();
-                fpsText.setString("fps: " + std::to_string(fps));
+                fpsText.setString("FPS: " + std::to_string(fps));
                 frames = 0;
             }
         }

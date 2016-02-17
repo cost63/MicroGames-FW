@@ -37,14 +37,14 @@ bool Font::loadFromFile(const std::string& filename, uint16_t charSize /*= 11*/)
     return true;
 }
 
-Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
+Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize, bool bold) const {
     // Look for glyph layer of given character size
     auto foundLayer = m_glyphCatalog.find(charSize);
 
     // If layer was found
     if(foundLayer != m_glyphCatalog.end()) {
         // Look for glyph of given character code
-        auto foundGlyph = foundLayer->second.glyphs.find(charCode);
+        auto foundGlyph = foundLayer->second.glyphs.find((charCode << 1) + (bold ? 1 : 0));
 
         // If glyph was found
         if(foundGlyph != foundLayer->second.glyphs.end()) {
@@ -52,7 +52,7 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
         }
         else {
             // No glyph was found, create a new one
-            return addGlyph(charCode, foundLayer->second);
+            return addGlyph(charCode, foundLayer->second, bold);
         }
     }
     else {
@@ -68,7 +68,7 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize) const {
         }
 
         // Also add the glyph
-        return addGlyph(charCode, layer);
+        return addGlyph(charCode, layer, bold);
     }
 }
 
@@ -122,7 +122,7 @@ Font::GlyphLayer& Font::addLayer(uint16_t charSize) const {
     return m_glyphCatalog.insert(std::make_pair(charSize, layer)).first->second;
 }
 
-Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
+Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold) const {
     Glyph glyph;
 
     // White color for the glyph (colors are added in vertices through shaders)
@@ -131,6 +131,14 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     color.g = 255;
     color.b = 255;
     color.a = 255;
+
+    // TODO(Smeky) Replace this with something more performance friendly
+    if(bold) {
+        TTF_SetFontStyle((TTF_Font*)m_handle, TTF_STYLE_BOLD);
+    }
+    else {
+        TTF_SetFontStyle((TTF_Font*)m_handle, TTF_STYLE_NORMAL);
+    }
 
     SDL_Surface* surface = TTF_RenderGlyph_Blended((TTF_Font*)m_handle, charCode, color);
 
@@ -196,7 +204,7 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const {
     glyph.clip.h = glyphSize.h;
 
     // Store the glyph in the layer
-    layer.glyphs[charCode] = glyph;
+    layer.glyphs[(charCode << 1) + (bold ? 1 : 0)] = glyph;
 
     // Clean up the glyph surface and pixels
     SDL_FreeSurface(surface);

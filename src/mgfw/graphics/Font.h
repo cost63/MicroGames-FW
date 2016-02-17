@@ -21,7 +21,7 @@ public:
     // Arg charSize serves to increase performance of creating text from string
     bool loadFromFile(const std::string& filename, uint16_t charSize = 11);
 
-    Font::Glyph getGlyph(uint16_t charCode, uint16_t charSize) const;
+    Font::Glyph getGlyph(uint16_t charCode, uint16_t charSize, bool bold) const;
 
     const Texture* getTexture(uint16_t charSize) const;
 
@@ -43,7 +43,7 @@ private:
     bool setCurFontSize(uint16_t charSize) const;
 
     Font::GlyphLayer& addLayer(uint16_t charSize) const;
-    Font::Glyph addGlyph(uint16_t charCode, Font::GlyphLayer& layer) const;
+    Font::Glyph addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold) const;
 
     void enlargeLayerTexture(Font::GlyphLayer& layer) const;
 

@@ -26,6 +26,9 @@ public:
     void setCharSize(uint16_t charSize);
     uint16_t getCharSize() const;
 
+    void setBoldStyle(bool enabled);
+    bool isBoldStyle() const;
+
 private:
     void updateText() const;
 
@@ -34,6 +37,9 @@ private:
 
     std::string m_string;
     uint16_t m_charSize;
+
+    bool m_bold;
+    bool m_italic;
 
     mutable VertexArray m_vertices;
     mutable bool m_needUpdate;

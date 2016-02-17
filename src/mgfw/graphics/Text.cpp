@@ -7,6 +7,8 @@ namespace mg {
 Text::Text()
 : m_font(nullptr)
 , m_charSize(11)
+, m_bold(false)
+, m_italic(false)
 , m_needUpdate(false)
 {
     m_vertices.type = PrimitiveType::Quads;
@@ -54,6 +56,14 @@ uint16_t Text::getCharSize() const {
     return m_charSize;
 }
 
+void Text::setBoldStyle(bool enabled) {
+    m_bold = enabled;
+}
+
+bool Text::isBoldStyle() const {
+    return m_bold;
+}
+
 /* Private */
 
 void Text::updateText() const {
@@ -73,7 +83,7 @@ void Text::updateText() const {
         const char current = m_string[i];
 
         // Get font glyph corresponding to the current character
-        const Font::Glyph glyph = m_font->getGlyph(current, m_charSize);
+        const Font::Glyph glyph = m_font->getGlyph(current, m_charSize, m_bold);
         const iRect clip        = glyph.clip;
 
         // Line breaking
