@@ -1,3 +1,8 @@
+/*
+    Please, keep in mind that this file is just for testing
+    purposes and is not related to the actual framework
+*/
+
 #include <SDL2/SDL.h>
 #include <iostream>
 
