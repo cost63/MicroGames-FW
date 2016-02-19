@@ -16,6 +16,7 @@
 #include "graphics/Sprite.h"
 #include "graphics/CircleShape.h"
 #include "graphics/RectShape.h"
+#include "system/File.h"
 
 #include "graphics/Image.h"
 #include "graphics/Texture.h"
@@ -33,6 +34,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    /* START - Test of File I/O */
+
+    File file;
+    file.open("test.txt", File::Write);
+    std::cout << file.read() << std::endl;
+    file.close();
+
+    /* END - Test of File I/O */
+
     uint16_t frames = 0;
     Clock clock;
     Clock fpsClock;
@@ -45,7 +55,7 @@ int main(int argc, char** argv) {
 
     Text fpsText;
     fpsText.setFont(&f);
-    fpsText.setCharSize(32);
+    fpsText.setCharSize(11);
     fpsText.move(5, 5);
     fpsText.setBoldStyle(true);
 
@@ -53,13 +63,13 @@ int main(int argc, char** argv) {
     r.setSize(windowSize / 4);
     r.setOrigin(windowSize / 8);
     r.setPos(windowSize / 2);
-    r.setColor(Color::Red);
+    r.setColor(Color::Orange);
 
     RectShape y;
     y.setSize(windowSize / 4);
     y.setOrigin(windowSize / 8);
     y.setPos(windowSize / 2);
-    y.setColor(Color::Blue);
+    y.setColor(Color::Orange);
     y.setRotation(45);
 
     bool running = true;
@@ -83,14 +93,14 @@ int main(int argc, char** argv) {
             const float c = std::cos(ticks);
             const float s = std::sin(ticks);
 
-            r.rotate(delta.asSeconds() * 50);
+            r.rotate(delta.asSeconds() * 500);
             r.setScale(c + 1.5, c + 1.5);
             r.getVertices()[0].color.a = (std::abs(c)) * 127;
             r.getVertices()[1].color.a = (std::abs(c)) * 127;
             r.getVertices()[2].color.a = (std::abs(c)) * 127;
             r.getVertices()[3].color.a = (std::abs(c)) * 127;
 
-            y.rotate(delta.asSeconds() * 50);
+            y.rotate(delta.asSeconds() * 500);
             y.setScale(c + 1.5, c + 1.5);
             y.getVertices()[0].color.a = (std::abs(s)) * 127;
             y.getVertices()[1].color.a = (std::abs(s)) * 127;
