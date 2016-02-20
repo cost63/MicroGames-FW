@@ -119,8 +119,8 @@ void Text::updateText() const {
         v3.pos = Vec2f(offset.x, offset.y + clip.h);
 
         if(m_italic) {
-            v0.pos.x += m_charSize / 2 * std::cos(0.209);
-            v1.pos.x += m_charSize / 2 * std::cos(0.209);
+            v0.pos.x += glyph.clip.h * 0.208;
+            v1.pos.x += glyph.clip.h * 0.208;
         }
 
         // Calculate normalized clip dimensions

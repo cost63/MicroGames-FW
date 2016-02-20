@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     fileText.setFont(&f);
     fileText.setCharSize(25);
     fileText.move(5, 50);
-//    fileText.setItalicStyle(true);
+    fileText.setItalicStyle(true);
 
     /* START - Test of File I/O */
 
