@@ -211,6 +211,9 @@ void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& state
     /* Convert quad vertices to triangles */
     uint32_t totalQuads = vertices.size() / 4;
 
+    // TODO(Smeky) Add support for vertex index buffer
+    //      -> Should reduce amount of batched vertices significantly
+    //      -> Requires using the IBO for all primitive types as well, otherwise rendering order wouldn't work
     // Go trough each quad in the vertex array
     for(uint32_t i = 0; i < totalQuads * 4; i += 4) {
         const Vertex& v0 = vertices[i + 0];

@@ -55,7 +55,7 @@ private:
 
     mutable void* m_handle;         // Font's TTF handle
     std::string m_fontFilename;     // Stores font's filename so it can be reloaded when font size changes
-    uint16_t m_curFontSize;         // Size of currently loaded font
+    mutable uint16_t m_curFontSize;         // Size of currently loaded font
 
     // Contains all glyph layers under charSize keys
     mutable std::map<uint16_t, GlyphLayer> m_glyphCatalog;

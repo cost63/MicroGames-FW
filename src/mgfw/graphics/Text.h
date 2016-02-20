@@ -29,6 +29,9 @@ public:
     void setBoldStyle(bool enabled);
     bool isBoldStyle() const;
 
+    void setItalicStyle(bool enabled);
+    bool isItalicStyle() const;
+
 private:
     void updateText() const;
 

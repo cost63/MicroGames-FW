@@ -41,6 +41,14 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize, bool bold) cons
     // Look for glyph layer of given character size
     auto foundLayer = m_glyphCatalog.find(charSize);
 
+    // If current font has wrong character size
+    if(m_curFontSize != charSize) {
+        // Load font with correct size
+        if(!setCurFontSize(charSize)) {
+            return Glyph();
+        }
+    }
+
     // If layer was found
     if(foundLayer != m_glyphCatalog.end()) {
         // Look for glyph of given character code
@@ -58,14 +66,6 @@ Font::Glyph Font::getGlyph(uint16_t charCode, uint16_t charSize, bool bold) cons
     else {
         // No layer was found, create a new one
         GlyphLayer& layer = addLayer(charSize);
-
-        // If current font has wrong character size
-        if(m_curFontSize != charSize) {
-            // Load font with correct size
-            if(!setCurFontSize(charSize)) {
-                return Glyph();
-            }
-        }
 
         // Also add the glyph
         return addGlyph(charCode, layer, bold);
@@ -95,6 +95,7 @@ bool Font::setCurFontSize(uint16_t charSize) const {
         TTF_CloseFont((TTF_Font*)m_handle);
     }
 
+    // TODO(Smeky) Completely change this. Reloading font is always a bad idea
     m_handle = TTF_OpenFont(m_fontFilename.c_str(), charSize);
 
     if(!m_handle) {
@@ -105,6 +106,8 @@ bool Font::setCurFontSize(uint16_t charSize) const {
 
         return false;
     }
+
+    m_curFontSize = charSize;
 
     return true;
 }
@@ -158,8 +161,8 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold
                             surface->w * surface->h,
                             priv::getFormatFromSDLFormat(surface->format->format),
                             Image::RGBA
-
                       );
+
     const Vec2u glyphSize   = Vec2u(surface->w, surface->h);
     const Vec2u texSize     = layer.texture.getSize();
 
@@ -202,6 +205,8 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold
     glyph.clip.y = glyphPos.y;
     glyph.clip.w = glyphSize.w;
     glyph.clip.h = glyphSize.h;
+
+    std::cout << (char)charCode << "  " << glyph.clip.h << std::endl;
 
     // Store the glyph in the layer
     layer.glyphs[(charCode << 1) + (bold ? 1 : 0)] = glyph;

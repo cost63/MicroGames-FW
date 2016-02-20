@@ -64,6 +64,14 @@ bool Text::isBoldStyle() const {
     return m_bold;
 }
 
+void Text::setItalicStyle(bool enabled) {
+    m_italic = enabled;
+}
+
+bool Text::isItalicStyle() const {
+    return m_italic;
+}
+
 /* Private */
 
 void Text::updateText() const {
@@ -76,7 +84,7 @@ void Text::updateText() const {
     // TODO(Smeky) Replace this by push_back in the loop as we can't support exact
     //             number of characters because of specials symbols and underline
     // Resize vertices to support all characters in the string
-    m_vertices.resize(m_string.length() * 4);
+//    m_vertices.resize(m_string.length() * 4);
 
     for(uint32_t i = 0; i < m_string.length(); i++) {
         // Store current character from the string
@@ -93,11 +101,16 @@ void Text::updateText() const {
 
             continue;
         }
+        else if(current == ' ') {
+            offset.x += glyph.clip.w;
 
-        Vertex& v0 = m_vertices[4 * i + 0];
-        Vertex& v1 = m_vertices[4 * i + 1];
-        Vertex& v2 = m_vertices[4 * i + 2];
-        Vertex& v3 = m_vertices[4 * i + 3];
+            continue;
+        }
+
+        Vertex v0;
+        Vertex v1;
+        Vertex v2;
+        Vertex v3;
 
         // Set position of vertices
         v0.pos = offset;
@@ -105,16 +118,26 @@ void Text::updateText() const {
         v2.pos = offset + clip.size();
         v3.pos = Vec2f(offset.x, offset.y + clip.h);
 
+        if(m_italic) {
+            v0.pos.x += m_charSize / 2 * std::cos(0.209);
+            v1.pos.x += m_charSize / 2 * std::cos(0.209);
+        }
+
         // Calculate normalized clip dimensions
         const Vec2u& texSize = m_font->getTexture(m_charSize)->getSize();
-        const Vec2f& cPos = Vec2f(clip.pos()) / texSize;
-        const Vec2f& cSize = Vec2f(clip.size()) / texSize;
+        const Vec2f& cPos    = Vec2f(clip.pos()) / texSize;
+        const Vec2f& cSize   = Vec2f(clip.size()) / texSize;
 
         // Set glyph's texture clip
         v0.texCoord = cPos;
         v1.texCoord = cPos + Vec2f(cSize.w, 0);
         v2.texCoord = cPos + cSize;
         v3.texCoord = cPos + Vec2f(0, cSize.h);
+
+        m_vertices.push_back(v0);
+        m_vertices.push_back(v1);
+        m_vertices.push_back(v2);
+        m_vertices.push_back(v3);
 
         offset.x += clip.w;
     }

@@ -82,6 +82,8 @@ struct VertexArray : public Drawable {
     void clear();
     const Vertex* data() const;
 
+    void push_back(const Vertex& vertex);
+
     /* Range based iteration methods */
     Iterator begin() {
         return Iterator(*this, 0);

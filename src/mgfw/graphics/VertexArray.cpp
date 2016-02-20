@@ -44,4 +44,8 @@ const Vertex* VertexArray::data() const {
     return vertices.data();
 }
 
+void VertexArray::push_back(const Vertex& vertex) {
+    vertices.push_back(vertex);
+}
+
 } // namespace mg

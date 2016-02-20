@@ -22,9 +22,7 @@
 #include "graphics/Texture.h"
 #include "graphics/Font.h"
 #include "graphics/Text.h"
-
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL_image.h"
+#include "graphics/Camera.h"
 
 using namespace mg;
 
@@ -34,11 +32,20 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    Font f;
+    f.loadFromFile("arial.ttf", 12);
+
+    Text fileText;
+    fileText.setFont(&f);
+    fileText.setCharSize(25);
+    fileText.move(5, 50);
+//    fileText.setItalicStyle(true);
+
     /* START - Test of File I/O */
 
     File file;
-    file.open("test.txt", File::Write);
-    std::cout << file.read() << std::endl;
+    file.open("test.txt", File::Read);
+    fileText.setString(file.read());
     file.close();
 
     /* END - Test of File I/O */
@@ -50,14 +57,10 @@ int main(int argc, char** argv) {
     const Vec2i windowSize = Vec2i(768, 768);
     Window window(windowSize,"Framework test", Window::Resizeable);
 
-    Font f;
-    f.loadFromFile("arial.ttf", 30);
-
     Text fpsText;
     fpsText.setFont(&f);
-    fpsText.setCharSize(11);
+    fpsText.setCharSize(20);
     fpsText.move(5, 5);
-    fpsText.setBoldStyle(true);
 
     RectShape r;
     r.setSize(windowSize / 4);
@@ -65,12 +68,30 @@ int main(int argc, char** argv) {
     r.setPos(windowSize / 2);
     r.setColor(Color::Orange);
 
-    RectShape y;
-    y.setSize(windowSize / 4);
-    y.setOrigin(windowSize / 8);
-    y.setPos(windowSize / 2);
-    y.setColor(Color::Orange);
-    y.setRotation(45);
+    RectShape r1;
+    r1.setSize(windowSize / 4);
+    r1.setOrigin(windowSize / 8);
+    r1.setPos(windowSize / 2);
+    r1.setColor(Color::Orange);
+    r1.setRotation(90 / 3);
+
+    RectShape r2;
+    r2.setSize(windowSize / 4);
+    r2.setOrigin(windowSize / 8);
+    r2.setPos(windowSize / 2);
+    r2.setColor(Color::Orange);
+    r2.setRotation(90 / 3 * 2);
+
+    r2.getVertices()[0].color.a = 127;
+    r2.getVertices()[1].color.a = 127;
+    r2.getVertices()[2].color.a = 127;
+    r2.getVertices()[3].color.a = 127;
+
+    Sprite s1;
+    s1.move(300, 100);
+
+    Camera cam;
+    cam.move(0, -200);
 
     bool running = true;
     while(running) {
@@ -93,19 +114,28 @@ int main(int argc, char** argv) {
             const float c = std::cos(ticks);
             const float s = std::sin(ticks);
 
-            r.rotate(delta.asSeconds() * 500);
-            r.setScale(c + 1.5, c + 1.5);
-            r.getVertices()[0].color.a = (std::abs(c)) * 127;
-            r.getVertices()[1].color.a = (std::abs(c)) * 127;
-            r.getVertices()[2].color.a = (std::abs(c)) * 127;
-            r.getVertices()[3].color.a = (std::abs(c)) * 127;
+            const float rotation = delta.asSeconds() * 200;
+            const uint8_t aCos = (std::abs(c)) * 127;
+            const uint8_t aSin = (std::abs(s)) * 127;
 
-            y.rotate(delta.asSeconds() * 500);
-            y.setScale(c + 1.5, c + 1.5);
-            y.getVertices()[0].color.a = (std::abs(s)) * 127;
-            y.getVertices()[1].color.a = (std::abs(s)) * 127;
-            y.getVertices()[2].color.a = (std::abs(s)) * 127;
-            y.getVertices()[3].color.a = (std::abs(s)) * 127;
+            r.rotate(rotation);
+            r.setScale(c + 1.5, c + 1.5);
+            r.getVertices()[0].color.a = aCos;
+            r.getVertices()[1].color.a = aCos;
+            r.getVertices()[2].color.a = aCos;
+            r.getVertices()[3].color.a = aCos;
+
+            r1.rotate(rotation);
+            r1.setScale(c + 1.5, c + 1.5);
+            r1.getVertices()[0].color.a = aSin;
+            r1.getVertices()[1].color.a = aSin;
+            r1.getVertices()[2].color.a = aSin;
+            r1.getVertices()[3].color.a = aSin;
+
+            r2.rotate(rotation);
+            r2.setScale(c + 1.5, c + 1.5);
+
+            cam.move(200 * c * delta.asSeconds(), 200 * s * delta.asSeconds());
         }
 
         SDL_Event event;
@@ -128,10 +158,18 @@ int main(int argc, char** argv) {
 
         window.clear();
 
+        RenderStates states;
+        states.transform = cam.getMatrix();
+
+        s1.setTexture(f.getTexture(20));
+
         // Render ...
-        window.draw(r);
-        window.draw(y);
+//        window.draw(r, states);
+//        window.draw(r1, states);
+//        window.draw(r2, states);
+        window.draw(s1);
         window.draw(fpsText);
+        window.draw(fileText);
 
         window.display();
     }
