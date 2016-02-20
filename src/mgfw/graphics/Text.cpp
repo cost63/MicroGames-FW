@@ -56,20 +56,32 @@ uint16_t Text::getCharSize() const {
     return m_charSize;
 }
 
-void Text::setBoldStyle(bool enabled) {
-    m_bold = enabled;
+void Text::enableStyle(Text::Style style) {
+    switch(style) {
+    case Style::Bold:   m_bold      = true; break;
+    case Style::Italic: m_italic    = true; break;
+    default: break;
+    }
 }
 
-bool Text::isBoldStyle() const {
-    return m_bold;
+void Text::disableStyle(Text::Style style) {
+    switch(style) {
+    case Style::Bold:   m_bold      = false; break;
+    case Style::Italic: m_italic    = false; break;
+    default: break;
+    }
 }
 
-void Text::setItalicStyle(bool enabled) {
-    m_italic = enabled;
-}
+bool Text::isStyleEnabled(Text::Style style) const {
+    bool enabled = false;
 
-bool Text::isItalicStyle() const {
-    return m_italic;
+    switch(style) {
+    case Style::Bold:   enabled     = true; break;
+    case Style::Italic: enabled     = true; break;
+    default: break;
+    }
+
+    return enabled;
 }
 
 /* Private */

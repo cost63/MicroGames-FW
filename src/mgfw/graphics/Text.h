@@ -13,6 +13,12 @@ class Font;
 
 class Text : public Transformable, public Drawable {
 public:
+    enum Style {
+        Bold,
+        Italic,
+    };
+
+public:
     Text();
 
     void draw(Renderer& renderer, RenderStates states) const;
@@ -26,11 +32,9 @@ public:
     void setCharSize(uint16_t charSize);
     uint16_t getCharSize() const;
 
-    void setBoldStyle(bool enabled);
-    bool isBoldStyle() const;
-
-    void setItalicStyle(bool enabled);
-    bool isItalicStyle() const;
+    void enableStyle(Text::Style style);
+    void disableStyle(Text::Style style);
+    bool isStyleEnabled(Text::Style style) const;
 
 private:
     void updateText() const;
