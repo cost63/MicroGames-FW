@@ -6,8 +6,7 @@ in vec2 texCoord;
 uniform sampler2D texture;
 uniform bool hasTexture = false;
 
-void main()
-{
+void main() {
     vec4 finalColor = color;
 
     if( hasTexture ) {
@@ -15,6 +14,5 @@ void main()
         finalColor = texColor * color;
     }
 
-    // gl_FragColor = vec4(texColor, 1);
     gl_FragColor = finalColor;
 }

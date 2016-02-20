@@ -144,6 +144,9 @@ Vec2f Transformable::getOrigin() const {
     return m_origin;
 }
 
+void Transformable::centerOrigin() {
+    setOrigin(m_size / 2);
+}
 
 void Transformable::setRotation(float degrees) {
     const float prev = m_rotation;

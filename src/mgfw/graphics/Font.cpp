@@ -206,8 +206,6 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold
     glyph.clip.w = glyphSize.w;
     glyph.clip.h = glyphSize.h;
 
-    std::cout << (char)charCode << "  " << glyph.clip.h << std::endl;
-
     // Store the glyph in the layer
     layer.glyphs[(charCode << 1) + (bold ? 1 : 0)] = glyph;
 

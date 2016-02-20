@@ -10,8 +10,7 @@ out vec2 texCoord;
 uniform mat4 projection;
 uniform mat4 transform;
 
-void main()
-{
+void main() {
     color = a_color;
     texCoord = a_texCoord;
 

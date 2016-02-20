@@ -42,6 +42,9 @@ public:
     void setOrigin(float xy);
     Vec2f getOrigin() const;
 
+    // Sets origin to be at the center of the size
+    void centerOrigin();
+
     void setRotation(float degrees);
     void setRotationRad(float radians);
     float getRotation() const;

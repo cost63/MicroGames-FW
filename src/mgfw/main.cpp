@@ -63,32 +63,29 @@ int main(int argc, char** argv) {
     fpsText.move(5, 5);
 
     RectShape r;
-    r.setSize(windowSize / 4);
-    r.setOrigin(windowSize / 8);
+    r.setSize(windowSize / 2);
+    r.centerOrigin();
     r.setPos(windowSize / 2);
-    r.setColor(Color::Orange);
+    r.setColor(Color::Red);
 
     RectShape r1;
-    r1.setSize(windowSize / 4);
-    r1.setOrigin(windowSize / 8);
+    r1.setSize(windowSize / 3);
+    r1.centerOrigin();
     r1.setPos(windowSize / 2);
-    r1.setColor(Color::Orange);
+    r1.setColor(Color::Green);
     r1.setRotation(90 / 3);
 
     RectShape r2;
     r2.setSize(windowSize / 4);
-    r2.setOrigin(windowSize / 8);
+    r2.centerOrigin();
     r2.setPos(windowSize / 2);
-    r2.setColor(Color::Orange);
+    r2.setColor(Color::Blue);
     r2.setRotation(90 / 3 * 2);
 
-    r2.getVertices()[0].color.a = 127;
-    r2.getVertices()[1].color.a = 127;
-    r2.getVertices()[2].color.a = 127;
-    r2.getVertices()[3].color.a = 127;
-
-    Sprite s1;
-    s1.move(300, 100);
+    r.getVertices()[0].color.a = 127;
+    r.getVertices()[1].color.a = 127;
+    r.getVertices()[2].color.a = 127;
+    r.getVertices()[3].color.a = 127;
 
     Camera cam;
     cam.move(0, -200);
@@ -114,26 +111,27 @@ int main(int argc, char** argv) {
             const float c = std::cos(ticks);
             const float s = std::sin(ticks);
 
-            const float rotation = delta.asSeconds() * 200;
+            const float rotation = delta.asSeconds() * 2000;
+            const float scale = (c + 1.5) / 2;
             const uint8_t aCos = (std::abs(c)) * 127;
             const uint8_t aSin = (std::abs(s)) * 127;
 
             r.rotate(rotation);
-            r.setScale(c + 1.5, c + 1.5);
-            r.getVertices()[0].color.a = aCos;
-            r.getVertices()[1].color.a = aCos;
-            r.getVertices()[2].color.a = aCos;
-            r.getVertices()[3].color.a = aCos;
+            r.setScale(scale);
+            r2.getVertices()[0].color.a = aCos;
+            r2.getVertices()[1].color.a = aCos;
+            r2.getVertices()[2].color.a = aCos;
+            r2.getVertices()[3].color.a = aCos;
 
             r1.rotate(rotation);
-            r1.setScale(c + 1.5, c + 1.5);
+            r1.setScale(scale);
             r1.getVertices()[0].color.a = aSin;
             r1.getVertices()[1].color.a = aSin;
             r1.getVertices()[2].color.a = aSin;
             r1.getVertices()[3].color.a = aSin;
 
             r2.rotate(rotation);
-            r2.setScale(c + 1.5, c + 1.5);
+            r2.setScale(scale);
 
             cam.move(200 * c * delta.asSeconds(), 200 * s * delta.asSeconds());
         }
@@ -161,13 +159,10 @@ int main(int argc, char** argv) {
         RenderStates states;
         states.transform = cam.getMatrix();
 
-        s1.setTexture(f.getTexture(20));
-
         // Render ...
-//        window.draw(r, states);
-//        window.draw(r1, states);
-//        window.draw(r2, states);
-        window.draw(s1);
+        window.draw(r, states);
+        window.draw(r1, states);
+        window.draw(r2, states);
         window.draw(fpsText);
         window.draw(fileText);
 
