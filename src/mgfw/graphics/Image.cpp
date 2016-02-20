@@ -74,7 +74,7 @@ bool Image::loadFromFile(const std::string& filename) {
 
     // Check if surface was created
     if(!surface) {
-        priv::logError("Failed to load image at: " + filename + "\n" +
+        priv::logError("Failed to load image at: " + filename + "\n\t" +
                        SDL_GetError());
         return false;
     }
@@ -99,7 +99,7 @@ bool Image::loadFromFile(const std::string& filename) {
                            std::string(SDL_GetPixelFormatName(format)) +
                            " to " +
                            std::string(SDL_GetPixelFormatName(SDL_PIXELFORMAT_RGBA8888)) +
-                           "\nfile: " +
+                           "\n\tfile: " +
                            filename);
         }
 
@@ -188,7 +188,6 @@ uint8_t* Image::convertPixelFormat(
         }
     };
 
-    const uint32_t fromFormatSize = getFormatSize(from);
     const uint32_t toFormatSize   = getFormatSize(to);
 
     uint32_t size   = pxCount * toFormatSize;

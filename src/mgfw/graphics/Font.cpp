@@ -22,9 +22,7 @@ bool Font::loadFromFile(const std::string& filename, uint16_t charSize /*= 11*/)
 
     if(!m_handle) {
         priv::logError(
-                "Failed to open font at: " +
-                filename +
-                "\n" +
+                "Failed to open font at: " + filename + "\n\t" +
                 TTF_GetError()
         );
 
@@ -100,7 +98,7 @@ bool Font::setCurFontSize(uint16_t charSize) const {
 
     if(!m_handle) {
         priv::logError(
-                "Failed to load font for character size change\n" +
+                "Failed to load font for character size change\n\t" +
                 std::string(TTF_GetError())
         );
 
@@ -148,7 +146,7 @@ Font::Glyph Font::addGlyph(uint16_t charCode, Font::GlyphLayer& layer, bool bold
     // Make sure glyph's surface was created properly
     if(!surface) {
         priv::logError(
-                "Failed to setup font glyph with following errors:\n" +
+                "Failed to setup font glyph with following errors:\n\t" +
                 std::string(TTF_GetError())
         );
 

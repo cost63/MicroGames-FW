@@ -34,7 +34,8 @@ bool File::open(const std::string& filename, File::Flags flags) {
             mode = std::ios::out;
         }
         else {
-            priv::logError("Unable to open file. Neither Read nor Write flags was specified", "[Warning]");
+            priv::logError("Unable to open file. Neither Read nor Write flags was specified",
+                           priv::c_prefWarning);
 
             return false;
         }

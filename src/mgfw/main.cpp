@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     }
 
     Font f;
-    f.loadFromFile("arial.ttf", 12);
+    f.loadFromFile("arial.ttf", 25);
 
     Text fileText;
     fileText.setFont(&f);

@@ -201,7 +201,7 @@ bool ShaderProgram::setupHandle() {
     glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
 
     if(errorLength != 0) {
-        priv::logError("Failed to create Shader program with following errors:\n" +
+        priv::logError("Failed to create Shader program with following errors:\n\t" +
                        std::string(infoLog));
 
         return false;
@@ -296,7 +296,7 @@ void ShaderProgram::link() {
         glGetProgramInfoLog(m_handle, infoLogLength, &errorLength, infoLog);
 
         if(errorLength != 0) {
-            priv::logError("Failed to link Shader program with following errors:\n" +
+            priv::logError("Failed to link Shader program with following errors:\n\t" +
                              std::string(infoLog));
         }
     }
