@@ -95,12 +95,12 @@ bool Image::loadFromFile(const std::string& filename) {
                                                           surface->flags);
 
         if(!formatted) {
-            priv::logError("Failed to convert image format from " +
-                           std::string(SDL_GetPixelFormatName(format)) +
-                           " to " +
-                           std::string(SDL_GetPixelFormatName(SDL_PIXELFORMAT_RGBA8888)) +
-                           "\n\tfile: " +
-                           filename);
+            priv::addError("Failed to convert image format from ");
+            priv::addError(std::string(SDL_GetPixelFormatName(format)));
+            priv::addError(" to ");
+            priv::addError(std::string(SDL_GetPixelFormatName(SDL_PIXELFORMAT_RGBA8888)));
+            priv::addError("\n\tfile: " + filename);
+            priv::logError();
         }
 
         memcpy(&m_pixels[0], formatted->pixels, sizeInBytes);

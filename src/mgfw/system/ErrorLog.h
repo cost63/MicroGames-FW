@@ -28,7 +28,7 @@ void logError();
 
 // Adds message to empty error string. This way we can store
 // as many errors as we want in to one error message
-void addError(const std::string msg);
+void addError(const std::string& msg);
 
 } // namespace priv
 
