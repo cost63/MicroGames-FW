@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "..\MGFW.h"
 #include "..\graphics\OpenGL.h"
+#include "..\system\Init.h"
 #include "..\system\ErrorLog.h"
 
 namespace mg {

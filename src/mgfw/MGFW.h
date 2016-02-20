@@ -1,14 +1,26 @@
 #pragma once
 
-namespace mg {
+#include "system/Clock.h"
+#include "system/ErrorLog.h"
+#include "system/File.h"
+#include "system/Init.h"
+#include "system/Timer.h"
+#include "system/Window.h"
 
-/* Global variables */
-extern bool g_isGlewInit;
-
-/* Functions */
-bool init();
-void close();
-
-bool initGlew();
-
-} // namespace mg
+#include "graphics/Camera.h"
+#include "graphics/CircleShape.h"
+#include "graphics/Color.h"
+#include "graphics/Drawable.h"
+#include "graphics/Font.h"
+#include "graphics/Image.h"
+#include "graphics/OpenGL.h"
+#include "graphics/PrimitiveType.h"
+#include "graphics/RectShape.h"
+#include "graphics/RenderStates.h"
+#include "graphics/ShaderProgram.h"
+#include "graphics/Sprite.h"
+#include "graphics/Text.h"
+#include "graphics/Texture.h"
+#include "graphics/Transformable.h"
+#include "graphics/Vertex.h"
+#include "graphics/VertexArray.h"

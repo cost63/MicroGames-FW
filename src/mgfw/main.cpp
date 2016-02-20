@@ -7,22 +7,6 @@
 #include <iostream>
 
 #include "MGFW.h"
-#include "system/Window.h"
-#include "system/ErrorLog.h"
-#include "system/Clock.h"
-#include "graphics/Renderer.h"
-#include "graphics/ShaderProgram.h"
-#include "graphics/VertexArray.h"
-#include "graphics/Sprite.h"
-#include "graphics/CircleShape.h"
-#include "graphics/RectShape.h"
-#include "system/File.h"
-
-#include "graphics/Image.h"
-#include "graphics/Texture.h"
-#include "graphics/Font.h"
-#include "graphics/Text.h"
-#include "graphics/Camera.h"
 
 using namespace mg;
 
