@@ -29,7 +29,7 @@ private:
     /* Private structures */
     struct GlyphLayer {
         // Contains a glyph for each character code
-        std::map<uint16_t, Glyph> glyphs;
+        std::map<uint32_t, Glyph> glyphs;
         // Texture of all glyphs
         Texture texture;
         // Current length of each glyph row

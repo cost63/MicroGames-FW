@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     /* END - Test of File I/O */
 
-    uint16_t frames = 0;
+    uint32_t frames = 0;
     Clock clock;
     Clock fpsClock;
 
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
             frames++;
 
             if(fpsClock.getElapsedTime().asSeconds() > 0.25) {
-                uint16_t fps = (float)frames / fpsClock.restart().asSeconds();
+                uint32_t fps = (float)frames / fpsClock.restart().asSeconds();
                 fpsText.setString("FPS: " + std::to_string(fps));
                 frames = 0;
             }

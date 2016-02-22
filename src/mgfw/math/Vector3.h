@@ -41,8 +41,8 @@ struct Vector3 {
 
     /** Operators */
 
-    T& operator[]( uint16_t index ) { return data[ index ]; }
-    const T& operator[]( uint16_t index ) const { return data[ index ]; }
+    T& operator[]( uint8_t index ) { return data[ index ]; }
+    const T& operator[]( uint8_t index ) const { return data[ index ]; }
 
     template <typename U>
     bool operator==( const Vector3<U>& other ) const {
