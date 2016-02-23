@@ -8,6 +8,8 @@
 
 #include "MGFW.h"
 
+#include "Box2D/Box2D.h"
+
 using namespace mg;
 
 int main(int argc, char** argv) {
@@ -18,21 +20,6 @@ int main(int argc, char** argv) {
 
     Font f;
     f.loadFromFile("arial.ttf", 25);
-
-    Text fileText;
-    fileText.setFont(&f);
-    fileText.setCharSize(25);
-    fileText.move(5, 50);
-    fileText.enableStyle(Text::Italic);
-
-    /* START - Test of File I/O */
-
-    File file;
-    file.open("test.txt", File::Read);
-    fileText.setString(file.read());
-    file.close();
-
-    /* END - Test of File I/O */
 
     uint32_t frames = 0;
     Clock clock;
@@ -46,38 +33,52 @@ int main(int argc, char** argv) {
     fpsText.setCharSize(20);
     fpsText.move(5, 5);
 
-    RectShape r;
-    r.setSize(windowSize / 2);
-    r.centerOrigin();
-    r.setPos(windowSize / 2);
-    r.setColor(Color::Red);
+    /* START - Box2D */
 
-    RectShape r1;
-    r1.setSize(windowSize / 3);
-    r1.centerOrigin();
-    r1.setPos(windowSize / 2);
-    r1.setColor(Color::Green);
-    r1.setRotation(90 / 3);
+    b2Vec2 gravity(0.0, 10.0);
+    b2World world(gravity);
 
-    RectShape r2;
-    r2.setSize(windowSize / 4);
-    r2.centerOrigin();
-    r2.setPos(windowSize / 2);
-    r2.setColor(Color::Blue);
-    r2.setRotation(90 / 3 * 2);
+    b2BodyDef groundDef;
+    groundDef.position.Set(0.0, 25.0);
 
-    r.getVertices()[0].color.a = 127;
-    r.getVertices()[1].color.a = 127;
-    r.getVertices()[2].color.a = 127;
-    r.getVertices()[3].color.a = 127;
+    b2Body* ground = world.CreateBody(&groundDef);
 
-    Camera cam;
-    cam.move(0, -200);
+    b2PolygonShape groundBox;
+    groundBox.SetAsBox(50.0, 10.0);
+
+    ground->CreateFixture(&groundBox, 0.0);
+
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(5.0, 4.0);
+
+    b2Body* body = world.CreateBody(&bodyDef);
+
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(1.0, 1.0);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0;
+    fixtureDef.friction = 0.3;
+
+    body->CreateFixture(&fixtureDef);
+
+    /* END - Box2D */
+
+    const float timeStep    = 1.0 / 60.0;
+    const int velocityIter  = 6;
+    const int positionIter  = 2;
+
+    float timeAccumulator   = 0.0;
+
+    RectShape shape;
+    shape.setSize(50, 50);
+    shape.setPos(0, 200);
+    shape.setColor(Color::Orange);
 
     bool running = true;
     while(running) {
-        Time delta = clock.restart();
-
         /* FPS related logic */
         {
             frames++;
@@ -87,37 +88,6 @@ int main(int argc, char** argv) {
                 fpsText.setString("FPS: " + std::to_string(fps));
                 frames = 0;
             }
-        }
-
-        /* Rectangle tests */
-        {
-            const float ticks = (float)SDL_GetTicks() / 1000;
-            const float c = std::cos(ticks);
-            const float s = std::sin(ticks);
-
-            const float rotation = delta.asSeconds() * 2000;
-            const float scale = (c + 1.5) / 2;
-            const uint8_t aCos = (std::abs(c)) * 127;
-            const uint8_t aSin = (std::abs(s)) * 127;
-
-            r.rotate(rotation);
-            r.setScale(scale);
-            r2.getVertices()[0].color.a = aCos;
-            r2.getVertices()[1].color.a = aCos;
-            r2.getVertices()[2].color.a = aCos;
-            r2.getVertices()[3].color.a = aCos;
-
-            r1.rotate(rotation);
-            r1.setScale(scale);
-            r1.getVertices()[0].color.a = aSin;
-            r1.getVertices()[1].color.a = aSin;
-            r1.getVertices()[2].color.a = aSin;
-            r1.getVertices()[3].color.a = aSin;
-
-            r2.rotate(rotation);
-            r2.setScale(scale);
-
-            cam.move(200 * c * delta.asSeconds(), 200 * s * delta.asSeconds());
         }
 
         SDL_Event event;
@@ -138,17 +108,27 @@ int main(int argc, char** argv) {
             }
         }
 
+        /* Update loop ( Time step based ) */
+        {
+            timeAccumulator += clock.restart().asSeconds();
+
+            while(timeAccumulator >= timeStep) {
+                timeAccumulator -= timeStep;
+
+                world.Step(timeStep, velocityIter, positionIter);
+
+                // Update with FPS as delta
+            }
+
+            b2Vec2 pos = body->GetPosition();
+            shape.setPos(pos.x * 50, pos.y * 50);
+        }
+
         window.clear();
 
-        RenderStates states;
-        states.transform = cam.getMatrix();
-
         // Render ...
-        window.draw(r, states);
-        window.draw(r1, states);
-        window.draw(r2, states);
+        window.draw(shape);
         window.draw(fpsText);
-        window.draw(fileText);
 
         window.display();
     }
