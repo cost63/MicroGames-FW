@@ -138,6 +138,7 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
 
     // Setup view
     m_projection = ortho(0, viewSize.w, viewSize.h, 0);
+//    m_projection = ortho(25, -25, 25, -25);
 }
 
 /* Private */

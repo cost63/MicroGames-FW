@@ -13,7 +13,7 @@ Shape::Shape()
 }
 
 void Shape::draw(Renderer& renderer, RenderStates states) const {
-    states.transform *= getMatrix();
+    states.transform *= getTransform();
 
     if(m_texture) {
         states.texture = m_texture;

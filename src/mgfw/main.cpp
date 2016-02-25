@@ -8,7 +8,8 @@
 
 #include "MGFW.h"
 
-#include "Box2D/Box2D.h"
+#include "../math/PhysicWorld.h"
+#include "../math/PhysicRect.h"
 
 using namespace mg;
 
@@ -33,49 +34,17 @@ int main(int argc, char** argv) {
     fpsText.setCharSize(20);
     fpsText.move(5, 5);
 
-    /* START - Box2D */
+    PhysicWorld world(Vec2f(0.0, 5.0));
 
-    b2Vec2 gravity(0.0, 10.0);
-    b2World world(gravity);
+    PhysicRect box;
+    box.setSize(50, 50);
+    box.setPos(100, 100);
+    box.setColor(Color::Orange);
 
-    b2BodyDef groundDef;
-    groundDef.position.Set(0.0, 25.0);
+    world.addPhysicShape(box);
 
-    b2Body* ground = world.CreateBody(&groundDef);
-
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox(50.0, 10.0);
-
-    ground->CreateFixture(&groundBox, 0.0);
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(5.0, 4.0);
-
-    b2Body* body = world.CreateBody(&bodyDef);
-
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0, 1.0);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0;
-    fixtureDef.friction = 0.3;
-
-    body->CreateFixture(&fixtureDef);
-
-    /* END - Box2D */
-
-    const float timeStep    = 1.0 / 60.0;
-    const int velocityIter  = 6;
-    const int positionIter  = 2;
-
-    float timeAccumulator   = 0.0;
-
-    RectShape shape;
-    shape.setSize(50, 50);
-    shape.setPos(0, 200);
-    shape.setColor(Color::Orange);
+    float timeAccumulator = 0.0;
+    const float timeStep  = 1.0 / 60;
 
     bool running = true;
     while(running) {
@@ -100,6 +69,9 @@ int main(int argc, char** argv) {
                 if(event.key.keysym.sym == SDLK_ESCAPE) {
                     running = false;
                 }
+                else if(event.key.keysym.sym == SDLK_SPACE) {
+
+                }
             }
             if(event.type == SDL_WINDOWEVENT) {
                 if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -115,19 +87,38 @@ int main(int argc, char** argv) {
             while(timeAccumulator >= timeStep) {
                 timeAccumulator -= timeStep;
 
-                world.Step(timeStep, velocityIter, positionIter);
+                const uint8_t* keys = SDL_GetKeyboardState(nullptr);
+                if(keys[SDL_SCANCODE_A]) {
+                    box.applyForceCenter(Vec2f(-15.0, 0.0));
+                }
+                if(keys[SDL_SCANCODE_D]) {
+                    box.applyForceCenter(Vec2f(15.0, 0.0));
+                }
+                if(keys[SDL_SCANCODE_W]) {
+                    box.applyForceCenter(Vec2f(0.0, -15.0));
+                }
+                if(keys[SDL_SCANCODE_S]) {
+                    box.applyForceCenter(Vec2f(0.0, 15.0));
+                }
+//                if(keys[SDL_SCANCODE_Q]) {
+//                    box.applyForceCenter(-20.0, true);
+//                }
+//                if(keys[SDL_SCANCODE_E]) {
+//                    box.applyForceCenter(20.0, true);
+//                }
 
-                // Update with FPS as delta
+                world.update(Time::Seconds(timeStep));
+//
+//                b2Vec2 pos = box->GetPosition();
+//                shape.setPos(pos.x * 50, pos.y * 50);
+//                shape.setRotationRad(box->GetAngle());
             }
-
-            b2Vec2 pos = body->GetPosition();
-            shape.setPos(pos.x * 50, pos.y * 50);
         }
 
         window.clear();
 
         // Render ...
-        window.draw(shape);
+        window.draw(box);
         window.draw(fpsText);
 
         window.display();

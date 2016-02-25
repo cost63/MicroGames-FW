@@ -224,6 +224,10 @@ void Transformable::rotateRad(float radians) {
     setRotationRad(m_rotation + radians * (180 / PI));
 }
 
+Matrix4 Transformable::getTransform() const {
+    return getMatrix();
+}
+
 const Matrix4& Transformable::getMatrix() const {
     if(m_isUpdateMatrix) {
         const float angle = -m_rotation * (PI / 180);

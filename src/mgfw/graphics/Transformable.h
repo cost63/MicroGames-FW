@@ -65,6 +65,8 @@ public:
     void rotate(float degrees);
     void rotateRad(float radians);
 
+    virtual Matrix4 getTransform() const;
+
     const Matrix4& getMatrix() const;
 
 protected:

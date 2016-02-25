@@ -8,7 +8,7 @@ class RectShape : public Shape {
 public:
     RectShape();
 
-private:
+protected:
     void onSizeChange(const Vec2f& prevSize) override;
 
 };
