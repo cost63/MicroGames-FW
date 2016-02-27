@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     fpsText.setCharSize(20);
     fpsText.move(5, 5);
 
-    PhysicWorld world(Vec2f(0.0, 0.0));
+    PhysicWorld world(Vec2f(0.0, 10.0));
 
     RectShapePhysic player;
     player.setSize(1.0, 1.0);
@@ -44,13 +44,13 @@ int main(int argc, char** argv) {
 
     RectShapePhysic box;
     box.setSize(2, 2);
-    box.setPos(4, windowSize.h / 50 - 3.2);
+    box.setPos(4, (float)windowSize.h / 50 - 3.2);
     box.setColor(Color::Red);
     box.setRigidType(PhysicType::Static);
 
     RectShapePhysic ground;
-    ground.setSize(windowSize.w / 50, 1);
-    ground.setPos(0, windowSize.h / 50 - 1.2);
+    ground.setSize((float)windowSize.w / 50, 1);
+    ground.setPos(0, (float)windowSize.h / 50 - 1.2);
     ground.setColor(Color(100, 100, 200, 255));
     ground.setRigidType(PhysicType::Static);
 
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
                     running = false;
                 }
                 else if(event.key.keysym.sym == SDLK_SPACE) {
-
+                    player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
                 }
             }
             if(event.type == SDL_WINDOWEVENT) {
@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
         window.draw(player);
         window.draw(box);
         window.draw(ground);
-//        window.draw(fpsText);
+        window.draw(fpsText);
 
         window.display();
     }

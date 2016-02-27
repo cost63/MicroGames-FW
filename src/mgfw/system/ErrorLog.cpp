@@ -56,7 +56,7 @@ void logError() {
 
     // Output last error message to console
     if(_isConsoleOutput) {
-        printf(_errorMsg.c_str());
+        printf((_errorMsg + '\n').c_str());
     }
 
     // Output last error message to file

@@ -28,6 +28,8 @@ public:
 
     void applyForceCenter(const Vec2f& force);
     void applyTorque(float torque);
+    void ApplyLinearImpulseCenter(const Vec2f& impulse);
+    void ApplyLinearImpulse(const Vec2f& impulse, const Vec2f& point);
 
     Matrix4 getTransform() const override;
 

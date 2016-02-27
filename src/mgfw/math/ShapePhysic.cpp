@@ -49,6 +49,26 @@ void ShapePhysic::applyTorque(float torque) {
     }
 }
 
+void ShapePhysic::ApplyLinearImpulse(const Vec2f& impulse, const Vec2f& point) {
+    if(m_handle) {
+        m_handle->ApplyLinearImpulse(
+                priv::getBox2dVec(impulse),
+                priv::getBox2dVec(point),
+                true
+        );
+    }
+}
+
+void ShapePhysic::ApplyLinearImpulseCenter(const Vec2f& impulse) {
+    if(m_handle) {
+        m_handle->ApplyLinearImpulse(
+                priv::getBox2dVec(impulse),
+                m_handle->GetWorldCenter(),
+                true
+        );
+    }
+}
+
 void ShapePhysic::setRigidType(PhysicType type) {
     m_rigidType = type;
 }
