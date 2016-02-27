@@ -13,6 +13,7 @@ Current dependencies are all included inside the dependecies/* folder.
 * SDL2_image (2.0.1)
 * SDL2_ttf (2.0.14)
 * Glew 
+* Box2D
 
 For more info about including these dependencies in your IDE, see our [wiki page](https://github.com/MicroGamesDev/MicroGames-FW/wiki/Setup-of-dependencies/)
 
