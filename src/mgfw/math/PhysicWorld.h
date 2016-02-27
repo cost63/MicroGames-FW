@@ -7,16 +7,18 @@
 
 namespace mg {
 
-class PhysicRect;
+class ShapePhysic;
 
 class PhysicWorld {
 public:
     PhysicWorld();
     PhysicWorld(const Vec2f& gravity);
 
-    void addPhysicShape(PhysicRect& shape);
+    void addPhysicShape(ShapePhysic& shape);
 
     void update(const Time& delta);
+
+    void* getHandle();
 
 private:
     b2World m_handle;

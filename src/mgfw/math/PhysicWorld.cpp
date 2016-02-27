@@ -1,6 +1,6 @@
 #include "PhysicWorld.h"
 
-#include "../math/PhysicRect.h"
+#include "../math/ShapePhysic.h"
 
 namespace mg {
 
@@ -16,12 +16,16 @@ PhysicWorld::PhysicWorld(const Vec2f& gravity)
 , m_positionIter(2)
 {}
 
-void PhysicWorld::addPhysicShape(PhysicRect& shape) {
-    shape.addToWorld(m_handle);
+void PhysicWorld::addPhysicShape(ShapePhysic& shape) {
+    shape.addToWorld(*this);
 }
 
 void PhysicWorld::update(const Time& delta) {
     m_handle.Step(delta.asSeconds(), m_velocityIter, m_positionIter);
+}
+
+void* PhysicWorld::getHandle() {
+    return &m_handle;
 }
 
 } // namespace mg

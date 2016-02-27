@@ -9,7 +9,7 @@
 #include "MGFW.h"
 
 #include "../math/PhysicWorld.h"
-#include "../math/PhysicRect.h"
+#include "../math/RectShapePhysic.h"
 
 using namespace mg;
 
@@ -34,14 +34,34 @@ int main(int argc, char** argv) {
     fpsText.setCharSize(20);
     fpsText.move(5, 5);
 
-    PhysicWorld world(Vec2f(0.0, 5.0));
+    PhysicWorld world(Vec2f(0.0, 0.0));
 
-    PhysicRect box;
-    box.setSize(50, 50);
-    box.setPos(100, 100);
-    box.setColor(Color::Orange);
+    RectShapePhysic player;
+    player.setSize(1.0, 1.0);
+    player.setPos(2.0, 2.0);
+    player.setRigidType(PhysicType::Dynamic);
+    player.setColor(Color::Orange);
 
+    RectShapePhysic box;
+    box.setSize(2, 2);
+    box.setPos(4, windowSize.h / 50 - 3.2);
+    box.setColor(Color::Red);
+    box.setRigidType(PhysicType::Static);
+
+    RectShapePhysic ground;
+    ground.setSize(windowSize.w / 50, 1);
+    ground.setPos(0, windowSize.h / 50 - 1.2);
+    ground.setColor(Color(100, 100, 200, 255));
+    ground.setRigidType(PhysicType::Static);
+
+    world.addPhysicShape(player);
     world.addPhysicShape(box);
+    world.addPhysicShape(ground);
+
+//    RectShape shape;
+//    shape.setSize(1.0, 1.0);
+//    shape.setPos(2.0, 2.0);
+//    shape.setColor(Color::Orange);
 
     float timeAccumulator = 0.0;
     const float timeStep  = 1.0 / 60;
@@ -89,37 +109,35 @@ int main(int argc, char** argv) {
 
                 const uint8_t* keys = SDL_GetKeyboardState(nullptr);
                 if(keys[SDL_SCANCODE_A]) {
-                    box.applyForceCenter(Vec2f(-15.0, 0.0));
+                    player.applyForceCenter(Vec2f(-15.0, 0.0));
                 }
                 if(keys[SDL_SCANCODE_D]) {
-                    box.applyForceCenter(Vec2f(15.0, 0.0));
+                    player.applyForceCenter(Vec2f(15.0, 0.0));
                 }
                 if(keys[SDL_SCANCODE_W]) {
-                    box.applyForceCenter(Vec2f(0.0, -15.0));
+                    player.applyForceCenter(Vec2f(0.0, -15.0));
                 }
                 if(keys[SDL_SCANCODE_S]) {
-                    box.applyForceCenter(Vec2f(0.0, 15.0));
+                    player.applyForceCenter(Vec2f(0.0, 15.0));
                 }
-//                if(keys[SDL_SCANCODE_Q]) {
-//                    box.applyForceCenter(-20.0, true);
-//                }
-//                if(keys[SDL_SCANCODE_E]) {
-//                    box.applyForceCenter(20.0, true);
-//                }
-
+                if(keys[SDL_SCANCODE_Q]) {
+                    player.applyTorque(-20.0);
+                }
+                if(keys[SDL_SCANCODE_E]) {
+                    player.applyTorque(20.0);
+                }
                 world.update(Time::Seconds(timeStep));
-//
-//                b2Vec2 pos = box->GetPosition();
-//                shape.setPos(pos.x * 50, pos.y * 50);
-//                shape.setRotationRad(box->GetAngle());
             }
         }
 
         window.clear();
 
         // Render ...
+//        window.draw(shape);
+        window.draw(player);
         window.draw(box);
-        window.draw(fpsText);
+        window.draw(ground);
+//        window.draw(fpsText);
 
         window.display();
     }
