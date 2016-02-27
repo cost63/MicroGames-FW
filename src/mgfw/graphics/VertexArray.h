@@ -5,6 +5,7 @@
 #include "../graphics/Vertex.h"
 #include "../graphics/Drawable.h"
 #include "../graphics/PrimitiveType.h"
+#include "../graphics/UnitMode.h"
 
 namespace mg {
 
@@ -66,8 +67,7 @@ struct VertexArray : public Drawable {
     std::vector<Vertex> vertices;
     PrimitiveType type;
 
-    bool normalized;
-    bool inPixels;
+    UnitMode unitMode;
 
     /* Methods */
     VertexArray();

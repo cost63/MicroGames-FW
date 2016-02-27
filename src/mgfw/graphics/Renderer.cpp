@@ -169,8 +169,7 @@ void Renderer::batchVertices(const VertexArray& vertices, const RenderStates& st
     // Setup entity
     entity.type         = vertices.type;
     entity.states       = states;
-    entity.normalized   = vertices.normalized;
-    entity.inPixels     = vertices.inPixels;
+    entity.unitMode     = vertices.unitMode;
     entity.vertexCount  = vertices.size();
     entity.vertexIndex  = m_vertexCount;
 
@@ -202,8 +201,7 @@ void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& state
     // Setup entity
     entity.type         = PrimitiveType::Triangles;
     entity.states       = states;
-    entity.normalized   = vertices.normalized;
-    entity.inPixels     = vertices.inPixels;
+    entity.unitMode     = vertices.unitMode;
     entity.vertexCount  = triangleVertexCount;
     entity.vertexIndex  = m_vertexCount;
 
@@ -248,24 +246,21 @@ void Renderer::applyShader(const RenderEntity& entity) {
         shader = &m_defShaderProgram;
     }
 
-    const Matrix4& transform = entity.states.transform;
-
-
-    // Apply shader
+    // Bind the shader program
     shader->use();
-    shader->setUniform("transform", transform);
 
+    // Set transform uniform
+    shader->setUniform("transform", entity.states.transform);
 
-    if(entity.normalized) {
-        shader->setUniform("projection", Matrix4());
-    }
-    else if(entity.inPixels) {
-        shader->setUniform("projection", m_pixelProjection);
-    }
-    else {
-        shader->setUniform("projection", m_projection);
+    // Set projection uniform based on unit mode
+    switch(entity.unitMode) {
+    case UnitMode::Meter:       shader->setUniform("projection", m_projection); break;
+    case UnitMode::Pixel:       shader->setUniform("projection", m_pixelProjection); break;
+    case UnitMode::Normalized:  shader->setUniform("projection", Matrix4()); break;
+    default: break;
     }
 
+    // Set texture uniform, if there's one
     if(entity.states.texture) {
         shader->setUniform("texture", 0);
         shader->setUniform("hasTexture", true);

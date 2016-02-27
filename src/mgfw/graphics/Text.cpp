@@ -12,7 +12,7 @@ Text::Text()
 , m_needUpdate(false)
 {
     m_vertices.type = PrimitiveType::Quads;
-    m_vertices.inPixels = true;
+    m_vertices.unitMode = UnitMode::Pixel;
 }
 
 void Text::draw(Renderer& renderer, RenderStates states) const {
