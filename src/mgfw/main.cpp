@@ -10,6 +10,7 @@
 
 #include "../math/PhysicWorld.h"
 #include "../math/RectShapePhysic.h"
+#include "../math/CircleShapePhysic.h"
 
 using namespace mg;
 
@@ -36,11 +37,13 @@ int main(int argc, char** argv) {
 
     PhysicWorld world(Vec2f(0.0, 10.0));
 
-    RectShapePhysic player;
-    player.setSize(1.0, 1.0);
+    CircleShapePhysic player;
+    player.setRadius(0.5);
     player.setPos(2.0, 2.0);
     player.setRigidType(PhysicType::Dynamic);
     player.setColor(Color::Orange);
+    player.setDensity(1.0);
+    player.getVertices()[1].color = Color::Red;
 
     RectShapePhysic box;
     box.setSize(2, 2);
@@ -57,6 +60,14 @@ int main(int argc, char** argv) {
     world.addPhysicShape(player);
     world.addPhysicShape(box);
     world.addPhysicShape(ground);
+
+//    CircleShapePhysic circle;
+//    circle.setRadius(2.0);
+//    circle.setPos(3.0, 3.0);
+//    circle.setSagmentCount(64);
+//    circle.setColor(Color::Yellow);
+
+//    world.addPhysicShape(circle);
 
 //    RectShape shape;
 //    shape.setSize(1.0, 1.0);
@@ -137,6 +148,7 @@ int main(int argc, char** argv) {
         window.draw(player);
         window.draw(box);
         window.draw(ground);
+//        window.draw(circle);
         window.draw(fpsText);
 
         window.display();

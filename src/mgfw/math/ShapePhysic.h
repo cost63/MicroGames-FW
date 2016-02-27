@@ -24,6 +24,9 @@ public:
     void setRigidType(PhysicType type);
     PhysicType getRigidType() const;
 
+    void setDensity(float density);
+    float getDensity() const;
+
     virtual void addToWorld(PhysicWorld& world) = 0;
 
     void applyForceCenter(const Vec2f& force);
@@ -41,6 +44,8 @@ protected:
 protected:
     b2Body* m_handle;
     PhysicType m_rigidType;
+
+    float m_density;
 
     mutable Vec2f m_prevPos;
 };

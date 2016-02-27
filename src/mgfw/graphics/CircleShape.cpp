@@ -38,8 +38,8 @@ uint32_t CircleShape::getSagmentCount() const {
 void CircleShape::updateVertices() {
     m_vertices[0].pos = Vec2f(0.0, 0.0);
 
-    for(uint32_t i = 1; i < m_sagmentCount + 1; i++) {
-        const float angle = ((float)i / (m_sagmentCount - 1)) * (3.1415926535897 * 2);
+    for(float i = 1; i < m_sagmentCount + 1; i++) {
+        const float angle = (i / (m_sagmentCount - 1)) * (3.1415926535897 * 2);
 
         Vec2f pos;
         pos.x = m_radius * std::cos(angle);

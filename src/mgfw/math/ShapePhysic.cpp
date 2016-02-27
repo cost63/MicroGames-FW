@@ -21,6 +21,7 @@ b2BodyType getB2Type(PhysicType type) {
 ShapePhysic::ShapePhysic()
 : m_handle(nullptr)
 , m_rigidType(PhysicType::Static)
+, m_density(0.0)
 {}
 
 void ShapePhysic::draw(Renderer& renderer, RenderStates states) const {
@@ -75,6 +76,14 @@ void ShapePhysic::setRigidType(PhysicType type) {
 
 PhysicType ShapePhysic::getRigidType() const {
     return m_rigidType;
+}
+
+void ShapePhysic::setDensity(float density) {
+    m_density = density;
+}
+
+float ShapePhysic::getDensity() const {
+    return m_density;
 }
 
 Matrix4 ShapePhysic::getTransform() const {

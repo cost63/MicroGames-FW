@@ -137,8 +137,8 @@ void Renderer::setupRenderer(const Vec2f& viewSize) {
     }
 
     // Setup view
-//    m_projection = ortho(0, viewSize.w, viewSize.h, 0);
     m_projection = ortho(0, viewSize.w / 50, viewSize.h / 50, 0);
+    m_pixelProjection = ortho(0, viewSize.w, viewSize.h, 0);
 }
 
 /* Private */
@@ -152,7 +152,8 @@ void Renderer::updateView() {
     glViewport(left, 0, width, m_viewSize.h);
 
     if(!m_isViewRelative) {
-        m_projection = ortho(0, m_viewSize.w, m_viewSize.h, 0);
+        m_projection = ortho(0, m_viewSize.w / 50, m_viewSize.h / 50, 0);
+        m_pixelProjection = ortho(0, m_viewSize.w, m_viewSize.h, 0);
     }
 }
 
@@ -169,6 +170,7 @@ void Renderer::batchVertices(const VertexArray& vertices, const RenderStates& st
     entity.type         = vertices.type;
     entity.states       = states;
     entity.normalized   = vertices.normalized;
+    entity.inPixels     = vertices.inPixels;
     entity.vertexCount  = vertices.size();
     entity.vertexIndex  = m_vertexCount;
 
@@ -201,6 +203,7 @@ void Renderer::batchQuads(const VertexArray& vertices, const RenderStates& state
     entity.type         = PrimitiveType::Triangles;
     entity.states       = states;
     entity.normalized   = vertices.normalized;
+    entity.inPixels     = vertices.inPixels;
     entity.vertexCount  = triangleVertexCount;
     entity.vertexIndex  = m_vertexCount;
 
@@ -246,12 +249,22 @@ void Renderer::applyShader(const RenderEntity& entity) {
     }
 
     const Matrix4& transform = entity.states.transform;
-    const Matrix4& projection = entity.normalized ? Matrix4() : m_projection;
+
 
     // Apply shader
     shader->use();
     shader->setUniform("transform", transform);
-    shader->setUniform("projection", projection);
+
+
+    if(entity.normalized) {
+        shader->setUniform("projection", Matrix4());
+    }
+    else if(entity.inPixels) {
+        shader->setUniform("projection", m_pixelProjection);
+    }
+    else {
+        shader->setUniform("projection", m_projection);
+    }
 
     if(entity.states.texture) {
         shader->setUniform("texture", 0);

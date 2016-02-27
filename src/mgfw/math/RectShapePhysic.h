@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../graphics/RectShape.h"
 #include "../math/ShapePhysic.h"
 
 namespace mg {

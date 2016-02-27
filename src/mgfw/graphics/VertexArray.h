@@ -67,6 +67,7 @@ struct VertexArray : public Drawable {
     PrimitiveType type;
 
     bool normalized;
+    bool inPixels;
 
     /* Methods */
     VertexArray();

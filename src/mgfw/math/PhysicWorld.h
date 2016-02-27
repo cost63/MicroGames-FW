@@ -14,6 +14,8 @@ public:
     PhysicWorld();
     PhysicWorld(const Vec2f& gravity);
 
+    void draw();
+
     void addPhysicShape(ShapePhysic& shape);
 
     void update(const Time& delta);

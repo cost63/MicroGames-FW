@@ -5,11 +5,13 @@ namespace mg {
 VertexArray::VertexArray()
 : type(PrimitiveType::Triangles)
 , normalized(false)
+, inPixels(false)
 {}
 
 VertexArray::VertexArray(PrimitiveType _type, uint32_t size /* = */)
 : type(_type)
 , normalized(false)
+, inPixels(false)
 {
     if(size != 0) {
         vertices.resize(size);
