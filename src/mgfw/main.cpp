@@ -41,9 +41,11 @@ int main(int argc, char** argv) {
     player.setRadius(0.5);
     player.setPos(2.0, 2.0);
     player.setRigidType(PhysicType::Dynamic);
-    player.setColor(Color::Orange);
+    player.setColor(Color::Red);
     player.setDensity(1.0);
-    player.getVertices()[1].color = Color::Red;
+//    player.getVertices()[1].color = Color::Yellow;
+//    player.getVertices()[2].color = Color::Yellow;
+    player.getVertices()[0].color = Color::Transparent;
 
     RectShapePhysic box;
     box.setSize(2, 2);
@@ -69,10 +71,10 @@ int main(int argc, char** argv) {
 
 //    world.addPhysicShape(circle);
 
-//    RectShape shape;
-//    shape.setSize(1.0, 1.0);
-//    shape.setPos(2.0, 2.0);
-//    shape.setColor(Color::Orange);
+    RectShape shape;
+    shape.setSize(1.0, 1.0);
+    shape.setPos(2.0, 2.0);
+    shape.setColor(Color::Orange);
 
     float timeAccumulator = 0.0;
     const float timeStep  = 1.0 / 60;
@@ -144,7 +146,7 @@ int main(int argc, char** argv) {
         window.clear();
 
         // Render ...
-//        window.draw(shape);
+        window.draw(shape);
         window.draw(player);
         window.draw(box);
         window.draw(ground);

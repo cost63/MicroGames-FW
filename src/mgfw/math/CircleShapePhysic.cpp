@@ -24,12 +24,19 @@ void CircleShapePhysic::addToWorld(PhysicWorld& world) {
 
         m_handle = ((b2World*)(world.getHandle()))->CreateBody(&definition);
 
-        b2CircleShape fixture;
-        fixture.m_radius = m_radius;
+
+        b2CircleShape shape;
+        shape.m_radius = m_radius;
+
+        b2FixtureDef fixture;
+        fixture.restitution = 1;
+        fixture.density = m_density;
+        fixture.shape = &shape;
 
         m_size = Vec2f(0.0);
 
-        m_handle->CreateFixture(&fixture, m_density);
+        m_handle->CreateFixture(&fixture);
+//        m_handle->CreateFixture(&fixture, m_density);
     }
     #ifdef MGFW_DEBUG
     else {
