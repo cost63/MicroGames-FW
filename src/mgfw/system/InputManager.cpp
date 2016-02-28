@@ -15,8 +15,40 @@ bool InputManager::pollEvent(InputEvent& event) {
         return false;
     }
     else {
+        event.type = InputEvent::Unknown;
+
         if(sdlEvent.type == SDL_QUIT) {
-            event.type = InputEvent::WindowClose;
+            event.type = InputEvent::WindowClosed;
+        }
+        else if(sdlEvent.type == SDL_WINDOWEVENT) {
+            if(sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED) {
+                event.type      = InputEvent::WindowResized;
+                event.window.w  = sdlEvent.window.data1;
+                event.window.h  = sdlEvent.window.data2;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_MOVED) {
+                event.type      = InputEvent::WindowMoved;
+                event.window.x  = sdlEvent.window.data1;
+                event.window.y  = sdlEvent.window.data2;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_MINIMIZED) {
+                event.type = InputEvent::WindowMinimized;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+                event.type = InputEvent::WindowMaximized;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_ENTER) {
+                event.type = InputEvent::WindowMouseEnter;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_LEAVE) {
+                event.type = InputEvent::WindowMouseLeave;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
+                event.type = InputEvent::WindowFocusGained;
+            }
+            else if(sdlEvent.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
+                event.type = InputEvent::WindowFocusLost;
+            }
         }
         else if(sdlEvent.type == SDL_KEYDOWN) {
             event.type = InputEvent::KeyDown;
@@ -39,6 +71,12 @@ bool InputManager::pollEvent(InputEvent& event) {
     }
 }
 
+uint32_t InputManager::addWindowCallback(WindowCallback callback) {
+    m_cbWindow.push_back({ callback, m_IDPool.ID++ });
+
+    return m_IDPool.ID - 1;
+}
+
 uint32_t InputManager::addKeyDownCallback(KeyDownCallback callback) {
     m_cbKeyDown.push_back({ callback, m_IDPool.ID++ });
 
@@ -52,6 +90,15 @@ uint32_t InputManager::addKeyUpCallback(KeyUpCallback callback) {
 }
 
 void InputManager::removeCallback(uint32_t ID) {
+    for(auto it = m_cbWindow.begin(); it != m_cbWindow.end(); it++) {
+        if(it->ID == ID) {
+            *it = m_cbWindow.back();
+            m_cbWindow.pop_back();
+
+            return;
+        }
+    }
+
     for(auto it = m_cbKeyDown.begin(); it != m_cbKeyDown.end(); it++) {
         if(it->ID == ID) {
             *it = m_cbKeyDown.back();

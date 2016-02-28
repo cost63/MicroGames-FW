@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
             InputEvent event;
 
             while(input.pollEvent(event)) {
-                if(event.type == InputEvent::WindowClose) {
+                if(event.type == InputEvent::WindowClosed) {
                     running = false;
                 }
                 else if(event.type == InputEvent::KeyUp) {
@@ -114,27 +114,6 @@ int main(int argc, char** argv) {
                 }
             }
         }
-
-//        SDL_Event event;
-//
-//        while(SDL_PollEvent(&event)) {
-//            if(event.type == SDL_QUIT) {
-//                running = false;
-//            }
-//            else if(event.type == SDL_KEYUP) {
-//                if(event.key.keysym.sym == SDLK_ESCAPE) {
-//                    running = false;
-//                }
-//                else if(event.key.keysym.sym == SDLK_SPACE) {
-//                    player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
-//                }
-//            }
-//            if(event.type == SDL_WINDOWEVENT) {
-//                if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
-//                    window.updateView();
-//                }
-//            }
-//        }
 
         /* Update loop ( Time step based ) */
         {

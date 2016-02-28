@@ -4,34 +4,48 @@
 #include <functional>
 
 #include "../system/Keyboard.h"
+#include "../math/Vector2.h"
 
 namespace mg {
 
-struct WindowEvent {
-    enum WindowEventType {
-
-    };
-
-    WindowEventType type;
-};
-
-struct KeyEvent {
-    Keyboard::Key code = Keyboard::Unknown;
-};
-
 struct InputEvent {
-    // This is required as union has to be initialized
-    InputEvent()
-    : key(KeyEvent())
-    {}
-
-    enum InputType {
-        WindowClose = 1,
-        KeyDown     = 2,
-        KeyUp       = 3,
+    struct WindowEvent {
+        union {
+            struct { int w, h; };
+            struct { int x, y; };
+        };
     };
 
-    InputEvent::InputType type;
+    struct KeyEvent {
+        Keyboard::Key code;
+    };
+
+//    struct UnknownEvent {};
+
+    enum InputEventType {
+        /* Window events */
+        WindowClosed = 0,
+        WindowResized,
+        WindowMoved,
+        WindowMinimized,
+        WindowMaximized,
+        WindowMouseEnter,
+        WindowMouseLeave,
+        WindowFocusGained,
+        WindowFocusLost,
+
+        KeyDown,
+        KeyUp,
+
+        Unknown
+    };
+
+    // This is required as union has to be initialized
+//    InputEvent()
+//    : key(KeyEvent())
+//    {}
+
+    InputEvent::InputEventType type;
 
     union {
         WindowEvent window;
@@ -51,9 +65,19 @@ struct IDPool {
 
 class InputManager {
 private:
+    using WindowCallback    = std::function<void(const Vec2i&)>;
     using KeyDownCallback   = std::function<void(Keyboard::Key)>;
     using KeyUpCallback     = std::function<void(Keyboard::Key)>;
 
+    struct WindowCBPair {
+        WindowCBPair(WindowCallback _callback, uint32_t _ID)
+        : callback(_callback)
+        , ID(_ID)
+        {}
+
+        WindowCallback callback;
+        uint32_t ID;
+    };
     struct KeyDownCBPair {
         KeyDownCBPair(KeyDownCallback _callback, uint32_t _ID)
         : callback(_callback)
@@ -78,6 +102,7 @@ public:
 
     bool pollEvent(InputEvent& event);
 
+    uint32_t addWindowCallback(WindowCallback callback);
     uint32_t addKeyDownCallback(KeyDownCallback callback);
     uint32_t addKeyUpCallback(KeyUpCallback callback);
 
@@ -86,8 +111,9 @@ public:
 private:
     IDPool m_IDPool;
 
-    std::vector<KeyDownCBPair> m_cbKeyDown;
-    std::vector<KeyUpCBPair> m_cbKeyUp;
+    std::vector<WindowCBPair>   m_cbWindow;
+    std::vector<KeyDownCBPair>  m_cbKeyDown;
+    std::vector<KeyUpCBPair>    m_cbKeyUp;
 
 };
 
