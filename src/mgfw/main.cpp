@@ -11,6 +11,7 @@
 #include "../math/PhysicWorld.h"
 #include "../math/RectShapePhysic.h"
 #include "../math/CircleShapePhysic.h"
+#include "../system/InputManager.h"
 
 using namespace mg;
 
@@ -37,15 +38,17 @@ int main(int argc, char** argv) {
 
     PhysicWorld world(Vec2f(0.0, 10.0));
 
-    CircleShapePhysic player;
-    player.setRadius(0.5);
+    RectShapePhysic player;
+    player.setSize(1.0);
     player.setPos(2.0, 2.0);
     player.setRigidType(PhysicType::Dynamic);
     player.setColor(Color::Red);
     player.setDensity(1.0);
-//    player.getVertices()[1].color = Color::Yellow;
-//    player.getVertices()[2].color = Color::Yellow;
-    player.getVertices()[0].color = Color::Transparent;
+    player.getVertices()[0].color = Color::Red;
+    player.getVertices()[1].color = Color::Green;
+    player.getVertices()[2].color = Color::Blue;
+    player.getVertices()[3].color = Color::White;
+//    player.getVertices()[0].color = Color::Transparent;
 
     RectShapePhysic box;
     box.setSize(2, 2);
@@ -79,6 +82,8 @@ int main(int argc, char** argv) {
     float timeAccumulator = 0.0;
     const float timeStep  = 1.0 / 60;
 
+    priv::InputManager input;
+
     bool running = true;
     while(running) {
         /* FPS related logic */
@@ -92,26 +97,44 @@ int main(int argc, char** argv) {
             }
         }
 
-        SDL_Event event;
+        {
+            InputEvent event;
 
-        while(SDL_PollEvent(&event)) {
-            if(event.type == SDL_QUIT) {
-                running = false;
-            }
-            else if(event.type == SDL_KEYUP) {
-                if(event.key.keysym.sym == SDLK_ESCAPE) {
+            while(input.pollEvent(event)) {
+                if(event.type == InputEvent::WindowClose) {
                     running = false;
                 }
-                else if(event.key.keysym.sym == SDLK_SPACE) {
-                    player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
-                }
-            }
-            if(event.type == SDL_WINDOWEVENT) {
-                if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
-                    window.updateView();
+                else if(event.type == InputEvent::KeyUp) {
+                    if(event.key.code == Keyboard::Escape) {
+                        running = false;
+                    }
+                    else if(event.key.code == Keyboard::Space) {
+                        player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
+                    }
                 }
             }
         }
+
+//        SDL_Event event;
+//
+//        while(SDL_PollEvent(&event)) {
+//            if(event.type == SDL_QUIT) {
+//                running = false;
+//            }
+//            else if(event.type == SDL_KEYUP) {
+//                if(event.key.keysym.sym == SDLK_ESCAPE) {
+//                    running = false;
+//                }
+//                else if(event.key.keysym.sym == SDLK_SPACE) {
+//                    player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
+//                }
+//            }
+//            if(event.type == SDL_WINDOWEVENT) {
+//                if(event.window.event == SDL_WINDOWEVENT_RESIZED) {
+//                    window.updateView();
+//                }
+//            }
+//        }
 
         /* Update loop ( Time step based ) */
         {
@@ -120,25 +143,25 @@ int main(int argc, char** argv) {
             while(timeAccumulator >= timeStep) {
                 timeAccumulator -= timeStep;
 
-                const uint8_t* keys = SDL_GetKeyboardState(nullptr);
-                if(keys[SDL_SCANCODE_A]) {
+                if(isKeyPressed(Keyboard::A)) {
                     player.applyForceCenter(Vec2f(-15.0, 0.0));
                 }
-                if(keys[SDL_SCANCODE_D]) {
+                if(isKeyPressed(Keyboard::D)) {
                     player.applyForceCenter(Vec2f(15.0, 0.0));
                 }
-                if(keys[SDL_SCANCODE_W]) {
+                if(isKeyPressed(Keyboard::W)) {
                     player.applyForceCenter(Vec2f(0.0, -15.0));
                 }
-                if(keys[SDL_SCANCODE_S]) {
+                if(isKeyPressed(Keyboard::S)) {
                     player.applyForceCenter(Vec2f(0.0, 15.0));
                 }
-                if(keys[SDL_SCANCODE_Q]) {
+                if(isKeyPressed(Keyboard::Q)) {
                     player.applyTorque(-20.0);
                 }
-                if(keys[SDL_SCANCODE_E]) {
+                if(isKeyPressed(Keyboard::E)) {
                     player.applyTorque(20.0);
                 }
+
                 world.update(Time::Seconds(timeStep));
             }
         }

@@ -29,7 +29,7 @@ void CircleShapePhysic::addToWorld(PhysicWorld& world) {
         shape.m_radius = m_radius;
 
         b2FixtureDef fixture;
-        fixture.restitution = 1;
+        fixture.restitution = 0.6;
         fixture.density = m_density;
         fixture.shape = &shape;
 
