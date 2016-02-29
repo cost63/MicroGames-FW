@@ -7,11 +7,7 @@ namespace mg {
 Sprite::Sprite()
 : m_texture(nullptr)
 , m_isClipSet(false)
-{
-    // Setup vertex amount and primitive type
-    m_vertices.resize(4);
-    m_vertices.type = PrimitiveType::Quads;
-}
+{}
 
 void Sprite::draw(Renderer& renderer, RenderStates states) const {
     // Setup/update render states
@@ -79,13 +75,6 @@ void Sprite::updateClipVertices() {
         m_vertices[2].texCoord = Vec2f(cPos.x + cSize.w, cPos.y + cSize.h);
         m_vertices[3].texCoord = Vec2f(cPos.x, cPos.y + cSize.h);
     }
-}
-
-void Sprite::onSizeChange(const Vec2f& prevSize) {
-    // Set vertices based on the transform size
-    m_vertices[1].pos.x = m_size.x;
-    m_vertices[2].pos   = m_size;
-    m_vertices[3].pos.y = m_size.y;
 }
 
 } // namespace mg

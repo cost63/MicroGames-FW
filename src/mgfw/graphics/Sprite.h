@@ -1,12 +1,10 @@
 #pragma once
 
-#include "..\graphics\Transformable.h"
-#include "..\graphics\Drawable.h"
-#include "..\graphics\VertexArray.h"
+#include "..\graphics\RectShape.h"
 
 namespace mg {
 
-class Sprite : public Transformable, public Drawable {
+class Sprite : public RectShape {
 public:
     Sprite();
 
@@ -21,10 +19,9 @@ public:
 
 private:
     void updateClipVertices();
-    void onSizeChange(const Vec2f& prevSize) override;
 
 private:
-    VertexArray m_vertices;
+//    VertexArray m_vertices;
     const Texture* m_texture;
 
     iRect m_clip;

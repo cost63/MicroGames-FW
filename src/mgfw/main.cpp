@@ -36,45 +36,52 @@ int main(int argc, char** argv) {
     fpsText.setCharSize(20);
     fpsText.move(5, 5);
 
-    PhysicWorld world(Vec2f(0.0, 10.0));
+    Texture tex;
+    tex.loadFromFile("test.png");
 
-    RectShapePhysic player;
-    player.setSize(1.0);
-    player.setPos(2.0, 2.0);
-    player.setRigidType(PhysicType::Dynamic);
-    player.setColor(Color::Red);
-    player.setDensity(1.0);
-    player.getVertices()[0].color = Color::Red;
-    player.getVertices()[1].color = Color::Green;
-    player.getVertices()[2].color = Color::Blue;
-    player.getVertices()[3].color = Color::White;
-//    player.getVertices()[0].color = Color::Transparent;
+    Sprite sprite;
+    sprite.setTexture(&tex);
+    sprite.setSize(10, 10);
 
-    RectShapePhysic box;
-    box.setSize(2, 2);
-    box.setPos(4, (float)windowSize.h / 50 - 3.2);
-    box.setColor(Color::Red);
-    box.setRigidType(PhysicType::Static);
-
-    RectShapePhysic ground;
-    ground.setSize((float)windowSize.w / 50, 1);
-    ground.setPos(0, (float)windowSize.h / 50 - 1.2);
-    ground.setColor(Color(100, 100, 200, 255));
-    ground.setRigidType(PhysicType::Static);
-
-    world.addPhysicShape(player);
-    world.addPhysicShape(box);
-    world.addPhysicShape(ground);
-
-    VertexArray test;
-    test.resize(5);
-    test.type = PrimitiveType::LineStrip;
-    test[0].pos = Vec2f(1, 1);
-    test[1].pos = Vec2f(3, 2);
-    test[2].pos = Vec2f(3, 4);
-    test[3].pos = Vec2f(2, 3);
-    test[4].pos = Vec2f(2.5, 2);
-    test.setColor(Color::Red);
+//    PhysicWorld world(Vec2f(0.0, 10.0));
+//
+//    RectShapePhysic player;
+//    player.setSize(1.0);
+//    player.setPos(2.0, 2.0);
+//    player.setRigidType(PhysicType::Dynamic);
+//    player.setColor(Color::Red);
+//    player.setDensity(1.0);
+//    player.getVertices()[0].color = Color::Red;
+//    player.getVertices()[1].color = Color::Green;
+//    player.getVertices()[2].color = Color::Blue;
+//    player.getVertices()[3].color = Color::White;
+////    player.getVertices()[0].color = Color::Transparent;
+//
+//    RectShapePhysic box;
+//    box.setSize(2, 2);
+//    box.setPos(4, (float)windowSize.h / 50 - 3.2);
+//    box.setColor(Color::Red);
+//    box.setRigidType(PhysicType::Static);
+//
+//    RectShapePhysic ground;
+//    ground.setSize((float)windowSize.w / 50, 1);
+//    ground.setPos(0, (float)windowSize.h / 50 - 1.2);
+//    ground.setColor(Color(100, 100, 200, 255));
+//    ground.setRigidType(PhysicType::Static);
+//
+//    world.addPhysicShape(player);
+//    world.addPhysicShape(box);
+//    world.addPhysicShape(ground);
+//
+//    VertexArray test;
+//    test.resize(5);
+//    test.type = PrimitiveType::LineStrip;
+//    test[0].pos = Vec2f(1, 1);
+//    test[1].pos = Vec2f(3, 2);
+//    test[2].pos = Vec2f(3, 4);
+//    test[3].pos = Vec2f(2, 3);
+//    test[4].pos = Vec2f(2.5, 2);
+//    test.setColor(Color::Red);
 
 //    CircleShapePhysic circle;
 //    circle.setRadius(2.0);
@@ -84,10 +91,10 @@ int main(int argc, char** argv) {
 
 //    world.addPhysicShape(circle);
 
-    RectShape shape;
-    shape.setSize(1.0, 1.0);
-    shape.setPos(2.0, 2.0);
-    shape.setColor(Color::Orange);
+//    RectShape shape;
+//    shape.setSize(1.0, 1.0);
+//    shape.setPos(2.0, 2.0);
+//    shape.setColor(Color::Orange);
 
     float timeAccumulator = 0.0;
     const float timeStep  = 1.0 / 60;
@@ -119,7 +126,7 @@ int main(int argc, char** argv) {
                         running = false;
                     }
                     else if(event.key.code == Keyboard::Space) {
-                        player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
+//                        player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
                     }
                 }
             }
@@ -131,43 +138,40 @@ int main(int argc, char** argv) {
 
             while(timeAccumulator >= timeStep) {
                 timeAccumulator -= timeStep;
+//
+//                if(isKeyPressed(Keyboard::A)) {
+//                    player.applyForceCenter(Vec2f(-15.0, 0.0));
+//                }
+//                if(isKeyPressed(Keyboard::D)) {
+//                    player.applyForceCenter(Vec2f(15.0, 0.0));
+//                }
+//                if(isKeyPressed(Keyboard::W)) {
+//                    player.applyForceCenter(Vec2f(0.0, -15.0));
+//                }
+//                if(isKeyPressed(Keyboard::S)) {
+//                    player.applyForceCenter(Vec2f(0.0, 15.0));
+//                }
+//                if(isKeyPressed(Keyboard::Q)) {
+//                    player.applyTorque(-20.0);
+//                }
+//                if(isKeyPressed(Keyboard::E)) {
+//                    player.applyTorque(20.0);
+//                }
 
-                if(isKeyPressed(Keyboard::A)) {
-                    player.applyForceCenter(Vec2f(-15.0, 0.0));
-                }
-                if(isKeyPressed(Keyboard::D)) {
-                    player.applyForceCenter(Vec2f(15.0, 0.0));
-                }
-                if(isKeyPressed(Keyboard::W)) {
-                    player.applyForceCenter(Vec2f(0.0, -15.0));
-                }
-                if(isKeyPressed(Keyboard::S)) {
-                    player.applyForceCenter(Vec2f(0.0, 15.0));
-                }
-                if(isKeyPressed(Keyboard::Q)) {
-                    player.applyTorque(-20.0);
-                }
-                if(isKeyPressed(Keyboard::E)) {
-                    player.applyTorque(20.0);
-                }
-
-                world.update(Time::Seconds(timeStep));
+//                world.update(Time::Seconds(timeStep));
             }
         }
 
         window.clear();
 
-        static Transformable t;
-        t.setSize(1.0);
 
-        RenderStates states;
-        states.transform = t.getTransform();
+        window.draw(sprite);
 
         // Render ...
-        window.draw(shape);
-        window.draw(player);
-        window.draw(box);
-        window.draw(ground);
+//        window.draw(shape);
+//        window.draw(player);
+//        window.draw(box);
+//        window.draw(ground);
 //        window.draw(test);
 //        window.draw(circle);
         window.draw(fpsText);
