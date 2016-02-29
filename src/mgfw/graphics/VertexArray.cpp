@@ -28,6 +28,14 @@ void VertexArray::draw(Renderer& renderer, RenderStates states) const {
     renderer.draw(*this, states);
 }
 
+void VertexArray::setColor(const Color& _color) {
+    color = _color;
+
+    for(Vertex& vertex : vertices) {
+        vertex.color = _color;
+    }
+}
+
 void VertexArray::resize(uint32_t size) {
     vertices.resize(size);
 }

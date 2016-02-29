@@ -49,6 +49,7 @@ void Renderer::render() {
         GL_TRIANGLES,
         GL_TRIANGLE_STRIP,
         GL_TRIANGLE_FAN,
+        GL_POLYGON_MODE
     };
 
     // Bind the VBO so we can update its data

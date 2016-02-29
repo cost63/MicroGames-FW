@@ -1,0 +1,72 @@
+
+WHAT IS DONE (For the protype)
+
+Graphics
+    - Renderer
+    - RenderStates
+    - Vertex + VertexArray
+    - Shapes
+        -> Rectangle
+        -> Circle
+    - ShaderProgram
+    - Texture
+    - Image
+    - Sprite
+    - Text (not finished)
+    - Font
+    - Color
+    - Units/unit modes
+    - Camera (not finished)
+
+Math
+    - Vectors 2,3,4
+    - Rect (vector 4)
+    - Matrix 4
+
+System
+    - ErrorLog
+    - Time
+    - Clock
+    - Timer
+    - File (not finished)
+    - Input system
+        -> Callbacks
+
+Physics (very default stuff)
+    - World
+        -> Gravity
+    - Shapes
+        -> Rectangle
+        -> Circle
+
+WHAT IS NEEDED (For the protype)
+
+Graphics
+    - Color blending
+    - Default lightning
+    - Shapes
+        -> Line/line strip
+        -> Polygon
+    - Particle engine
+    - Sprite
+        -> Animation
+
+System
+    - XML support
+    - Scripting engine - Lua
+    - File (finish)
+    - Maybe multiple window support
+    - Event dispatcher / messaging system or both
+    - Actions
+        -> At least for shapes (movoment, rotation, scaling)
+        -> Action list (mutliple actions after one another)
+
+
+Physics
+    - Shapes
+        -> Plygon
+        -> Line
+    - Some way to connect shapes
+    - Gravity/pull force emitters
+    - Support for the rest of elements
+        -> Mass, etc.

@@ -66,6 +66,7 @@ struct VertexArray : public Drawable {
     /* Variables */
     std::vector<Vertex> vertices;
     PrimitiveType type;
+    Color color;
 
     UnitMode unitMode;
 
@@ -77,6 +78,8 @@ struct VertexArray : public Drawable {
     const Vertex& operator[](uint32_t index) const;
 
     void draw(Renderer& renderer, RenderStates states) const override;
+
+    void setColor(const Color& _color);
 
     void resize(uint32_t size);
     size_t size() const;

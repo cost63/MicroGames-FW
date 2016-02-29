@@ -10,9 +10,9 @@ enum class PrimitiveType {
     Triangles       = 4,
     TriangleStrip   = 5,
     TriangleFan     = 6,
-    Quads           = 7,
-    QuadStrip       = 8,
-    Polygon         = 9,
+    Polygon         = 7,
+    Quads           = 8,
+    QuadStrip       = 9,
 };
 
 } // namespace mg

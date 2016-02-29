@@ -66,6 +66,16 @@ int main(int argc, char** argv) {
     world.addPhysicShape(box);
     world.addPhysicShape(ground);
 
+    VertexArray test;
+    test.resize(5);
+    test.type = PrimitiveType::LineStrip;
+    test[0].pos = Vec2f(1, 1);
+    test[1].pos = Vec2f(3, 2);
+    test[2].pos = Vec2f(3, 4);
+    test[3].pos = Vec2f(2, 3);
+    test[4].pos = Vec2f(2.5, 2);
+    test.setColor(Color::Red);
+
 //    CircleShapePhysic circle;
 //    circle.setRadius(2.0);
 //    circle.setPos(3.0, 3.0);
@@ -147,11 +157,18 @@ int main(int argc, char** argv) {
 
         window.clear();
 
+        static Transformable t;
+        t.setSize(1.0);
+
+        RenderStates states;
+        states.transform = t.getTransform();
+
         // Render ...
         window.draw(shape);
         window.draw(player);
         window.draw(box);
         window.draw(ground);
+//        window.draw(test);
 //        window.draw(circle);
         window.draw(fpsText);
 

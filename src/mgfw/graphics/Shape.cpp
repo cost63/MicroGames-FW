@@ -9,7 +9,7 @@ Shape::Shape()
 {
     // This is important for correct transform calculation
     // because shapes do not work with transformable's size
-    m_size = Vec2f(1.0, 1.0);
+//    m_size = Vec2f(1.0, 1.0);
 }
 
 void Shape::draw(Renderer& renderer, RenderStates states) const {
@@ -25,9 +25,7 @@ void Shape::draw(Renderer& renderer, RenderStates states) const {
 void Shape::setColor(const Color& color) {
     m_color = color;
 
-    for(uint32_t i = 0; i < m_vertices.size(); i++) {
-        m_vertices[i].color = color;
-    }
+    m_vertices.setColor(color);
 }
 
 Color Shape::getColor() const {
