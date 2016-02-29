@@ -12,6 +12,7 @@ public:
     virtual void draw(Renderer& renderer, RenderStates states) const override;
 
     void setColor(const Color& color);
+    void setColor(const Color& color, uint32_t index);
     Color getColor() const;
 
     void setTexture(const Texture* texure);

@@ -41,7 +41,13 @@ int main(int argc, char** argv) {
 
     Sprite sprite;
     sprite.setTexture(&tex);
-    sprite.setSize(10, 10);
+//    sprite.setPos(-1, -1);
+    sprite.setSize(2, 2);
+    sprite.setColor(Color::Red,     0);
+    sprite.setColor(Color::Green,   1);
+    sprite.setColor(Color::Blue,    2);
+    sprite.setColor(Color::White,   3);
+//    sprite.getVertices().unitMode = UnitMode::Normalized;
 
 //    PhysicWorld world(Vec2f(0.0, 10.0));
 //

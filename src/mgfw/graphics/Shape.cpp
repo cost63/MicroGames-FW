@@ -1,5 +1,7 @@
 #include "Shape.h"
 
+#include "../system/ErrorLog.h"
+
 #define PI 3.1415926535897
 
 namespace mg {
@@ -26,6 +28,21 @@ void Shape::setColor(const Color& color) {
     m_color = color;
 
     m_vertices.setColor(color);
+}
+
+void Shape::setColor(const Color& color, uint32_t index) {
+    if(index < m_vertices.size()) {
+        m_vertices[index].color = color;
+    }
+    #ifdef MGFW_DEBUG
+    else {
+        priv::logError(
+                "Unable to set vertex color at " + std::to_string(index) +
+                " because vertex array size is " + std::to_string(m_vertices.size()),
+                priv::c_prefWarning
+        );
+    }
+    #endif // MGFW_DEBUG
 }
 
 Color Shape::getColor() const {
