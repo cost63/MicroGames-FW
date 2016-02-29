@@ -20,6 +20,7 @@ Renderer::Renderer()
 , m_entityCount(0)
 , m_lastTextureHandle(0)
 , m_isViewRelative(true)
+, m_normProjection(ortho(0.0, 1.0, 1.0, 0.0))
 {}
 
 Renderer::~Renderer() {
@@ -70,6 +71,7 @@ void Renderer::render() {
     // Go trough each render entity
     for(uint32_t i = 0; i < m_entityCount; i++) {
         const RenderEntity& entity = m_entities[i];
+
 
         applyShader(entity);
         applyTexture(entity);
@@ -257,7 +259,7 @@ void Renderer::applyShader(const RenderEntity& entity) {
     switch(entity.unitMode) {
     case UnitMode::Meter:       shader->setUniform("projection", m_projection); break;
     case UnitMode::Pixel:       shader->setUniform("projection", m_pixelProjection); break;
-    case UnitMode::Normalized:  shader->setUniform("projection", Matrix4()); break;
+    case UnitMode::Normalized:  shader->setUniform("projection", m_normProjection); break;
     default: break;
     }
 

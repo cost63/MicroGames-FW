@@ -69,6 +69,7 @@ private:
     Vec2f m_viewSize;
     Matrix4 m_projection;
     Matrix4 m_pixelProjection;
+    Matrix4 m_normProjection;
 };
 
 } // namespace mg

@@ -18,6 +18,9 @@ public:
     void setTexture(const Texture* texure);
     const Texture* getTexture() const;
 
+    void setUnitMode(UnitMode mode);
+    UnitMode getUnitMode() const;
+
     VertexArray& getVertices();
     const VertexArray& getVertices() const;
 

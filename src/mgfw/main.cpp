@@ -42,12 +42,12 @@ int main(int argc, char** argv) {
     Sprite sprite;
     sprite.setTexture(&tex);
 //    sprite.setPos(-1, -1);
-    sprite.setSize(2, 2);
+    sprite.setSize(1);
     sprite.setColor(Color::Red,     0);
     sprite.setColor(Color::Green,   1);
     sprite.setColor(Color::Blue,    2);
     sprite.setColor(Color::White,   3);
-//    sprite.getVertices().unitMode = UnitMode::Normalized;
+    sprite.setUnitMode(UnitMode::Normalized);
 
 //    PhysicWorld world(Vec2f(0.0, 10.0));
 //
@@ -134,6 +134,9 @@ int main(int argc, char** argv) {
                     else if(event.key.code == Keyboard::Space) {
 //                        player.ApplyLinearImpulseCenter(Vec2f(0.0, -10.0));
                     }
+                }
+                else if(event.type == InputEvent::WindowResized) {
+                    window.updateView();
                 }
             }
         }

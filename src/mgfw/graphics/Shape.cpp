@@ -57,6 +57,14 @@ const Texture* Shape::getTexture() const {
     return m_texture;
 }
 
+void Shape::setUnitMode(UnitMode mode) {
+    m_vertices.unitMode = mode;
+}
+
+UnitMode Shape::getUnitMode() const {
+    return m_vertices.unitMode;
+}
+
 VertexArray& Shape::getVertices() {
     return m_vertices;
 }
